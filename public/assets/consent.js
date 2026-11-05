@@ -1,7 +1,7 @@
 /* Toestemming en Meta Pixel.
    De pixel laadt NOOIT voor toestemming. Zonder PIXEL_ID doet dit script niets (geen banner, geen tracking). */
 (function () {
-  var PIXEL_ID = ''; /* vul hier het Pixel-ID van Meta in, alleen cijfers */
+  var PIXEL_ID = '1090997543918277'; /* vul hier het Pixel-ID van Meta in, alleen cijfers */
   var KEY = 'dwd_consent', VERSION = 1, MAXAGE = 365 * 864e5;
   var d = document;
   function read() { try { var v = JSON.parse(localStorage.getItem(KEY) || 'null'); if (v && v.v === VERSION && Date.now() - v.t < MAXAGE && (v.c === 'granted' || v.c === 'denied')) return v.c; } catch (e) {} return null; }
