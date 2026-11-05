@@ -1,0 +1,1021 @@
+<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Jouw nieuwe website in 5 minuten | De Website Dokters</title>
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#050505">
+<link rel="icon" href="/favicon.ico?v=dwd-heart-20261103"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=dwd-heart-20261103"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=dwd-heart-20261103">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500;600;700;800;900&family=Figtree:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400..600&family=Bricolage+Grotesque:wght@600..800&display=swap">
+<style>
+:root {
+  --bg: #050505; --card: #111112; --line: rgba(253,248,243,.12); --line-2: rgba(253,248,243,.22);
+  --fg: #FDF8F3; --muted: #A8A29C; --soft: #C9C4BE;
+  --o: #FF6E2E; --r: #FB3D32; --c: #F41B36;
+  --grad: linear-gradient(100deg, var(--o) 0%, var(--r) 55%, var(--c) 100%);
+  --grad-v: linear-gradient(170deg, var(--o) 0%, var(--r) 55%, var(--c) 100%);
+  --good: #4BD08E; --bad: #FF7A89;
+  --f-d: 'Gabarito', 'Avenir Next', 'Century Gothic', system-ui, sans-serif;
+  --f-b: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 17px/1.5 var(--f-b); min-height: 100svh; overflow-x: hidden; }
+button, input { font-family: inherit; }
+h1, h2, h3, h4, p, ul, ol { margin: 0; }
+:focus-visible { outline: 3px solid #FDF8F3; outline-offset: 3px; }
+
+.glow-clip { position: fixed; left: 0; right: 0; bottom: 0; height: calc(38vh + var(--prog, 0) * 36vh); z-index: 0; overflow: hidden; pointer-events: none; transition: height 1.4s cubic-bezier(.16,.84,.24,1); }
+.glow { position: absolute; inset: 0; background: linear-gradient(90deg, var(--o) 0%, var(--r) 52%, var(--c) 100%); background-size: 125% 100%; opacity: .92;
+  -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.92) 13%, rgba(0,0,0,.4) 34%, transparent 62%), radial-gradient(ellipse 40% 90% at 0% 100%, #000 8%, rgba(0,0,0,.55) 42%, transparent 78%), radial-gradient(ellipse 40% 90% at 100% 100%, #000 8%, rgba(0,0,0,.55) 42%, transparent 78%);
+  mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.92) 13%, rgba(0,0,0,.4) 34%, transparent 62%), radial-gradient(ellipse 40% 90% at 0% 100%, #000 8%, rgba(0,0,0,.55) 42%, transparent 78%), radial-gradient(ellipse 40% 90% at 100% 100%, #000 8%, rgba(0,0,0,.55) 42%, transparent 78%);
+  animation: glowrise 2.8s cubic-bezier(.16,.84,.24,1) both, shift 14s ease-in-out 2.8s infinite alternate; }
+@keyframes glowrise { from { transform: translateY(46%); opacity: 0; } 35% { opacity: .92; } to { transform: none; opacity: .92; } }
+@keyframes shift { from { background-position: 0 0; } to { background-position: 100% 0; } }
+body.burst .glow-clip { height: 92vh; }
+
+.app { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; min-height: 100svh; }
+.top { display: grid; grid-template-columns: 96px 1fr 96px; align-items: center; gap: 8px; height: 68px; }
+.back { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line-2); background: rgba(5,5,5,.55); color: var(--fg); display: grid; place-items: center; cursor: pointer; padding: 0; transition: border-color .2s; }
+.back:hover { border-color: var(--fg); }
+.back svg { width: 18px; height: 18px; }
+.logo { justify-self: center; display: inline-flex; align-items: center; gap: 9px; color: var(--fg); font: 800 1.12rem/1 var(--f-d); letter-spacing: -.02em; white-space: nowrap; }
+.logo svg { width: 30px; height: 27px; animation: beat 2.8s ease-in-out infinite; transform-origin: 50% 62%; }
+@keyframes beat { 0%, 62%, 100% { scale: 1; } 14% { scale: 1.07; } 30% { scale: 1; } 42% { scale: 1.04; } }
+.cnt { white-space: nowrap; justify-self: end; font: 700 .8rem/1.2 var(--f-b); color: var(--soft); letter-spacing: .03em; text-align: right; }
+.demo-tag { display: inline-block; margin-top: 4px; padding: 3px 8px; border-radius: 99px; border: 1px dashed var(--line-2); font: 700 .66rem/1 var(--f-b); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.prog { height: 3px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.prog i { display: block; height: 100%; width: 0; background: var(--grad); border-radius: inherit; transition: width .8s cubic-bezier(.2,.7,.2,1); }
+
+.grid { flex: 1; padding-block: 28px 40px; }
+.col { min-width: 0; width: 100%; max-width: 560px; margin: 0 auto; }
+.col.wide { max-width: 1120px; }
+
+.step { display: none; }
+.step.on { display: block; animation: enter .55s cubic-bezier(.16,.84,.24,1) both; }
+@keyframes enter { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.step:focus { outline: none; }
+
+.slots { display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px 7px 12px; border: 1px solid var(--line-2); border-radius: 99px; background: rgba(5,5,5,.6); font: 700 .86rem/1 var(--f-b); color: var(--fg); }
+.slots .dots { display: inline-flex; gap: 5px; }
+.slots .dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--grad-v); box-shadow: 0 0 10px rgba(244,27,54,.7); }
+.slots .dots i.off { background: transparent; border: 1.5px solid var(--line-2); box-shadow: none; }
+h1.big { font: 900 clamp(2.7rem, 11.4vw, 4.8rem)/.95 var(--f-d); letter-spacing: -.045em; margin-top: 20px; text-wrap: balance; }
+.grad-t { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+.lead { color: var(--soft); font-size: 1.12rem; line-height: 1.45; margin-top: 16px; max-width: 34ch; text-wrap: balance; }
+h2.q { font: 900 clamp(2rem, 8vw, 2.9rem)/1 var(--f-d); letter-spacing: -.04em; text-wrap: balance; }
+.sub { color: var(--soft); margin-top: 12px; max-width: 38ch; text-wrap: balance; }
+.lbl { display: block; font: 700 .8rem/1 var(--f-b); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 30px 0 12px; }
+
+.opts { display: grid; gap: 12px; }
+.opt { display: grid; grid-template-columns: 52px 1fr 22px; align-items: center; gap: 16px; text-align: left; width: 100%; padding: 18px; border: 1px solid var(--line-2); border-radius: 20px; background: rgba(17,17,18,.82); color: var(--fg); cursor: pointer; transition: transform .2s, border-color .2s; -webkit-tap-highlight-color: transparent; }
+.opt:hover { transform: translateY(-2px); border-color: var(--fg); }
+.opt .ic { width: 52px; height: 52px; border-radius: 16px; background: var(--grad-v); display: grid; place-items: center; color: #fff; }
+.opt .ic svg { width: 26px; height: 26px; }
+.opt b { display: block; font: 800 1.2rem/1.2 var(--f-d); letter-spacing: -.02em; }
+.opt span.d { display: block; color: var(--muted); font-size: .94rem; margin-top: 3px; }
+.opt .ar { width: 20px; height: 20px; color: var(--muted); }
+.trust { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 26px; color: var(--soft); font-size: .92rem; font-weight: 600; }
+.trust span { display: inline-flex; align-items: center; gap: 7px; }
+.trust svg { width: 16px; height: 16px; color: var(--good); }
+.cap { margin-top: 14px; color: var(--muted); font-size: .9rem; max-width: 40ch; }
+
+.fld { display: block; }
+.fld .in { display: flex; align-items: center; gap: 10px; height: 62px; padding: 0 20px; border-radius: 99px; border: 1.5px solid var(--line-2); background: rgba(10,10,11,.88); transition: border-color .2s, box-shadow .2s; }
+.fld .in:focus-within { border-color: var(--fg); box-shadow: 0 0 0 4px rgba(253,248,243,.09); }
+.fld.err .in { border-color: var(--bad); }
+.fld input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--fg); font: 700 1.14rem/1.2 var(--f-b); height: 100%; }
+.fld input::placeholder { color: #8A857F; font-weight: 600; }
+.fld .in svg { width: 20px; height: 20px; color: var(--muted); flex: none; }
+.msg { min-height: 1.2em; margin: 8px 0 0 20px; font-size: .9rem; color: var(--bad); font-weight: 600; }
+.hint { margin: 8px 0 0 4px; font-size: .88rem; color: var(--muted); }
+.msgb { margin-top: 8px; font-size: .9rem; color: var(--bad); font-weight: 600; min-height: 1.2em; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 9px; }
+.chip { border: 1px solid var(--line-2); background: rgba(10,10,11,.7); color: var(--fg); border-radius: 99px; padding: 12px 18px; font: 700 .95rem/1 var(--f-b); cursor: pointer; transition: background .2s, border-color .2s, color .2s; -webkit-tap-highlight-color: transparent; }
+.chip:hover { border-color: var(--fg); }
+.chip[aria-pressed=true] { background: var(--fg); color: #141212; border-color: var(--fg); }
+.link { background: none; border: 0; color: var(--soft); font: 700 .88rem/1 var(--f-b); cursor: pointer; padding: 6px 2px; border-bottom: 1px solid var(--line-2); }
+.link:hover { color: var(--fg); border-color: var(--fg); }
+
+.lchip { margin-top: 22px; display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 20px; background: var(--sb, #FBF8F4); color: var(--si, #1c1b22); min-height: 68px; overflow: hidden; border: 1px solid rgba(255,255,255,.14); }
+.lchip .tag { margin-left: auto; font: 700 .7rem/1 var(--f-b); letter-spacing: .1em; text-transform: uppercase; opacity: .55; flex: none; }
+.lg { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.lg .mk { flex: none; width: 38px; height: 38px; border-radius: var(--markr, 10px); background: var(--p); color: var(--onp); display: grid; place-items: center; font: var(--hw, 800) 20px/1 var(--hf); }
+.lg .nm { font: var(--hw, 800) 22px/1 var(--hf); letter-spacing: -.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.goals { display: grid; gap: 10px; margin-top: 26px; }
+.goal { display: grid; grid-template-columns: 30px 1fr; align-items: center; gap: 14px; text-align: left; width: 100%; padding: 16px 18px; border: 1.5px solid var(--line-2); border-radius: 18px; background: rgba(17,17,18,.82); color: var(--fg); cursor: pointer; font: 700 1.04rem/1.25 var(--f-b); transition: border-color .2s, background .2s, transform .2s; -webkit-tap-highlight-color: transparent; }
+.goal:hover { transform: translateY(-1px); border-color: var(--fg); }
+.goal i { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--line-2); display: grid; place-items: center; color: transparent; transition: background .2s, border-color .2s, color .2s; }
+.goal i svg { width: 15px; height: 15px; }
+.goal[aria-pressed=true] { border-color: var(--fg); background: rgba(253,248,243,.07); }
+.goal[aria-pressed=true] i { background: var(--grad-v); border-color: transparent; color: #fff; }
+
+.pals { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.pal { border: 1.5px solid var(--line-2); border-radius: 20px; background: rgba(17,17,18,.82); padding: 8px 8px 12px; color: var(--fg); cursor: pointer; text-align: left; transition: border-color .2s, transform .2s; -webkit-tap-highlight-color: transparent; position: relative; }
+.pal:hover { transform: translateY(-2px); }
+.pal[aria-pressed=true] { border-color: var(--fg); box-shadow: 0 0 0 3px rgba(253,248,243,.14); }
+.pal span.n { display: block; margin: 9px 6px 0; font: 800 .92rem/1.15 var(--f-b); }
+.pal span.s { display: block; margin: 3px 6px 0; font: 600 .76rem/1.2 var(--f-b); color: var(--muted); }
+.mini { display: block; position: relative; height: 98px; border-radius: 13px; overflow: hidden; background: var(--sb); border: 1px solid rgba(255,255,255,.14); }
+.mini i { position: absolute; display: block; }
+.mini .m-mk { left: 10px; top: 10px; width: 11px; height: 11px; border-radius: 3px; background: var(--p); }
+.mini .m-ln { left: 26px; top: 14px; width: 30px; height: 3px; border-radius: 3px; background: var(--si); opacity: .5; }
+.mini .m-h1 { left: 10px; top: 34px; width: 56%; height: 8px; border-radius: 4px; background: var(--si); }
+.mini .m-h2 { left: 10px; top: 48px; width: 38%; height: 8px; border-radius: 4px; background: var(--si); }
+.mini .m-bt { left: 10px; bottom: 12px; width: 44px; height: 16px; border-radius: 6px; background: var(--p); }
+.mini .m-ac { right: -14px; top: 22px; width: 62px; height: 62px; border-radius: 50%; background: var(--ag); }
+.mini .m-rg { right: 20px; bottom: 10px; width: 24px; height: 24px; border-radius: 50%; border: 5px solid var(--p); opacity: .9; }
+.pal.eigen .mini { background: #151516; }
+.pal.eigen .mini::after { content: ""; position: absolute; inset: 14px; border-radius: 10px; background: conic-gradient(from 90deg, #FF6E2E, #F2D13A, #3BD39A, #3C8DF0, #B25CF0, #FF4F8B, #FF6E2E); }
+.pickers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.pick { display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; border: 1px solid var(--line-2); border-radius: 18px; background: rgba(17,17,18,.82); cursor: pointer; font: 700 .9rem/1.2 var(--f-b); }
+.pick input { width: 44px; height: 44px; border: 0; padding: 0; border-radius: 50%; background: none; cursor: pointer; flex: none; }
+.pick input::-webkit-color-swatch-wrapper { padding: 0; }
+.pick input::-webkit-color-swatch { border: 2px solid var(--fg); border-radius: 50%; }
+.pick input::-moz-color-swatch { border: 2px solid var(--fg); border-radius: 50%; }
+.pick small { display: block; color: var(--muted); font-weight: 600; font-size: .78rem; text-transform: uppercase; }
+.styles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.sty { border: 1.5px solid var(--line-2); border-radius: 18px; background: rgba(17,17,18,.82); padding: 14px 12px; color: var(--fg); cursor: pointer; text-align: left; transition: border-color .2s, transform .2s; -webkit-tap-highlight-color: transparent; }
+.sty:hover { transform: translateY(-2px); }
+.sty[aria-pressed=true] { border-color: var(--fg); box-shadow: 0 0 0 3px rgba(253,248,243,.12); }
+.sty .aa { font-size: 2rem; line-height: 1; display: block; }
+.sty b { display: block; margin-top: 10px; font: 800 .95rem/1 var(--f-b); }
+.sty small { display: block; margin-top: 4px; color: var(--muted); font-size: .8rem; line-height: 1.25; }
+
+.bar { position: sticky; bottom: 0; z-index: 5; margin: 30px -16px 0; padding: 16px 16px max(16px, env(safe-area-inset-bottom, 0px)); background: linear-gradient(to top, rgba(5,5,5,.96) 55%, rgba(5,5,5,0)); display: grid; gap: 10px; }
+.btn { position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 60px; padding: 0 24px; border: 0; border-radius: 18px; cursor: pointer; text-decoration: none; background: var(--grad); color: #140D0A; font: 800 1.1rem/1 var(--f-b); transition: transform .2s ease, box-shadow .2s ease; -webkit-tap-highlight-color: transparent; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -10px rgba(244,27,54,.7); }
+.btn svg { width: 17px; height: 17px; flex: none; transition: transform .2s; }
+.btn:hover svg { transform: translate(2px, -2px); }
+.btn.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line-2); height: 52px; font-weight: 700; font-size: 1rem; }
+.btn.ghost:hover { box-shadow: none; border-color: var(--fg); }
+.btn.shake { animation: shake .4s; }
+@keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+.lv { position: absolute; inset: 0; z-index: -1; border-radius: inherit; overflow: hidden; background: linear-gradient(100deg, var(--o), var(--r) 55%, var(--c)); }
+.lv .g { position: absolute; inset: -30%; filter: url(#goo); }
+.lv i { position: absolute; display: block; width: 34%; aspect-ratio: 1; border-radius: 50%; will-change: transform; }
+.lv i:nth-child(1) { left: -4%; top: 4%; background: #FFB35F; animation: lv1 9s ease-in-out infinite alternate; }
+.lv i:nth-child(2) { left: 30%; top: 38%; background: #FF3C3C; animation: lv2 11s ease-in-out infinite alternate; }
+.lv i:nth-child(3) { left: 58%; top: -6%; background: #D90F38; animation: lv3 8s ease-in-out infinite alternate; }
+.lv i:nth-child(4) { left: 12%; top: 52%; background: #FF7A2E; animation: lv4 12s ease-in-out infinite alternate; }
+.lv i:nth-child(5) { left: 70%; top: 34%; background: #FFC983; animation: lv5 10s ease-in-out infinite alternate; }
+.lv i.cur { left: var(--mx, 50%); top: var(--my, 50%); width: 26%; background: #FFD7A0; transform: translate(-50%, -50%) scale(0); transition: left .55s cubic-bezier(.16,.84,.24,1), top .55s cubic-bezier(.16,.84,.24,1), transform .45s cubic-bezier(.16,.84,.24,1); animation: none; }
+.btn:hover .lv i.cur { transform: translate(-50%, -50%) scale(1); }
+.btn:not(.lv-on) .lv i { animation-play-state: paused; }
+@keyframes lv1 { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(110%,40%) scale(1.25); } 100% { transform: translate(210%,-10%) scale(.9); } }
+@keyframes lv2 { 0% { transform: translate(0,0) scale(1.1); } 50% { transform: translate(-90%,-40%) scale(1.3); } 100% { transform: translate(-170%,20%) scale(.95); } }
+@keyframes lv3 { 0% { transform: translate(0,0) scale(.9); } 50% { transform: translate(-70%,60%) scale(1.2); } 100% { transform: translate(50%,20%) scale(1.05); } }
+@keyframes lv4 { 0% { transform: translate(0,0) scale(1.05); } 50% { transform: translate(140%,-40%) scale(.9); } 100% { transform: translate(80%,30%) scale(1.3); } }
+@keyframes lv5 { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(-120%,30%) scale(1.15); } 100% { transform: translate(-40%,-30%) scale(.85); } }
+
+.fine { color: var(--muted); font-size: .86rem; line-height: 1.45; }
+details.priv { margin-top: 10px; color: var(--muted); font-size: .88rem; }
+details.priv summary { cursor: pointer; color: var(--soft); font-weight: 600; }
+details.priv p { margin-top: 8px; max-width: 46ch; }
+.wa { display: inline-flex; align-items: center; gap: 8px; color: var(--soft); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--line-2); padding-bottom: 2px; }
+.wa:hover { color: var(--fg); border-color: var(--fg); }
+
+.ld { text-align: center; display: grid; justify-items: center; padding-top: 6px; }
+.ld .lchip { width: 100%; max-width: 360px; justify-content: center; }
+.ld .lchip .tag { display: none; }
+.ld h2.q { margin-top: 26px; }
+.ld .sub { margin-inline: auto; }
+.wf { position: relative; width: 100%; max-width: 280px; margin-top: 26px; border-radius: 22px; padding: 14px; background: var(--sb); border: 1px solid rgba(255,255,255,.16); box-shadow: 0 40px 80px -36px rgba(244,27,54,.7); text-align: left; display: grid; gap: 10px; overflow: hidden; }
+.wf > * { opacity: 0; transform: translateY(10px) scale(.98); transition: opacity .6s ease, transform .6s cubic-bezier(.16,.84,.24,1); }
+.wf > .in { opacity: 1; transform: none; }
+.wf .w-nav { display: flex; align-items: center; gap: 8px; }
+.wf .w-nav i { width: 16px; height: 16px; border-radius: 5px; background: var(--p); }
+.wf .w-nav b { flex: 1; height: 5px; border-radius: 5px; background: var(--si); opacity: .5; max-width: 70px; }
+.wf .w-nav em { width: 16px; height: 10px; border-top: 2px solid var(--si); border-bottom: 2px solid var(--si); }
+.wf .w-h { display: grid; gap: 6px; }
+.wf .w-h i { height: 12px; border-radius: 6px; background: var(--si); }
+.wf .w-h i:nth-child(2) { width: 62%; }
+.wf .w-t { display: grid; gap: 5px; }
+.wf .w-t i { height: 5px; border-radius: 5px; background: var(--si); opacity: .35; }
+.wf .w-t i:nth-child(2) { width: 80%; }
+.wf .w-b { width: 90px; height: 26px; border-radius: 9px; background: var(--p); }
+.wf .w-art { height: 84px; border-radius: 16px; background: var(--art); position: relative; overflow: hidden; }
+.wf .w-art::before { content: ""; position: absolute; right: -16px; top: -16px; width: 70px; height: 70px; border-radius: 50%; background: var(--c1); }
+.wf .w-c { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.wf .w-c i { height: 44px; border-radius: 12px; background: var(--si); opacity: .12; }
+.stg { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 10px; width: 100%; max-width: 360px; text-align: left; }
+.stg li { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: center; font-weight: 700; color: var(--muted); transition: color .4s; }
+.stg li i { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--line-2); display: grid; place-items: center; color: transparent; transition: background .4s, border-color .4s, color .4s; }
+.stg li i svg { width: 13px; height: 13px; }
+.stg li.now { color: var(--fg); }
+.stg li.now i { border-color: transparent; border-top-color: var(--o); border-right-color: var(--r); animation: spin 1s linear infinite; }
+.stg li.done { color: var(--soft); }
+.stg li.done i { background: var(--grad-v); border-color: transparent; color: #fff; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.lbar { width: 100%; max-width: 360px; height: 6px; margin-top: 24px; border-radius: 6px; background: var(--line); overflow: hidden; }
+.lbar i { display: block; height: 100%; width: 0; background: var(--grad); border-radius: inherit; transition: width .9s linear; }
+
+.rv-hero { display: grid; gap: 28px; justify-items: center; text-align: center; }
+.rv-hero .sub { margin-inline: auto; }
+.rv-btns { display: grid; gap: 10px; width: 100%; max-width: 420px; margin: 24px auto 0; }
+.stars { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; color: var(--soft); font-weight: 700; font-size: .94rem; }
+.stars b { color: #FFC15A; letter-spacing: .1em; font-weight: 400; }
+.phone { height: var(--ph-h, 540px); aspect-ratio: 9 / 18.6; max-width: 100%; position: relative; }
+.rv-phone { display: grid; justify-items: center; gap: 12px; }
+.rv-phone .phone { --ph-h: max(500px, min(640px, calc(100svh - 200px))); }
+.ph-bz { height: 100%; width: 100%; padding: 9px; border-radius: 46px; background: #0b0b0d; border: 1px solid rgba(255,255,255,.2); box-shadow: 0 0 0 2px #1b1b1e, 0 50px 90px -34px rgba(244,27,54,.65); }
+.ph-scr { height: 100%; border-radius: 38px; overflow: hidden; background: #FBF8F4; display: flex; flex-direction: column; position: relative; }
+.ph-st { flex: none; height: 34px; padding: 0 22px; display: flex; align-items: center; justify-content: space-between; font: 700 12px/1 var(--f-b); color: #111; background: #EFEBE6; position: relative; }
+.ph-st i { display: inline-block; width: 66px; height: 18px; border-radius: 12px; background: #0b0b0d; position: absolute; left: 50%; top: 8px; transform: translateX(-50%); }
+.ph-st svg { width: 15px; height: 11px; }
+.ph-url { flex: none; padding: 6px 12px 8px; background: #EFEBE6; }
+.ph-url div { display: flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border-radius: 9px; background: #fff; color: #333; font: 600 11.5px/1 var(--f-b); overflow: hidden; }
+.ph-url svg { width: 10px; height: 10px; flex: none; color: #777; }
+.ph-url span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ph-vp { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; scrollbar-width: none; -webkit-overflow-scrolling: touch; background: #FBF8F4; }
+.ph-vp::-webkit-scrollbar { display: none; }
+.ph-home { position: absolute; left: 50%; bottom: 7px; width: 34%; height: 4px; border-radius: 4px; background: rgba(128,128,128,.8); transform: translateX(-50%); pointer-events: none; }
+.ph-hint { display: inline-flex; align-items: center; gap: 8px; color: var(--soft); font: 700 .86rem/1 var(--f-b); }
+.ph-hint svg { width: 16px; height: 16px; animation: bob 1.6s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(4px); } }
+.cap2 { color: var(--muted); font-size: .84rem; max-width: 40ch; margin: 16px auto 0; }
+
+.sec { margin-top: 84px; }
+.sec h3.t { font: 900 clamp(1.9rem, 6.4vw, 3rem)/1 var(--f-d); letter-spacing: -.04em; text-wrap: balance; }
+.sec .kick { display: block; font: 700 .8rem/1 var(--f-b); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.sec .intro { color: var(--soft); margin-top: 14px; max-width: 54ch; }
+.plan { display: grid; gap: 12px; margin-top: 28px; grid-template-columns: minmax(0, 1fr); }
+.pcard { padding: 22px; border: 1px solid var(--line-2); border-radius: 22px; background: rgba(17,17,18,.84); }
+.pcard .chk { width: 30px; height: 30px; border-radius: 50%; background: var(--grad-v); color: #fff; display: grid; place-items: center; margin-bottom: 14px; }
+.pcard .chk svg { width: 15px; height: 15px; }
+.pcard h4 { font: 800 1.2rem/1.2 var(--f-d); letter-spacing: -.02em; }
+.pcard p { color: var(--muted); margin-top: 8px; font-size: .96rem; }
+.facts { display: grid; gap: 12px; margin-top: 28px; grid-template-columns: minmax(0, 1fr); }
+.fact { padding: 26px 24px; border: 1px solid var(--line-2); border-radius: 22px; background: rgba(17,17,18,.84); }
+.fact .nr { font: 900 clamp(3rem, 12vw, 4.4rem)/.9 var(--f-d); letter-spacing: -.05em; }
+.fact p { margin-top: 12px; color: var(--soft); }
+.fact small { display: block; margin-top: 12px; color: var(--muted); font-size: .8rem; line-height: 1.4; }
+.how { display: grid; gap: 12px; margin-top: 28px; grid-template-columns: minmax(0, 1fr); counter-reset: h; }
+.how div { position: relative; padding: 22px 22px 22px 76px; border: 1px solid var(--line); border-radius: 22px; background: rgba(17,17,18,.7); counter-increment: h; }
+.how div::before { content: counter(h); position: absolute; left: 20px; top: 20px; width: 42px; height: 42px; border-radius: 50%; background: var(--grad-v); display: grid; place-items: center; font: 900 1.2rem var(--f-d); color: #fff; }
+.how b { display: block; font: 800 1.15rem/1.2 var(--f-d); }
+.how span { color: var(--muted); font-size: .96rem; }
+.pk { display: grid; gap: 12px; margin-top: 28px; grid-template-columns: minmax(0, 1fr); }
+.plan-c { position: relative; padding: 26px 24px; border: 1px solid var(--line-2); border-radius: 24px; background: rgba(17,17,18,.9); }
+.plan-c.pop { border: 1.5px solid transparent; background: linear-gradient(rgba(17,17,18,.96), rgba(17,17,18,.96)) padding-box, var(--grad) border-box; box-shadow: 0 40px 90px -40px rgba(244,27,54,.6); }
+.plan-c .flag { position: absolute; top: 18px; right: 18px; background: var(--grad); color: #140D0A; font-size: .72rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 5px 11px; border-radius: 99px; }
+.plan-c h4 { font: 800 1.3rem/1 var(--f-d); letter-spacing: -.02em; }
+.plan-c .pr { font: 900 3rem/1 var(--f-d); letter-spacing: -.04em; margin-top: 14px; }
+.plan-c .pr small { font: 600 .9rem var(--f-b); color: var(--muted); letter-spacing: 0; margin-left: 6px; }
+.plan-c ul { list-style: none; padding: 0; margin-top: 18px; display: grid; gap: 9px; }
+.plan-c li { display: grid; grid-template-columns: 20px 1fr; gap: 10px; color: var(--soft); font-size: .96rem; }
+.plan-c li svg { width: 18px; height: 18px; color: var(--good); margin-top: 2px; }
+.care { display: grid; gap: 14px; margin-top: 12px; padding: 26px 24px; border: 1px dashed var(--line-2); border-radius: 24px; background: rgba(10,10,11,.85); }
+.care .pr { font: 900 2.6rem/1 var(--f-d); letter-spacing: -.04em; }
+.care .pr small { font: 600 .9rem var(--f-b); color: var(--muted); letter-spacing: 0; margin-left: 6px; }
+.care h4 { font: 800 1.25rem/1.2 var(--f-d); }
+.care ul { list-style: none; padding: 0; display: grid; gap: 9px; }
+.care li { display: grid; grid-template-columns: 20px 1fr; gap: 10px; color: var(--soft); font-size: .96rem; }
+.care li svg { width: 18px; height: 18px; color: var(--good); margin-top: 2px; }
+.note { margin-top: 14px; color: var(--muted); font-size: .84rem; }
+.qa { border-bottom: 1px solid var(--line); }
+.qa summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 1.2rem 0; font: 700 1.1rem/1.3 var(--f-b); }
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary i { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line-2); display: grid; place-items: center; transition: transform .25s, background .25s; }
+.qa summary i svg { width: 12px; height: 12px; }
+.qa[open] summary i { transform: rotate(45deg); background: var(--grad-v); border-color: transparent; }
+.qa p { padding: 0 0 1.3rem; color: var(--soft); max-width: 62ch; }
+.faq { margin-top: 20px; border-top: 1px solid var(--line); }
+.fin { margin-top: 84px; padding: 40px 24px; text-align: center; border: 1px solid var(--line-2); border-radius: 28px; background: rgba(10,10,11,.8); display: grid; justify-items: center; gap: 18px; }
+.fin h3 { font: 900 clamp(2rem, 7vw, 3.2rem)/1 var(--f-d); letter-spacing: -.04em; text-wrap: balance; }
+.fin .btn { max-width: 420px; }
+.rvbar { position: sticky; bottom: 0; z-index: 6; margin: 40px -16px 0; padding: 14px 16px max(14px, env(safe-area-inset-bottom, 0px)); background: linear-gradient(to top, rgba(5,5,5,.97) 60%, rgba(5,5,5,0)); display: grid; justify-items: center; }
+.rvbar .btn { max-width: 520px; }
+
+.done-steps { list-style: none; padding: 0; margin: 26px 0 0; display: grid; gap: 12px; counter-reset: d; }
+.done-steps li { counter-increment: d; position: relative; padding: 16px 18px 16px 64px; border: 1px solid var(--line); border-radius: 18px; background: rgba(17,17,18,.82); }
+.done-steps li::before { content: counter(d); position: absolute; left: 16px; top: 14px; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--grad-v); color: #fff; font: 900 1.05rem var(--f-d); }
+.done-steps b { display: block; font-weight: 800; }
+.done-steps span { color: var(--muted); font-size: .94rem; }
+.call { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 22px; padding: 14px 16px; border: 1px solid var(--line-2); border-radius: 18px; background: rgba(10,10,11,.86); }
+.call b { font: 800 1.15rem/1 var(--f-d); letter-spacing: -.01em; }
+.call small { display: block; color: var(--muted); font-size: .8rem; margin-top: 4px; }
+.call button { margin-left: auto; border: 1px solid var(--line-2); background: transparent; color: var(--fg); border-radius: 99px; padding: 9px 15px; font: 700 .86rem/1 var(--f-b); cursor: pointer; }
+.call button:hover { border-color: var(--fg); }
+.demo { margin-top: 26px; border: 1px dashed var(--line-2); border-radius: 18px; padding: 14px 16px; background: rgba(5,5,5,.7); }
+.demo summary { cursor: pointer; font-weight: 700; color: var(--soft); font-size: .92rem; }
+.demo pre { margin: 12px 0 0; max-height: 260px; overflow: auto; font: 500 .8rem/1.5 ui-monospace, Menlo, Consolas, monospace; color: #D9D4CE; white-space: pre-wrap; word-break: break-word; }
+.demo p { color: var(--muted); font-size: .84rem; margin-top: 10px; }
+[data-s=klaar] .bar { position: static; margin-top: 20px; background: none; padding-inline: 0; }
+
+.site { width: 360px; zoom: var(--k, .7); background: var(--sb, #FBF8F4); color: var(--si, #1c1b22); font: 400 16px/1.55 'Figtree', system-ui, sans-serif; position: relative; }
+.site h1, .site h2, .site h3, .site p { margin: 0; }
+.site h1, .site h2, .site h3 { font-family: var(--hf); font-weight: var(--hw); letter-spacing: -.025em; line-height: 1.04; }
+.site .lg .mk { width: 34px; height: 34px; font-size: 18px; }
+.site .lg .nm { font-size: 19px; max-width: 200px; }
+.s-nav { position: sticky; top: 0; z-index: 6; display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; background: color-mix(in srgb, var(--sb) 92%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.s-burger { width: 40px; height: 40px; display: grid; place-content: center; gap: 5px; cursor: pointer; border: 0; background: none; padding: 0; }
+.s-burger i { display: block; width: 22px; height: 2px; background: var(--si); border-radius: 2px; transition: transform .25s, opacity .25s; }
+.s-nav.open .s-burger i:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.s-nav.open .s-burger i:nth-child(2) { opacity: 0; }
+.s-nav.open .s-burger i:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.s-menu { position: absolute; left: 0; right: 0; top: 100%; background: var(--sb); padding: 6px 18px 18px; display: none; box-shadow: 0 24px 30px -12px rgba(0,0,0,.3); }
+.s-nav.open .s-menu { display: block; }
+.s-menu a { display: block; padding: 14px 0; border-bottom: 1px solid var(--line); font-weight: 700; font-size: 18px; cursor: pointer; }
+.s-hero { padding: 26px 18px 10px; }
+.s-kick { display: inline-flex; align-items: center; gap: 9px; font: 700 12px/1 'Figtree', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--kc); }
+.s-kick::before { content: ""; width: 22px; height: 2px; background: var(--ag); }
+.s-hero h1 { font-size: 42px; margin: 14px 0 14px; text-wrap: balance; }
+.s-hero p { font-size: 16.5px; color: var(--muted); max-width: 30ch; }
+.s-btns { display: flex; gap: 10px; margin: 22px 0 26px; flex-wrap: wrap; }
+.s-b { display: inline-flex; align-items: center; justify-content: center; height: 48px; padding: 0 20px; border-radius: var(--btnr); font-weight: 700; font-size: 15.5px; cursor: pointer; }
+.s-b.p { background: var(--p); color: var(--onp); }
+.s-b.g { border: 1.5px solid color-mix(in srgb, var(--si) 30%, transparent); color: var(--si); }
+.s-artw { position: relative; }
+.s-art { position: relative; height: 240px; border-radius: var(--artr); background: var(--art); overflow: hidden; }
+.s-art::before { content: ""; position: absolute; width: 200px; height: 200px; border-radius: 50%; background: var(--c1); right: -46px; top: -36px; }
+.s-art::after { content: ""; position: absolute; width: 140px; height: 140px; border-radius: 50%; border: 24px solid color-mix(in srgb, var(--onp) 26%, transparent); left: -36px; bottom: -26px; }
+.s-float { position: absolute; z-index: 2; left: 14px; right: 14px; bottom: 14px; display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: calc(var(--btnr) * .6 + 6px); background: var(--card); color: var(--si); box-shadow: 0 14px 30px -12px rgba(0,0,0,.45); }
+.s-float em { font-style: normal; flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--p); color: var(--onp); display: grid; place-items: center; }
+.s-float em svg { width: 16px; height: 16px; }
+.s-float b { display: block; font-size: 14.5px; line-height: 1.2; }
+.s-float span { display: block; font-size: 12.5px; color: var(--muted); }
+.s-usp { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 24px 18px 8px; }
+.s-usp div { text-align: center; font-weight: 700; font-size: 13.5px; line-height: 1.25; }
+.s-usp i { display: grid; place-items: center; width: 44px; height: 44px; margin: 0 auto 8px; border-radius: 50%; background: color-mix(in srgb, var(--kc) 14%, var(--sb)); color: var(--kc); }
+.s-usp svg { width: 21px; height: 21px; }
+.s-sec { padding: 40px 18px 8px; }
+.s-sec h2 { font-size: 30px; margin-bottom: 18px; }
+.s-card { display: grid; grid-template-columns: 42px 1fr; gap: 14px; padding: 18px; margin-bottom: 12px; border-radius: var(--rad); background: var(--card); border: 1px solid var(--line); cursor: pointer; }
+.s-card em { font: var(--hw) 15px/1 var(--hf); font-style: normal; width: 42px; height: 42px; border-radius: 12px; background: color-mix(in srgb, var(--kc) 14%, var(--sb)); color: var(--kc); display: grid; place-items: center; }
+.s-card h3 { font-size: 20px; margin-bottom: 5px; }
+.s-card p { font-size: 14.5px; color: var(--muted); line-height: 1.45; }
+.s-about { margin: 34px 0 0; padding: 40px 18px 44px; background: var(--p); color: var(--onp); }
+.s-about h2 { font-size: 31px; margin-bottom: 14px; }
+.s-about p { opacity: .88; font-size: 15.5px; }
+.s-about ul { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 10px; }
+.s-about li { display: flex; align-items: center; gap: 12px; padding: 13px 15px; border-radius: calc(var(--rad) * .7 + 4px); background: color-mix(in srgb, var(--onp) 12%, transparent); font-weight: 700; font-size: 15px; }
+.s-about li i { width: 22px; height: 22px; border-radius: 50%; background: var(--ag); color: var(--ona); display: grid; place-items: center; flex: none; }
+.s-about li svg { width: 12px; height: 12px; }
+.s-rev { margin: 34px 18px 0; padding: 24px 20px; border-radius: var(--rad); background: var(--card); border: 1px solid var(--line); }
+.s-rev q { display: block; font: var(--hw) 21px/1.25 var(--hf); letter-spacing: -.02em; quotes: none; }
+.s-rev q::before { content: "\201C"; display: block; font-size: 52px; line-height: .7; color: var(--kc); margin-bottom: 8px; }
+.s-rev small { display: block; margin-top: 14px; color: var(--muted); font-size: 13.5px; font-weight: 600; }
+.s-cta { margin: 34px 18px 0; padding: 32px 22px; border-radius: var(--rad); background: var(--ag); color: var(--ona); }
+.s-cta h2 { font-size: 30px; margin-bottom: 10px; }
+.s-cta p { opacity: .85; font-size: 15px; margin-bottom: 18px; }
+.s-cta .s-b { background: var(--ona); color: var(--a); }
+.s-foot { margin-top: 34px; padding: 26px 18px 60px; border-top: 1px solid var(--line); display: grid; gap: 14px; color: var(--muted); font-size: 13.5px; }
+.s-foot nav { display: flex; gap: 16px; flex-wrap: wrap; font-weight: 700; color: var(--si); }
+
+@media (min-width: 720px) {
+  .plan, .facts, .how { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pk { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; }
+  .pals { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 960px) {
+  .top { height: 84px; }
+  .rv-hero { grid-template-columns: minmax(0, 1fr) auto; text-align: left; justify-items: start; gap: 80px; align-items: center; }
+  .rv-hero .sub { margin-inline: 0; }
+  .rv-btns { margin-inline: 0; }
+  .cap2 { margin-inline: 0; }
+  .rv-phone .phone { --ph-h: min(700px, calc(100svh - 150px)); }
+  .btn { width: auto; min-width: 280px; padding: 0 34px; justify-self: start; }
+  .rv-btns .btn, .fin .btn, .rvbar .btn { width: 100%; }
+  .bar { position: static; margin: 30px 0 0; padding: 0; background: none; }
+  .rvbar { margin-inline: 0; }
+}
+@media (max-width: 400px) { .styles { grid-template-columns: 1fr; } .sty { display: grid; grid-template-columns: 2.4rem 1fr; gap: 0 12px; align-items: center; } .sty b { margin: 0; } .sty small { grid-column: 2; } .sty .aa { grid-row: span 2; } }
+@media (prefers-reduced-motion: reduce) { .glow, .logo svg, .step.on, .ph-hint svg, .lv i, .stg li.now i { animation: none !important; } .glow-clip, .prog i, .lbar i { transition: none; } }
+</style>
+</head><body>
+
+<div class="glow-clip" aria-hidden="true"><div class="glow"></div></div>
+
+<div class="app" id="app">
+  <header class="top">
+    <button class="back" id="back" type="button" aria-label="Terug naar de vorige stap" style="visibility:hidden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <span class="logo" aria-label="De Website Dokters"><svg viewBox="6 7 64 57" aria-hidden="true"><defs><linearGradient id="hg" x1=".3" y1="0" x2=".55" y2="1"><stop offset="0" stop-color="#FF7A2E"/><stop offset=".52" stop-color="#FB3D32"/><stop offset="1" stop-color="#F41B36"/></linearGradient></defs><path fill="url(#hg)" stroke="url(#hg)" stroke-width="1.2" stroke-linejoin="round" d="M38.50 62.53L37.17 62.47 35.83 61.90 31.90 58.33 10.83 36.69 8.83 34.13 7.54 31.17 7.13 28.83 7.25 26.67 7.98 24.00 9.23 21.67 18.83 10.83 20.67 9.39 22.83 8.39 24.50 8.08 26.00 8.18 27.67 8.69 29.14 9.50 31.33 11.50 36.83 18.00 38.17 18.69 39.50 18.05 45.00 11.62 47.50 9.38 49.17 8.52 50.83 8.13 52.67 8.18 53.83 8.47 56.50 9.92 59.50 12.90 66.48 20.83 67.89 23.00 68.63 24.83 69.12 27.50 68.95 30.00 68.12 32.67 66.85 34.83 63.69 38.33 42.50 59.92 40.33 61.79Z"/></svg><span>de website dokters</span></span>
+    <span class="cnt"><span id="cnt" aria-live="polite"></span><br><span class="demo-tag" id="demoTag" hidden>demo</span></span>
+  </header>
+  <div class="prog" role="progressbar" aria-label="Voortgang" aria-valuemin="0" aria-valuemax="100" id="progbar"><i id="progi"></i></div>
+
+  <div class="grid">
+    <main class="col" id="col">
+
+      <section class="step on" data-s="route" tabindex="-1" aria-labelledby="h-route">
+        <span class="slots" id="slots"></span>
+        <h1 class="big" id="h-route">jouw website in <span class="grad-t">5 minuten.</span></h1>
+        <p class="lead">Beantwoord een paar korte vragen en zie direct hoe jouw nieuwe website eruit kan zien. Gratis en vrijblijvend.</p>
+        <span class="lbl">Heb je al een website?</span>
+        <div class="opts">
+          <button class="opt" type="button" data-route="ja"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2.5"/><path d="M3 9h18M8 21h8M12 18v3"/></svg></span><span><b>Ja, ik heb er een</b><span class="d">We maken hem opnieuw, met jouw kleuren</span></span><svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+          <button class="opt" type="button" data-route="nee"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 4.6L19 9l-4 3.3L16.2 18 12 15.2 7.8 18 9 12.3 5 9l5.1-1.4z"/></svg></span><span><b>Nee, nog niet</b><span class="d">We bouwen er een met jouw input</span></span><svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+        <div class="trust"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Gratis</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Geen verplichtingen</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Binnen 7 dagen live</span></div>
+        <p class="cap">We maken maximaal 2 nieuwe websites per week, zodat elk ontwerp de aandacht krijgt die het verdient.</p>
+      </section>
+
+      <section class="step" data-s="url" tabindex="-1" aria-labelledby="h-url">
+        <h2 class="q" id="h-url">wat is het adres van je website?</h2>
+        <p class="sub">Vul je gegevens in. Wij maken een nieuw ontwerp voor je website en bellen je om het te laten zien.</p>
+        <label class="fld" id="f-url" style="display:block;margin-top:26px"><span class="lbl" style="margin-top:0">Website</span>
+          <span class="in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg><input id="url" type="text" inputmode="url" autocapitalize="none" autocomplete="url" spellcheck="false" placeholder="www.jouwbedrijf.nl" aria-describedby="e-url"></span>
+          <p class="msg" id="e-url" role="alert"></p></label>
+        <div id="urlchip" hidden>
+          <div class="lchip" id="chip1" aria-label="Zo herkennen we je bedrijf"></div>
+          <p class="hint">We herkennen je bedrijf als <b id="dn" style="color:var(--fg)"></b>. <button class="link" type="button" id="editname">Klopt niet? Pas aan</button></p>
+          <label class="fld" id="f-naam2" hidden style="display:block;margin-top:12px"><span class="in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V7l8-4 8 4v14M9 21v-5h6v5"/></svg><input id="naam2" type="text" maxlength="40" autocomplete="organization" placeholder="Bedrijfsnaam" aria-label="Bedrijfsnaam"></span></label>
+        </div>
+        <div class="bar"><button class="btn" type="button" id="go-url">Volgende <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button></div>
+      </section>
+
+      <section class="step" data-s="bedrijf" tabindex="-1" aria-labelledby="h-bedrijf">
+        <h2 class="q" id="h-bedrijf">hoe heet je bedrijf?</h2>
+        <p class="sub" id="sub-bedrijf">Je bedrijfsnaam gebruiken we als logo in het ontwerp.</p>
+        <div id="nameblock">
+          <label class="fld" id="f-naam" style="display:block;margin-top:26px"><span class="lbl" style="margin-top:0">Bedrijfsnaam</span>
+            <span class="in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V7l8-4 8 4v14M9 21v-5h6v5M9 10h.01M15 10h.01"/></svg><input id="naam" type="text" autocomplete="organization" maxlength="40" placeholder="Typ je bedrijfsnaam" aria-describedby="e-naam"></span>
+            <p class="msg" id="e-naam" role="alert"></p></label>
+          <div class="lchip" id="chip2" aria-label="Zo ziet je logo eruit"></div>
+        </div>
+        <span class="lbl" id="lbl-br">Wat voor bedrijf is het?</span>
+        <div class="chips" id="branches" role="group" aria-label="Soort bedrijf"></div>
+        <div class="bar"><button class="btn" type="button" id="go-bedrijf">Volgende <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button></div>
+      </section>
+
+      <section class="step" data-s="doel" tabindex="-1" aria-labelledby="h-doel">
+        <h2 class="q" id="h-doel">waarom wil je een nieuwe website?</h2>
+        <p class="sub">Tik alles aan wat bij je past.</p>
+        <div class="goals" id="goals" role="group" aria-label="Doelen"></div>
+        <p class="msgb" id="e-doel" role="alert"></p>
+        <div class="bar"><button class="btn" type="button" id="go-doel">Volgende <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button></div>
+      </section>
+
+      <section class="step" data-s="tempo" tabindex="-1" aria-labelledby="h-tempo">
+        <h2 class="q" id="h-tempo">nog twee korte vragen</h2>
+        <p class="sub">Zo weten we hoe we je het beste kunnen helpen.</p>
+        <span class="lbl">Wanneer wil je live?</span>
+        <div class="chips" id="live" role="group" aria-label="Wanneer live"></div>
+        <span class="lbl">Beslis je dit zelf?</span>
+        <div class="chips" id="beslis" role="group" aria-label="Wie beslist"></div>
+        <p class="msgb" id="e-tempo" role="alert"></p>
+        <div class="bar"><button class="btn" type="button" id="go-tempo">Volgende <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button></div>
+      </section>
+
+      <section class="step" data-s="look" tabindex="-1" aria-labelledby="h-look">
+        <h2 class="q" id="h-look">kies je kleuren</h2>
+        <p class="sub">Je kunt ze later altijd nog aanpassen.</p>
+        <div class="lchip" id="chip3" aria-label="Zo ziet je logo eruit"></div>
+        <span class="lbl">Kleurenpalet</span>
+        <div class="pals" id="pals" role="group" aria-label="Kleurenpalet"></div>
+        <div class="pickers" id="pickers" hidden>
+          <label class="pick"><input type="color" id="cp" value="#E8572A" aria-label="Hoofdkleur"><span><small>Kies</small>Hoofdkleur</span></label>
+          <label class="pick"><input type="color" id="ca" value="#1C2B4A" aria-label="Accentkleur"><span><small>Kies</small>Accentkleur</span></label>
+        </div>
+        <span class="lbl">Stijl</span>
+        <div class="styles" id="styles" role="group" aria-label="Stijl"></div>
+        <div class="bar"><button class="btn" type="button" id="go-look">Maak mijn website <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button></div>
+      </section>
+
+      <section class="step" data-s="laden" tabindex="-1" aria-labelledby="h-laden">
+        <div class="ld">
+          <div class="lchip" id="chip4" aria-label="Jouw logo"></div>
+          <h2 class="q" id="h-laden">we maken jouw website</h2>
+          <p class="sub">Dit duurt even. Je hoeft niets te doen.</p>
+          <div class="wf" id="wf" aria-hidden="true"><div class="w-nav"><i></i><b></b><span style="flex:1"></span><em></em></div><div class="w-h"><i></i><i></i></div><div class="w-t"><i></i><i></i></div><div class="w-b"></div><div class="w-art"></div><div class="w-c"><i></i><i></i></div></div>
+          <ul class="stg" id="stg" aria-live="polite"></ul>
+          <div class="lbar" aria-hidden="true"><i id="lbi"></i></div>
+        </div>
+      </section>
+
+      <section class="step" data-s="onthulling" tabindex="-1" aria-labelledby="h-onthulling">
+        <div class="rv-hero">
+          <div>
+            <h2 class="q" id="h-onthulling">dit is jouw website, <span class="grad-t" id="rv-naam">naam</span>.</h2>
+            <p class="sub">Scroll er zelf doorheen en tik op het menu. Zo ziet hij er op een telefoon uit.</p>
+            <div class="stars" aria-label="Gemiddeld 5,0 uit 5 Google-reviews"><b aria-hidden="true">★★★★★</b>Gemiddeld 5,0 uit 5 Google-reviews</div>
+            <div class="rv-btns">
+              <button class="btn" type="button" data-cta>Ja, maak dit voor mij <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button>
+              <button class="btn ghost" type="button" id="adjust">Kleuren aanpassen</button>
+            </div>
+            <p class="cap2">Ontwerpvoorbeeld met voorbeeldteksten. Je eigen teksten, foto's en logo regelen we samen.</p>
+          </div>
+          <div class="rv-phone" id="phHost"></div>
+        </div>
+
+        <div class="sec"><span class="kick">Jouw plan</span><h3 class="t">dit heb je ons verteld, en zo pakken we het aan</h3><div class="plan" id="plan"></div></div>
+
+        <div class="sec"><span class="kick">Waarom een goede website</span><h3 class="t">je website is je eerste indruk, ook als je er niet bij bent</h3>
+          <p class="intro">Mensen beoordelen je bedrijf vaak online voordat ze je bellen. Dit zeggen onderzoeken daarover.</p>
+          <div class="facts">
+            <div class="fact"><div class="nr grad-t">46%</div><p>van de ondervraagden beoordeelde de betrouwbaarheid van een website mede op het uiterlijk.</p><small>Stanford-onderzoek onder 2.684 consumenten, gemeld door ClickZ in 2002.</small></div>
+            <div class="fact"><div class="nr grad-t">53%</div><p>van de mobiele bezoekers haakt af als een pagina er langer dan drie seconden over doet.</p><small>Google, gemeld door Marketing Dive in 2016.</small></div>
+            <div class="fact"><div class="nr grad-t">77%</div><p>van de Nederlanders wil meer producten en diensten lokaal kopen.</p><small>Trustoo-onderzoek onder 1.057 Nederlanders, 2022.</small></div>
+          </div>
+          <p class="note">Dit zijn oudere of algemene onderzoeken. We noemen daarom altijd de bron en het jaar.</p>
+        </div>
+
+        <div class="sec"><span class="kick">Zo werkt het</span><h3 class="t">van gesprek naar live in 7 dagen</h3>
+          <div class="how">
+            <div><b>We bellen je</b><span>Kort kennismaken en je ontwerp samen doornemen.</span></div>
+            <div><b>We maken het af</b><span>Teksten, beeld, SEO en alles wat erbij hoort verzorgen wij.</span></div>
+            <div><b>Live binnen 7 dagen</b><span>Daarna blijven wij zorgen voor hosting, onderhoud en aanpassingen.</span></div>
+          </div>
+        </div>
+
+        <div class="sec"><span class="kick">Prijzen</span><h3 class="t">kies wat bij je past</h3>
+          <p class="intro">Alle pakketten bevatten een ontwerp op maat, een mobielvriendelijke website, teksten en beeldkeuze.</p>
+          <div class="pk" id="pk"></div>
+          <div class="care">
+            <h4>Onderhoud, hosting en aanpassingen</h4>
+            <div class="pr">€50<small>per maand, excl. btw</small></div>
+            <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Hosting en beveiliging</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Onderhoud en updates</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Kleine aanpassingen via één aanspreekpunt</li></ul>
+          </div>
+          <p class="note">Prijzen zijn indicatief en exclusief btw. De inhoud van de pakketten stemmen we in het gesprek af. SEO geeft geen garantie op een specifieke Google-positie.</p>
+        </div>
+
+        <div class="sec"><span class="kick">Veelgestelde vragen</span><h3 class="t">alles wat je wilt weten</h3>
+          <div class="faq" id="faq"></div>
+        </div>
+
+        <div class="fin"><h3>klaar om dit echt te maken?</h3><p class="sub" style="margin:0">Laat je nummer achter, dan bellen wij je om je ontwerp door te nemen. Gratis en vrijblijvend.</p><span class="slots" id="slots3"></span><button class="btn" type="button" data-cta>Ja, maak dit voor mij <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button></div>
+        <div class="rvbar"><button class="btn" type="button" data-cta>Ja, maak dit voor mij <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button></div>
+      </section>
+
+      <section class="step" data-s="contact" tabindex="-1" aria-labelledby="h-contact">
+        <h2 class="q" id="h-contact">waar kunnen we je bellen?</h2>
+        <p class="sub">Dan nemen we je ontwerp met je door. Een kort gesprek, zonder verplichtingen.</p>
+        <div class="lchip" id="chip5" aria-label="Jouw website"></div>
+        <label class="fld" id="f-vn" style="display:block;margin-top:26px"><span class="lbl" style="margin-top:0">Voornaam</span>
+          <span class="in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7"/></svg><input id="vn" type="text" autocomplete="given-name" maxlength="30" placeholder="Je voornaam" aria-describedby="e-vn"></span>
+          <p class="msg" id="e-vn" role="alert"></p></label>
+        <label class="fld" id="f-tel" style="display:block"><span class="lbl" style="margin-top:0">Mobiel nummer</span>
+          <span class="in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg><input id="tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" placeholder="06 12 34 56 78" aria-describedby="e-tel"></span>
+          <p class="msg" id="e-tel" role="alert"></p></label>
+        <span class="lbl" style="margin-top:8px">Wanneer mogen we bellen?</span>
+        <div class="chips" id="moments" role="group" aria-label="Moment om te bellen"></div>
+        <div class="bar"><button class="btn" type="button" id="go-contact">Bel me over mijn website <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button>
+          <p class="fine">We bellen je één keer om je ontwerp door te nemen. Je gegevens gebruiken we alleen daarvoor.</p></div>
+        <details class="priv"><summary>Wat doen we met je gegevens?</summary><p>We gebruiken je naam en nummer alleen om je te bellen over je website. We geven ze niet door aan anderen en verwijderen ze op verzoek. Mail naar info@dewebsitedokters.nl als je dat wilt.</p></details>
+        <p style="margin-top:18px"><a class="wa" href="https://wa.me/31616091507" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 1-13.4 7.8L3 21l1.3-4.4A9 9 0 1 1 21 12z"/></svg>Liever appen? Stuur ons een bericht</a></p>
+      </section>
+
+      <section class="step" data-s="klaar" tabindex="-1" aria-labelledby="h-klaar">
+        <span class="slots" id="slots2"></span>
+        <h2 class="q" id="h-klaar" style="margin-top:20px">we bellen je <span id="k-mom">zo meteen</span>, <span class="grad-t" id="k-vn">naam</span>.</h2>
+        <p class="sub" id="k-sub">Je aanvraag is binnen.</p>
+        <div class="lchip" id="chip6" aria-label="Jouw logo"></div>
+        <ol class="done-steps">
+          <li><b>We bekijken je antwoorden</b><span id="k-s1">en zetten je ontwerp klaar.</span></li>
+          <li><b>We bellen je</b><span>Een kort gesprek om je ontwerp door te nemen.</span></li>
+          <li><b>Jouw website gaat live</b><span>Vind je het mooi? Dan maken we hem af, binnen 7 dagen live.</span></li>
+        </ol>
+        <div class="call"><div><b>+31 6 1609 1507</b><small>Hier bellen we vandaan. Sla het nummer op, dan weet je wie er belt.</small></div><button type="button" id="copynr">Kopieer</button></div>
+        
+        <div class="bar"><button class="btn ghost" type="button" id="restart">Opnieuw proberen</button></div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><filter id="goo" x="-10%" y="-40%" width="120%" height="180%" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="7" result="b"/><feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8"/></filter></defs></svg>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ===== instellingen om later te koppelen ===== */
+  var DEMO = false;
+  var SLOTS = { total: 2, left: 2 };
+  var CRM_WEBHOOK = '';
+  var CALL_NR = '+31 6 1609 1507';
+  var LOAD_SCALE = 1; // 1 = echte duur van het laadscherm (ca. 25 sec); lager = sneller (alleen voor tests)
+
+  var IC = {
+    chk: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>',
+    u1: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6M17 6v6M20 9h-6"/></svg>',
+    u2: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>',
+    u3: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>',
+    plus: '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 1v10M1 6h10"/></svg>'
+  };
+
+  var BR = {
+    bouw:     { l: 'Bouw & klus', k: 'Bouw & klus', h: 'Vakwerk dat blijft staan.', s: 'Van kleine klus tot complete verbouwing. Eerlijk advies, een vaste prijs en op tijd klaar.', cta: 'Vraag een offerte aan', sv: [['Verbouwen', 'Van plan tot oplevering, met één aanspreekpunt.'], ['Onderhoud', 'Kleine reparaties en groot onderhoud, netjes afgewerkt.'], ['Maatwerk', 'Precies passend voor jouw ruimte en wensen.']] },
+    schilder: { l: 'Schilder', k: 'Schilderwerk', h: 'Kleur die blijft.', s: 'Binnen- en buitenschilderwerk, netjes opgeleverd en op tijd klaar. Jij kiest de kleur, wij doen de rest.', cta: 'Vraag een offerte aan', sv: [['Binnenschilderwerk', 'Muren, plafonds en kozijnen, strak afgewerkt.'], ['Buitenschilderwerk', 'Duurzaam beschermd tegen weer en tijd.'], ['Kleuradvies', 'Hulp bij het kiezen van de kleur die bij je past.']] },
+    horeca:   { l: 'Horeca', k: 'Eten & drinken', h: 'Proef wat we doen.', s: 'Verse gerechten, een warme sfeer en een tafel die op je wacht.', cta: 'Reserveer een tafel', sv: [['Lunch', 'Elke dag vers bereid, ook om mee te nemen.'], ['Diner', 'Een menu dat meebeweegt met het seizoen.'], ['Groepen', 'Van verjaardag tot bedrijfsuitje, we regelen het.']] },
+    zorg:     { l: 'Zorg & welzijn', k: 'Zorg & welzijn', h: 'Aandacht voor wie je bent.', s: 'Persoonlijke begeleiding in een rustige omgeving, dicht bij huis.', cta: 'Plan een kennismaking', sv: [['Intake', 'We luisteren eerst en stellen daarna een plan op.'], ['Begeleiding', 'Op jouw tempo, met vaste aanspreekpunten.'], ['Nazorg', 'Ook na afloop blijven we bereikbaar.']] },
+    winkel:   { l: 'Winkel', k: 'Winkel & webshop', h: 'Mooie spullen, persoonlijk advies.', s: 'Een zorgvuldig gekozen collectie en iemand die je écht helpt kiezen.', cta: 'Bekijk de collectie', sv: [['Collectie', 'Zorgvuldig geselecteerd, regelmatig vernieuwd.'], ['Advies', 'Kom langs of vraag het ons online.'], ['Bezorgen', 'Snel thuis of eenvoudig af te halen.']] },
+    zakelijk: { l: 'Zakelijk', k: 'Zakelijke dienstverlening', h: 'Advies waar je mee verder komt.', s: 'Helder, praktisch en zonder jargon. Wij denken mee over wat bij je past.', cta: 'Plan een gesprek', sv: [['Adviesgesprek', 'Kort en concreet, zodat je weet waar je aan toe bent.'], ['Op maat', 'Geen standaardpakket, maar een aanpak voor jouw situatie.'], ['Begeleiding', 'Wij blijven betrokken tot het resultaat er is.']] },
+    beauty:   { l: 'Beauty', k: 'Beauty & verzorging', h: 'Even helemaal jezelf.', s: 'Rust, aandacht en een behandeling die bij je past.', cta: 'Maak een afspraak', sv: [['Behandelingen', 'Persoonlijk samengesteld, met zorg uitgevoerd.'], ['Advies', 'Eerlijke tips voor thuis, afgestemd op jou.'], ['Cadeaubon', 'Een mooi cadeau voor iemand die het verdient.']] },
+    anders:   { l: 'Anders', k: 'Welkom', h: 'Persoonlijk en betrouwbaar.', s: 'Met aandacht voor jouw vraag en een duidelijke aanpak van begin tot eind.', cta: 'Neem contact op', sv: [['Wat wij doen', 'Een heldere uitleg van ons aanbod en wat het jou oplevert.'], ['Hoe wij werken', 'Een vaste aanpak, zodat je weet waar je aan toe bent.'], ['Contact', 'Kom langs, bel ons of stuur een bericht.']] }
+  };
+  var RAIN = 'linear-gradient(120deg,#FF5A36,#FFB300 28%,#2BB673 52%,#2D7FF9 76%,#8B4DFF)';
+  var PALS = [
+    { id: 'terra',  n: 'Terracotta & ivoor', s: 'Warm en ambachtelijk', bg: '#FAF6F0', ink: '#1A1411', p: '#B93E17', a: '#E9B872' },
+    { id: 'mand',   n: 'Mandarijn & wit', s: 'Fris en direct', bg: '#FFFFFF', ink: '#111111', p: '#F26A1B', a: '#FFE3CF' },
+    { id: 'koning', n: 'Koningsblauw & wit', s: 'Betrouwbaar en strak', bg: '#FFFFFF', ink: '#0A1736', p: '#1F46D6', a: '#FFC93C' },
+    { id: 'marine', n: 'Marine & zand', s: 'Rustig en duur', bg: '#F7F3EC', ink: '#0B1B33', p: '#14284B', a: '#D9A441' },
+    { id: 'staal',  n: 'Staalblauw & mist', s: 'Modern en helder', bg: '#F4F7FA', ink: '#101A26', p: '#2F5D8A', a: '#FF7A3D' },
+    { id: 'koper',  n: 'Zwart & koper', s: 'Donker en luxe', bg: '#0D0D0E', ink: '#F5EFE8', p: '#C7835A', a: '#F0D9C0', dark: true },
+    { id: 'limoen', n: 'Zwart & limoen', s: 'Donker en scherp', bg: '#0B0B0C', ink: '#F4F4F0', p: '#D7F25A', a: '#FFFFFF', dark: true },
+    { id: 'rood',   n: 'Zwart & rood', s: 'Donker en krachtig', bg: '#0E0E0E', ink: '#F6F1EC', p: '#D82A20', a: '#FFFFFF', dark: true },
+    { id: 'regen',  n: 'Wit & regenboog', s: 'Voor kleurrijke logo\'s', bg: '#FFFFFF', ink: '#111111', p: '#111111', a: '#FF5A36', rainbow: true },
+    { id: 'bos',    n: 'Bos & goud', s: 'Rustig en solide', bg: '#F5F2EA', ink: '#10201A', p: '#1F4D3A', a: '#C9A24B' },
+    { id: 'pruim',  n: 'Pruim & perzik', s: 'Warm en eigenzinnig', bg: '#FBF5F2', ink: '#1F1220', p: '#5A2A55', a: '#F28A6B' },
+    { id: 'salie',  n: 'Salie & klei', s: 'Zacht en natuurlijk', bg: '#F3F1EA', ink: '#1C211B', p: '#5C7155', a: '#B5643C' }
+  ];
+  var STY = {
+    rustig: { n: 'Rustig', d: 'Elegant en kalm', hf: "'Fraunces', Georgia, serif", hw: 500, btnr: '4px', rad: '6px', artr: '140px 140px 10px 10px', markr: '4px' },
+    strak:  { n: 'Strak',  d: 'Modern en krachtig', hf: "'Bricolage Grotesque', 'Figtree', sans-serif", hw: 800, btnr: '12px', rad: '16px', artr: '24px', markr: '10px' },
+    warm:   { n: 'Warm',   d: 'Vriendelijk en rond', hf: "'Figtree', system-ui, sans-serif", hw: 800, btnr: '999px', rad: '26px', artr: '46% 54% 30% 70% / 52% 38% 62% 48%', markr: '50%' }
+  };
+  var GOALS = {
+    pro:   { l: 'Professioneler overkomen', t: 'Een rustig, consistent ontwerp', d: 'Jouw logo en kleuren op elke pagina, met nette teksten en beeld die bij je passen.' },
+    bereik:{ l: 'Meer klanten bereiken', t: 'Gemaakt voor de telefoon', d: 'Een website die op elk scherm goed werkt en die mensen makkelijk doorsturen.' },
+    leads: { l: 'Meer aanvragen krijgen', t: 'Een duidelijke volgende stap', d: 'Een belknop en aanvraagformulier die op elke pagina binnen handbereik zijn.' },
+    conv:  { l: 'Meer bezoekers laten bellen of mailen', t: 'Eén duidelijke actie per pagina', d: 'Korte teksten, vertrouwen vlak bij de knop en geen afleiding.' },
+    seo:   { l: 'Beter gevonden worden in Google', t: 'Vindbaar in jouw regio', d: 'Basis-SEO zit in elk pakket. In de pakketten Vindbaarheid en Groei doen we actieve lokale SEO.' },
+    oud:   { l: 'Mijn huidige website is verouderd', t: 'Een volledig nieuw ontwerp', d: 'We nemen je merk mee en bouwen er een website omheen die er weer jaren goed uitziet.', r: 'ja' },
+    nieuw: { l: 'Ik begin een nieuw bedrijf', t: 'Alles in één keer goed neergezet', d: 'Ontwerp, teksten en beeld komen van dezelfde mensen, zodat je meteen professioneel start.', r: 'nee' }
+  };
+  var LIVE = { snel: 'Zo snel mogelijk', maand: 'Binnen een maand', orient: 'Ik oriënteer me nog' };
+  var BESLIS = { zelf: 'Ja, ik beslis', samen: 'Samen met iemand anders', info: 'Ik verzamel info voor iemand anders' };
+  var MOM = { meteen: ['Meteen', 'zo meteen'], uur: ['Over een uur', 'over een uur'], avond: ['Vanavond', 'vanavond'], morgen: ['Morgenochtend', 'morgenochtend'] };
+  var NAMES = ['Bakkerij De Tulp', 'Van Dijk Installatie', 'Studio Linde', 'Tandartspraktijk Oost', 'Kapsalon Mila'];
+  var PKG = [
+    { n: 'Website', pr: '€799', f: ['5 pagina\'s', '2 revisierondes', 'Basis-SEO', 'Eén aanspreekpunt'] },
+    { n: 'Vindbaarheid', pr: '€999', pop: true, f: ['7 pagina\'s', '3 revisierondes', 'Actieve lokale SEO', 'Maandrapport en SEO-aanpak'] },
+    { n: 'Groei', pr: '€1.499', f: ['10 pagina\'s', '4 revisierondes', 'Actieve lokale SEO met maandrapport', 'Foto-upload', 'Automatische opvolging van aanvragen', 'Reviewverzoeken en reviewkaart'] }
+  ];
+  var FAQ = [
+    ['Hoe werkt het gratis redesign?', 'Je laat je gegevens achter. Wij maken een ontwerpvoorstel voor jouw bedrijf en nemen dat met je door. Het is gratis en vrijblijvend.'],
+    ['Hoe snel kan mijn website online?', 'Binnen 7 dagen live. We werken met een vaste, korte doorlooptijd, zodat je niet maandenlang wacht.'],
+    ['Moet ik zelf teksten en foto\'s aanleveren?', 'Nee. Teksten en beeldkeuze verzorgen wij. Heb je eigen foto\'s of wensen, dan nemen we die graag mee.'],
+    ['Wat zit er in onderhoud en hosting?', 'Hosting, beveiliging, onderhoud en kleine aanpassingen via één aanspreekpunt. Dat kost €50 per maand, exclusief btw.'],
+    ['Van wie zijn het domein en de website?', 'Dit leggen we vooraf duidelijk vast. De precieze afspraken staan in onze algemene voorwaarden en we lopen ze graag met je door.'],
+    ['Zijn de prijzen inclusief btw?', 'Nee. De genoemde prijzen zijn indicatief en exclusief btw.']
+  ];
+
+  function fresh() { return { route: null, url: '', domain: '', naam: '', nTouched: false, branche: 'anders', brPicked: false, goals: [], live: '', beslis: '', pal: 'koning', cp: '#E8572A', ca: '#1C2B4A', stijl: 'strak', vn: '', tel: '', moment: 'meteen', generated: false }; }
+  var S = fresh();
+  var hist = [], cur = 'route';
+
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function track(ev, d) {
+    try { if (window.fbq) window.fbq('trackCustom', ev, d || {}); } catch (e) {}
+    try { (window.dataLayer = window.dataLayer || []).push({ event: ev, detail: d || {} }); } catch (e) {}
+  }
+
+  function rgb(h) { h = h.replace('#', ''); if (h.length === 3) h = h.split('').map(function (c) { return c + c; }).join(''); var n = parseInt(h, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+  function hex(r) { return '#' + r.map(function (v) { v = Math.max(0, Math.min(255, Math.round(v))); return (v < 16 ? '0' : '') + v.toString(16); }).join(''); }
+  function mix(a, b, t) { var x = rgb(a), y = rgb(b); return hex([x[0] + (y[0] - x[0]) * t, x[1] + (y[1] - x[1]) * t, x[2] + (y[2] - x[2]) * t]); }
+  function lum(h) { var c = rgb(h).map(function (v) { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]; }
+  function on(h) { var L = lum(h); return (1.05 / (L + .05)) >= ((L + .05) / .05) ? '#ffffff' : '#16161a'; }
+  function hsl(h, s, l) { s /= 100; l /= 100; var k = function (n) { return (n + h / 30) % 12; }, a = s * Math.min(l, 1 - l), f = function (n) { return l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1))); }; return hex([f(0) * 255, f(8) * 255, f(4) * 255]); }
+  function hashStr(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+
+  function allPals() {
+    var list = PALS.slice();
+    if (S.route === 'ja' && S.domain) { var h = hashStr(S.domain) % 360; list.unshift({ id: 'site', n: 'Kleuren van je website', s: 'Overnemen uit je site', bg: '#FBF8F4', ink: '#1c1b22', p: hsl(h, 58, 34), a: hsl((h + 38) % 360, 85, 58), site: true }); }
+    list.push({ id: 'eigen', n: 'Eigen kleuren', s: 'Kies zelf twee kleuren', bg: '#FBF8F4', ink: '#1c1b22', p: S.cp, a: S.ca, custom: true });
+    return list;
+  }
+  function pal() { var l = allPals(); return l.filter(function (p) { return p.id === S.pal; })[0] || l[0]; }
+  function palVars(p) {
+    var rb = !!p.rainbow, dk = !!p.dark;
+    var card = dk ? mix(p.bg, '#ffffff', .07) : mix(p.bg, '#ffffff', .6);
+    var r = rgb(p.ink);
+    return '--sb:' + p.bg + ';--si:' + p.ink + ';--p:' + p.p + ';--a:' + p.a + ';--ag:' + (rb ? RAIN : p.a) + ';--c1:' + (rb ? '#ffffff' : p.a) + ';--art:' + (rb ? RAIN : 'linear-gradient(150deg,' + p.p + ',' + mix(p.p, p.a, .5) + ')') + ';--onp:' + on(p.p) + ';--ona:' + (rb ? '#111111' : on(p.a)) + ';--card:' + card + ';--muted:' + mix(p.ink, p.bg, .38) + ';--line:rgba(' + r[0] + ',' + r[1] + ',' + r[2] + ',.12);--kc:' + p.p + ';';
+  }
+  function styVars() { var st = STY[S.stijl]; return '--hf:' + st.hf + ';--hw:' + st.hw + ';--btnr:' + st.btnr + ';--rad:' + st.rad + ';--artr:' + st.artr + ';--markr:' + st.markr + ';'; }
+  function vars() { return palVars(pal()) + styVars(); }
+
+  var WORDS = 'bakkerij slagerij schildersbedrijf schilders schilder schilderwerk schilderwerken bouw bouwbedrijf bouwen klus klussen klusbedrijf installatie installatiebedrijf techniek loodgieter loodgietersbedrijf dakdekker dakwerken dakbedekking stukadoor stukadoors hoveniers hovenier tuin tuinen kapsalon kapper studio praktijk tandarts tandartspraktijk huisarts fysio fysiotherapie restaurant cafe brasserie bistro groep advies adviesbureau administratie accountants accountant makelaardij makelaars schoonmaak transport vervoer auto autos garage autobedrijf autoschade webshop mode bloemen bloemist fotografie fotograaf timmerwerk timmerman aannemer aannemersbedrijf vloeren vloer keukens keuken badkamer badkamers glas glaszetter fiets fietsen sport sportschool yoga massage salon beauty nagel nagels wellness atelier ontwerp design interieur interieurbouw jouw bedrijf mijn onze uw het een van den der de en op aan bij voor jansen janssen dijk vries bakker smit visser mulder bos groen groot klein oost west noord zuid nieuw oud hoek kamp berg dal veld beek brink marsman hendriks hendrik peter pieter jan karel anna maria linde tulp roos eik beuk'.split(' ');
+  var DICT = {}; WORDS.forEach(function (w) { if (w) DICT[w] = 1; });
+  var SMALL = { de: 1, het: 1, een: 1, van: 1, den: 1, der: 1, en: 1, op: 1, aan: 1, bij: 1, voor: 1 };
+  function seg(s) {
+    var n = s.length, best = [0], prev = [-1], i, j;
+    for (i = 1; i <= n; i++) { best[i] = 1e9; for (j = Math.max(0, i - 24); j < i; j++) { var w = s.slice(j, i), c = DICT[w] ? 0 : 1.5 + (i - j) * .12; if (!DICT[w] && i - j < 3) c += 2; if (best[j] + c < best[i]) { best[i] = best[j] + c; prev[i] = j; } } }
+    var out = [], p = n; while (p > 0) { out.unshift(s.slice(prev[p], p)); p = prev[p]; } return out;
+  }
+  function titleCase(words) { return words.map(function (w, i) { return (i > 0 && SMALL[w]) ? w : w.charAt(0).toUpperCase() + w.slice(1); }).join(' '); }
+  function domainOf(u) {
+    var d = String(u || '').trim().toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split(/[\/?#]/)[0];
+    return /^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(d) ? d : '';
+  }
+  function nameFromDomain(d) {
+    if (!d) return '';
+    var host = d.split('.'); var core = host.length > 2 && /^(co|com|org)$/.test(host[host.length - 2]) ? host.slice(0, -2).join('.') : host.slice(0, -1).join('.');
+    var parts = core.split(/[-.]/).filter(Boolean), words = [];
+    parts.forEach(function (pt) { words = words.concat(seg(pt)); });
+    return titleCase(words);
+  }
+
+  function nm() { return S.naam.trim() || 'Jouw bedrijf'; }
+  function ini() { return nm().charAt(0).toUpperCase(); }
+  function slug() { if (S.route === 'ja' && S.domain) return S.domain; var s = nm().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ''); return (s || 'jouwbedrijf') + '.nl'; }
+  function logoHTML() { return '<span class="lg"><span class="mk">' + esc(ini()) + '</span><span class="nm">' + esc(nm()) + '</span></span>'; }
+  function chipHTML(tag) { return logoHTML() + (tag ? '<span class="tag">je logo</span>' : ''); }
+  function miniHTML(p) { return '<span class="mini" style="' + palVars(p) + '"><i class="m-mk"></i><i class="m-ln"></i><i class="m-h1"></i><i class="m-h2"></i><i class="m-bt"></i><i class="m-ac"></i><i class="m-rg"></i></span>'; }
+
+  function siteHTML() {
+    var b = BR[S.branche], n = esc(nm());
+    var h1 = S.branche === 'anders' ? 'Welkom bij ' + (S.naam.trim() ? n : 'jouw bedrijf') + '.' : b.h;
+    var cards = b.sv.map(function (x, i) { return '<div class="s-card" data-go="cta"><em>0' + (i + 1) + '</em><div><h3>' + x[0] + '</h3><p>' + x[1] + '</p></div></div>'; }).join('');
+    return '<nav class="s-nav" data-nav>' + logoHTML() + '<button class="s-burger" data-menu type="button" tabindex="-1" aria-label="Menu"><i></i><i></i><i></i></button><div class="s-menu"><a data-go="svc">Diensten</a><a data-go="over">Over ons</a><a data-go="rev">Ervaringen</a><a data-go="cta">Contact</a></div></nav>' +
+      '<section class="s-hero"><span class="s-kick">' + esc(b.k) + '</span><h1>' + h1 + '</h1><p>' + esc(b.s) + '</p><div class="s-btns"><a class="s-b p" data-go="cta">' + esc(b.cta) + '</a><a class="s-b g" data-go="svc">Bekijk diensten</a></div>' +
+      '<div class="s-artw"><div class="s-art"></div><div class="s-float"><em>' + IC.chk + '</em><div><b>Gratis en vrijblijvend</b><span>Vraag direct je offerte aan</span></div></div></div></section>' +
+      '<div class="s-usp"><div><i>' + IC.u1 + '</i>Persoonlijk contact</div><div><i>' + IC.u2 + '</i>Duidelijke afspraken</div><div><i>' + IC.u3 + '</i>Snel geregeld</div></div>' +
+      '<section class="s-sec" data-sec="svc"><h2>Wat we voor je doen</h2>' + cards + '</section>' +
+      '<section class="s-about" data-sec="over"><h2>Een bedrijf met aandacht.</h2><p>Bij ' + n + ' werken we persoonlijk en zonder poespas. Je weet vooraf waar je aan toe bent en wij doen wat we beloven.</p><ul><li><i>' + IC.chk + '</i>Eerlijk en duidelijk</li><li><i>' + IC.chk + '</i>Altijd goed bereikbaar</li><li><i>' + IC.chk + '</i>Zorgvuldig uitgevoerd</li></ul></section>' +
+      '<section class="s-rev" data-sec="rev"><q>Duidelijke afspraken, een mooi resultaat en altijd goed bereikbaar. Precies wat we zochten.</q><small>Tevreden klant, plaatsnaam</small></section>' +
+      '<section class="s-cta" data-sec="cta"><h2>Zin om kennis te maken?</h2><p>Neem vrijblijvend contact met ons op, dan denken we graag met je mee.</p><a class="s-b">' + esc(b.cta) + '</a></section>' +
+      '<footer class="s-foot">' + logoHTML() + '<nav><span>Diensten</span><span>Over ons</span><span>Contact</span></nav><span>© 2026 ' + n + '</span></footer>';
+  }
+
+  var phone = null;
+  function makePhone(host) {
+    host.innerHTML = '<div class="phone"><div class="ph-bz"><div class="ph-scr"><div class="ph-st"><span>9:41</span><i></i><svg viewBox="0 0 18 12" fill="#111" aria-hidden="true"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4.5" width="3" height="7.5" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg></div><div class="ph-url"><div><svg viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 5V4a3 3 0 1 1 6 0v1h.5A1.5 1.5 0 0 1 11 6.5v4A1.5 1.5 0 0 1 9.5 12h-7A1.5 1.5 0 0 1 1 10.5v-4A1.5 1.5 0 0 1 2.5 5zm1.5 0h3V4a1.5 1.5 0 0 0-3 0z"/></svg><span class="u"></span></div></div><div class="ph-vp" tabindex="0" role="region" aria-label="Voorbeeld van jouw website, scroll om alles te bekijken"><div class="site" aria-hidden="true"></div></div><div class="ph-home"></div></div></div></div>' +
+      '<span class="ph-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>Scroll in de telefoon</span>';
+    var p = { host: host, vp: $('.ph-vp', host), site: $('.site', host), url: $('.u', host), touched: false };
+    ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(function (ev) { p.vp.addEventListener(ev, function () { p.touched = true; }, { passive: true }); });
+    p.vp.addEventListener('click', function (e) {
+      var m = e.target.closest('[data-menu]');
+      if (m) { $('[data-nav]', p.site).classList.toggle('open'); return; }
+      var g = e.target.closest('[data-go]');
+      if (g) {
+        $('[data-nav]', p.site).classList.remove('open');
+        var t = $('[data-sec="' + g.getAttribute('data-go') + '"]', p.site); if (!t) return;
+        var k = parseFloat(p.site.style.getPropertyValue('--k')) || 1;
+        var top = t.getBoundingClientRect().top - p.vp.getBoundingClientRect().top + p.vp.scrollTop - 54 * k;
+        p.vp.scrollTo({ top: Math.max(0, top), behavior: reduce ? 'auto' : 'smooth' });
+      }
+    });
+    phone = p; fit(); renderPhone(); return p;
+  }
+  function fit() { if (!phone) return; var w = phone.vp.clientWidth; if (w) phone.site.style.setProperty('--k', (w / 360).toFixed(4)); }
+  function renderPhone() {
+    if (!phone) return;
+    var nav = $('[data-nav]', phone.site), open = nav && nav.classList.contains('open');
+    var k = phone.site.style.getPropertyValue('--k');
+    phone.site.setAttribute('style', vars() + (k ? '--k:' + k + ';' : ''));
+    phone.site.innerHTML = siteHTML();
+    if (open) $('[data-nav]', phone.site).classList.add('open');
+    phone.url.textContent = slug();
+  }
+  function hint() {
+    if (reduce || !phone || !phone.vp.clientWidth) return;
+    phone.touched = false;
+    setTimeout(function () { if (!phone.touched) phone.vp.scrollTo({ top: 460, behavior: 'smooth' }); }, 1300);
+    setTimeout(function () { if (!phone.touched) phone.vp.scrollTo({ top: 0, behavior: 'smooth' }); }, 3600);
+  }
+
+  function slotsHTML() {
+    var d = ''; for (var i = 0; i < SLOTS.total; i++) d += '<i class="' + (i < SLOTS.left ? '' : 'off') + '"></i>';
+    var t = SLOTS.left <= 0 ? 'Deze week zijn de plekken vol' : 'Nog ' + SLOTS.left + (SLOTS.left === 1 ? ' plek' : ' plekken') + ' deze week';
+    return '<span class="dots" aria-hidden="true">' + d + '</span>' + t;
+  }
+  ['#slots', '#slots2', '#slots3'].forEach(function (s) { $(s).innerHTML = slotsHTML(); });
+
+  function buildBranches() { $('#branches').innerHTML = Object.keys(BR).map(function (k) { return '<button class="chip" type="button" data-b="' + k + '" aria-pressed="' + (S.brPicked && k === S.branche) + '">' + BR[k].l + '</button>'; }).join(''); }
+  function buildGoals() {
+    $('#goals').innerHTML = Object.keys(GOALS).filter(function (k) { return !GOALS[k].r || GOALS[k].r === S.route; }).map(function (k) { return '<button class="goal" type="button" data-g="' + k + '" aria-pressed="' + (S.goals.indexOf(k) > -1) + '"><i>' + IC.chk + '</i><span>' + GOALS[k].l + '</span></button>'; }).join('');
+  }
+  function buildPals() {
+    $('#pals').innerHTML = allPals().map(function (p) {
+      return '<button class="pal' + (p.custom ? ' eigen' : '') + '" type="button" data-p="' + p.id + '" aria-pressed="' + (p.id === S.pal) + '">' + miniHTML(p) + '<span class="n">' + p.n + '</span><span class="s">' + p.s + '</span></button>';
+    }).join('');
+    $('#pickers').hidden = S.pal !== 'eigen';
+  }
+  $('#styles').innerHTML = Object.keys(STY).map(function (k) {
+    var s = STY[k]; return '<button class="sty" type="button" data-st="' + k + '" aria-pressed="' + (k === S.stijl) + '"><span class="aa" style="font-family:' + s.hf + ';font-weight:' + s.hw + '">Aa</span><b>' + s.n + '</b><small>' + s.d + '</small></button>';
+  }).join('');
+  $('#live').innerHTML = Object.keys(LIVE).map(function (k) { return '<button class="chip" type="button" data-l="' + k + '" aria-pressed="false">' + LIVE[k] + '</button>'; }).join('');
+  $('#beslis').innerHTML = Object.keys(BESLIS).map(function (k) { return '<button class="chip" type="button" data-d="' + k + '" aria-pressed="false">' + BESLIS[k] + '</button>'; }).join('');
+  $('#moments').innerHTML = Object.keys(MOM).map(function (k) { return '<button class="chip" type="button" data-m="' + k + '" aria-pressed="' + (k === S.moment) + '">' + MOM[k][0] + '</button>'; }).join('');
+  $('#pk').innerHTML = PKG.map(function (p) {
+    return '<div class="plan-c' + (p.pop ? ' pop' : '') + '">' + (p.pop ? '<span class="flag">Meest gekozen</span>' : '') + '<h4>' + p.n + '</h4><div class="pr">' + p.pr + '<small>eenmalig</small></div><ul>' + p.f.map(function (f) { return '<li>' + IC.chk + f + '</li>'; }).join('') + '</ul></div>';
+  }).join('');
+  $('#faq').innerHTML = FAQ.map(function (q) { return '<details class="qa"><summary>' + q[0] + '<i>' + IC.plus + '</i></summary><p>' + q[1] + '</p></details>'; }).join('');
+  buildBranches(); buildGoals(); buildPals();
+
+  function refresh() {
+    $$('.lchip').forEach(function (c) { c.setAttribute('style', vars()); c.innerHTML = chipHTML(c.id !== 'chip4' && c.id !== 'chip6'); });
+    $('#rv-naam').textContent = nm();
+    $('#dn').textContent = nm();
+    renderPhone();
+  }
+  var raf = 0; function later() { if (raf) return; raf = requestAnimationFrame(function () { raf = 0; refresh(); }); }
+
+  function planHTML() {
+    var cards = S.goals.map(function (k) { var g = GOALS[k]; return '<div class="pcard"><div class="chk">' + IC.chk + '</div><h4>' + g.t + '</h4><p><b style="color:var(--fg);font-weight:700">Jij wilt: ' + g.l.toLowerCase() + '.</b> ' + g.d + '</p></div>'; });
+    if (S.live === 'snel') cards.push('<div class="pcard"><div class="chk">' + IC.chk + '</div><h4>Snel live</h4><p><b style="color:var(--fg);font-weight:700">Jij wilt: zo snel mogelijk.</b> Wij werken met een vaste doorlooptijd, zodat je binnen 7 dagen live bent.</p></div>');
+    $('#plan').innerHTML = cards.join('');
+  }
+
+  function order() { return S.route === 'ja' ? ['route', 'url', 'bedrijf', 'doel', 'tempo', 'look', 'laden', 'onthulling', 'contact', 'klaar'] : ['route', 'bedrijf', 'doel', 'tempo', 'look', 'laden', 'onthulling', 'contact', 'klaar']; }
+  function counter(id) {
+    var o = order().filter(function (x) { return x !== 'laden' && x !== 'onthulling' && x !== 'klaar' && x !== 'contact'; });
+    var i = o.indexOf(id); return (i < 1) ? '' : 'Stap ' + i + ' van ' + (o.length - 1);
+  }
+  function show(id, back) {
+    if (!back && cur !== id) hist.push(cur);
+    cur = id;
+    $$('.step').forEach(function (s) { s.classList.toggle('on', s.getAttribute('data-s') === id); });
+    var o = order(), i = o.indexOf(id), frac = (i + 1) / o.length;
+    document.body.style.setProperty('--prog', frac.toFixed(3));
+    $('#progi').style.width = (Math.max(.08, frac) * 100) + '%'; $('#progbar').setAttribute('aria-valuenow', Math.round(frac * 100));
+    $('#cnt').textContent = id === 'laden' ? 'Even geduld' : counter(id);
+    $('#back').style.visibility = (id === 'route' || id === 'klaar' || id === 'laden') ? 'hidden' : 'visible';
+    $('#col').classList.toggle('wide', id === 'onthulling');
+    window.scrollTo(0, 0);
+    var first = id === 'url' ? $('#url') : (id === 'bedrijf' && S.route === 'nee') ? $('#naam') : id === 'contact' ? $('#vn') : null;
+    if (first) { try { first.focus({ preventScroll: true }); } catch (e) { first.focus(); } } else { try { $('.step.on').focus({ preventScroll: true }); } catch (e) {} }
+    if (id === 'onthulling') { refresh(); planHTML(); fit(); setTimeout(function () { fit(); hint(); }, 150); }
+  }
+  $('#back').addEventListener('click', function () { var p = hist.pop(); if (p === 'laden') p = hist.pop(); if (p === 'onthulling' && cur === 'contact') { show('onthulling', true); return; } if (p) show(p, true); });
+  function shake(b) { b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); }
+
+  $$('[data-route]').forEach(function (b) { b.addEventListener('click', function () {
+    S.route = b.getAttribute('data-route'); track('ViewContent', { route: S.route });
+    var ja = S.route === 'ja';
+    $('#nameblock').hidden = ja;
+    $('#lbl-br').hidden = ja;
+    $('#h-bedrijf').textContent = ja ? 'wat voor bedrijf is het?' : 'hoe heet je bedrijf?';
+    $('#sub-bedrijf').textContent = ja ? 'Dan kiezen we een indeling die bij je past.' : 'Je bedrijfsnaam gebruiken we als logo in het ontwerp.';
+    S.pal = ja ? 'site' : 'koning';
+    buildGoals(); buildPals(); refresh();
+    show(ja ? 'url' : 'bedrijf');
+  }); });
+
+  var urlI = $('#url');
+  function onUrl() {
+    S.url = urlI.value; var d = domainOf(S.url); S.domain = d; $('#f-url').classList.remove('err'); $('#e-url').textContent = '';
+    if (d && !S.nTouched) S.naam = nameFromDomain(d);
+    $('#urlchip').hidden = !d;
+    if (S.route === 'ja') buildPals();
+    later();
+  }
+  urlI.addEventListener('input', onUrl);
+  $('#editname').addEventListener('click', function () { var f = $('#f-naam2'); f.hidden = false; $('#naam2').value = S.naam; $('#naam2').focus(); });
+  $('#naam2').addEventListener('input', function (e) { S.naam = e.target.value; S.nTouched = true; later(); });
+  function nextUrl() {
+    if (!S.domain) { $('#f-url').classList.add('err'); $('#e-url').textContent = 'Vul het adres van je website in, bijvoorbeeld www.jouwbedrijf.nl.'; urlI.focus(); shake($('#go-url')); return; }
+    if (!S.naam.trim()) S.naam = nameFromDomain(S.domain);
+    track('Contact', { step: 'url' }); show('bedrijf');
+  }
+  $('#go-url').addEventListener('click', nextUrl);
+  [urlI, $('#naam2')].forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); nextUrl(); } }); });
+
+  var naam = $('#naam');
+  naam.addEventListener('input', function () { S.naam = naam.value; $('#f-naam').classList.remove('err'); $('#e-naam').textContent = ''; later(); });
+  $('#branches').addEventListener('click', function (e) { var b = e.target.closest('[data-b]'); if (!b) return; var k = b.getAttribute('data-b');
+    if (S.brPicked && S.branche === k) { S.brPicked = false; S.branche = 'anders'; } else { S.brPicked = true; S.branche = k; }
+    $$('#branches .chip').forEach(function (c) { c.setAttribute('aria-pressed', S.brPicked && c.getAttribute('data-b') === S.branche ? 'true' : 'false'); });
+    later(); });
+  function nextName() {
+    if (S.route === 'nee' && S.naam.trim().length < 2) { $('#f-naam').classList.add('err'); $('#e-naam').textContent = 'Vul je bedrijfsnaam in, dan maken we je logo.'; naam.focus(); shake($('#go-bedrijf')); return; }
+    track('Contact', { step: 'bedrijf' }); show('doel');
+  }
+  $('#go-bedrijf').addEventListener('click', nextName);
+  naam.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); nextName(); } });
+
+  $('#goals').addEventListener('click', function (e) { var b = e.target.closest('[data-g]'); if (!b) return; var k = b.getAttribute('data-g'), i = S.goals.indexOf(k);
+    if (i > -1) S.goals.splice(i, 1); else S.goals.push(k);
+    b.setAttribute('aria-pressed', i > -1 ? 'false' : 'true'); $('#e-doel').textContent = ''; });
+  $('#go-doel').addEventListener('click', function () {
+    if (!S.goals.length) { $('#e-doel').textContent = 'Tik minstens één reden aan.'; shake($('#go-doel')); return; }
+    track('Contact', { step: 'doel', goals: S.goals.join(',') }); show('tempo');
+  });
+
+  $('#live').addEventListener('click', function (e) { var b = e.target.closest('[data-l]'); if (!b) return; S.live = b.getAttribute('data-l'); $$('#live .chip').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); }); $('#e-tempo').textContent = ''; });
+  $('#beslis').addEventListener('click', function (e) { var b = e.target.closest('[data-d]'); if (!b) return; S.beslis = b.getAttribute('data-d'); $$('#beslis .chip').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); }); $('#e-tempo').textContent = ''; });
+  $('#go-tempo').addEventListener('click', function () {
+    if (!S.live || !S.beslis) { $('#e-tempo').textContent = !S.live ? 'Kies wanneer je live wilt.' : 'Kies wie er beslist.'; shake($('#go-tempo')); return; }
+    track('Contact', { step: 'tempo', live: S.live, beslis: S.beslis }); show('look');
+  });
+
+  $('#pals').addEventListener('click', function (e) { var b = e.target.closest('[data-p]'); if (!b) return; S.pal = b.getAttribute('data-p');
+    $$('#pals .pal').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); });
+    $('#pickers').hidden = S.pal !== 'eigen'; later(); });
+  function repaintEigen() { var t = $('#pals .pal.eigen'); if (t) { var l = allPals(), p = l[l.length - 1]; $('.mini', t).setAttribute('style', palVars(p)); } }
+  $('#cp').addEventListener('input', function (e) { S.cp = e.target.value; repaintEigen(); later(); });
+  $('#ca').addEventListener('input', function (e) { S.ca = e.target.value; repaintEigen(); later(); });
+  $('#styles').addEventListener('click', function (e) { var b = e.target.closest('[data-st]'); if (!b) return; S.stijl = b.getAttribute('data-st');
+    $$('#styles .sty').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); }); later(); });
+  $('#go-look').addEventListener('click', function () { track('Contact', { step: 'look', pal: S.pal }); refresh(); startLoad(S.generated); });
+
+  var loadTimers = [];
+  function startLoad(quick) {
+    var ja = S.route === 'ja';
+    var st = quick ? [['We passen je ontwerp aan', 2200], ['We zetten je kleuren en stijl door', 2200]] :
+      ja ? [['We lezen ' + (S.domain || 'je website'), 4800], ['We halen je logo en kleuren eruit', 5400], ['We kiezen een indeling voor jouw branche', 5000], ['We schrijven nieuwe teksten', 5600], ['We bouwen je ontwerp', 6200]] :
+      [['We kiezen een indeling voor jouw branche', 5000], ['We zetten je kleuren en logo klaar', 5200], ['We schrijven voorbeeldteksten', 5600], ['We bouwen je ontwerp', 6200]];
+    st = st.map(function (s) { return [s[0], s[1] * LOAD_SCALE]; });
+    var total = st.reduce(function (a, s) { return a + s[1]; }, 0);
+    $('#stg').innerHTML = st.map(function (s) { return '<li><i>' + IC.chk + '</i><span>' + esc(s[0]) + '</span></li>'; }).join('');
+    $('#h-laden').textContent = quick ? 'we passen je website aan' : 'we maken jouw website';
+    $$('#wf > *').forEach(function (e) { e.classList.remove('in'); });
+    $('#lbi').style.transition = 'none'; $('#lbi').style.width = '0%';
+    show('laden');
+    loadTimers.forEach(clearTimeout); loadTimers = [];
+    var items = $$('#stg li'), blocks = $$('#wf > *'), t = 0;
+    loadTimers.push(setTimeout(function () { $('#lbi').style.transition = 'width ' + (total / 1000) + 's linear'; $('#lbi').style.width = '100%'; }, 60));
+    st.forEach(function (s, i) {
+      loadTimers.push(setTimeout(function () {
+        if (i > 0) { items[i - 1].classList.remove('now'); items[i - 1].classList.add('done'); }
+        items[i].classList.add('now');
+        var upto = Math.round(blocks.length * (i + 1) / st.length);
+        blocks.forEach(function (b, bi) { if (bi < upto) loadTimers.push(setTimeout(function () { b.classList.add('in'); }, bi * 160)); });
+      }, t));
+      t += s[1];
+    });
+    loadTimers.push(setTimeout(function () {
+      items[items.length - 1].classList.remove('now'); items[items.length - 1].classList.add('done');
+      blocks.forEach(function (b) { b.classList.add('in'); });
+      S.generated = true;
+      loadTimers.push(setTimeout(function () {
+        track('ViewContent', { page: 'onthulling' });
+        document.body.classList.add('burst'); setTimeout(function () { document.body.classList.remove('burst'); }, 1600);
+        show('onthulling');
+      }, 900 * LOAD_SCALE));
+    }, total));
+  }
+
+  $('#adjust').addEventListener('click', function () { show('look'); });
+  $$('[data-cta]').forEach(function (b) { b.addEventListener('click', function () { track('Contact', { step: 'cta' }); show('contact'); }); });
+
+  function digits(v) { var d = v.replace(/[^\d+]/g, ''); if (d.indexOf('+31') === 0) d = '0' + d.slice(3); else if (d.indexOf('0031') === 0) d = '0' + d.slice(4); return d.replace(/\D/g, ''); }
+  function pretty(d) { if (/^06/.test(d)) return d.replace(/^(06)(\d{0,2})(\d{0,2})(\d{0,2})(\d{0,2}).*$/, function (m, a, b, c, d2, e) { return [a, b, c, d2, e].filter(Boolean).join(' '); }); return d.replace(/^(\d{3})(\d{0,3})(\d{0,4}).*$/, function (m, a, b, c) { return [a, b, c].filter(Boolean).join(' '); }); }
+  var tel = $('#tel');
+  tel.addEventListener('input', function () { var d = digits(tel.value).slice(0, 10); S.tel = d; $('#f-tel').classList.remove('err'); $('#e-tel').textContent = ''; if (tel.value.charAt(0) !== '+') tel.value = pretty(d); });
+  $('#vn').addEventListener('input', function (e) { S.vn = e.target.value; $('#f-vn').classList.remove('err'); $('#e-vn').textContent = ''; });
+  $('#moments').addEventListener('click', function (e) { var b = e.target.closest('[data-m]'); if (!b) return; S.moment = b.getAttribute('data-m'); $$('#moments .chip').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); }); });
+  function submit() {
+    var ok = true;
+    if (S.vn.trim().length < 2) { $('#f-vn').classList.add('err'); $('#e-vn').textContent = 'Vul je voornaam in.'; ok = false; $('#vn').focus(); }
+    if (!/^0[1-9]\d{8}$/.test(S.tel)) { $('#f-tel').classList.add('err'); $('#e-tel').textContent = 'Vul een geldig nummer in van 10 cijfers, bijvoorbeeld 06 12 34 56 78.'; if (ok) tel.focus(); ok = false; }
+    if (!ok) { shake($('#go-contact')); return; }
+    var q = {}; try { new URLSearchParams(location.search).forEach(function (v, k) { if (/^utm_|^fbclid$/.test(k)) q[k] = v; }); } catch (e) {}
+    var p = pal();
+    var lead = { id: Date.now().toString(36), tijd: new Date().toISOString(), voornaam: S.vn.trim(), telefoon: S.tel, belmoment: S.moment,
+      heeft_website: S.route === 'ja', website_url: S.route === 'ja' ? S.url.trim() : '', bedrijfsnaam: S.naam.trim(), branche: S.branche,
+      doelen: S.goals.map(function (k) { return GOALS[k].l; }), wanneer_live: LIVE[S.live], beslisser: BESLIS[S.beslis],
+      palet: p.n, hoofdkleur: p.p, accentkleur: p.a, stijl: S.stijl, bron: q };
+    track('Lead', { route: S.route, branche: S.branche });
+    try { fetch('https://skdjbifmtleiogbkqwid.supabase.co/rest/v1/dwd_funnel_leads', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'apikey': 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS', 'Prefer': 'return=minimal' }, body: JSON.stringify({ voornaam: lead.voornaam, telefoon: lead.telefoon, belmoment: String(lead.belmoment || '').slice(0, 40), website: lead.website_url ? lead.website_url.slice(0, 253) : null, bedrijfsnaam: lead.bedrijfsnaam ? lead.bedrijfsnaam.slice(0, 120) : null, branche: lead.branche ? String(lead.branche).slice(0, 80) : null, antwoorden: lead, source: 'funnel' }) }); } catch (e) {}
+    if (CRM_WEBHOOK) { try { fetch(CRM_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead) }); } catch (e) {} }
+    
+    $('#k-vn').textContent = S.vn.trim(); $('#k-mom').textContent = MOM[S.moment][1];
+    $('#k-sub').textContent = S.moment === 'meteen' ? 'Zet je telefoon naast je, we bellen over een paar minuten.' : 'Je hoort van ons ' + MOM[S.moment][1] + '.';
+    $('#k-s1').textContent = S.route === 'ja' ? 'We kijken naar je huidige website en maken je ontwerp.' : 'We lezen je antwoorden en zetten je ontwerp klaar.';
+    refresh(); show('klaar');
+  }
+  $('#go-contact').addEventListener('click', submit);
+  [$('#vn'), tel].forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); submit(); } }); });
+  $('#copynr').addEventListener('click', function () {
+    var b = this, done = function () { b.textContent = 'Gekopieerd'; setTimeout(function () { b.textContent = 'Kopieer'; }, 1800); };
+    try { navigator.clipboard.writeText(CALL_NR).then(done, done); } catch (e) { done(); }
+  });
+  $('#restart').addEventListener('click', function () {
+    S = fresh();
+    ['#url', '#naam', '#naam2', '#vn', '#tel'].forEach(function (s) { $(s).value = ''; });
+    $('#urlchip').hidden = true; $('#f-naam2').hidden = true; $('#nameblock').hidden = false; $('#lbl-br').hidden = false;
+    $$('#live .chip, #beslis .chip').forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
+    $$('#moments .chip').forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-m') === 'meteen' ? 'true' : 'false'); });
+    $$('#styles .sty').forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-st') === 'strak' ? 'true' : 'false'); });
+    buildBranches(); buildGoals(); buildPals(); hist = []; refresh(); show('route');
+  });
+
+  $$('.btn:not(.ghost)').forEach(function (b) {
+    var lv = document.createElement('span'); lv.className = 'lv'; lv.setAttribute('aria-hidden', 'true');
+    lv.innerHTML = '<span class="g"><i></i><i></i><i></i><i></i><i></i><i class="cur"></i></span>'; b.insertBefore(lv, b.firstChild);
+    b.addEventListener('pointermove', function (e) { var r = b.getBoundingClientRect(); b.style.setProperty('--mx', (e.clientX - r.left + r.width * .3) + 'px'); b.style.setProperty('--my', (e.clientY - r.top + r.height * .3) + 'px'); });
+  });
+  if ('IntersectionObserver' in window) { var io = new IntersectionObserver(function (es) { es.forEach(function (en) { en.target.classList.toggle('lv-on', en.isIntersecting); }); }); $$('.btn').forEach(function (b) { io.observe(b); }); }
+  else { $$('.btn').forEach(function (b) { b.classList.add('lv-on'); }); }
+
+  (function () {
+    var i = 0, j = 0, del = false;
+    function tick() {
+      if (naam.value || document.activeElement === naam || reduce) { naam.placeholder = 'Typ je bedrijfsnaam'; return setTimeout(tick, 700); }
+      var w = NAMES[i];
+      if (!del) { j++; naam.placeholder = w.slice(0, j); if (j >= w.length) { del = true; return setTimeout(tick, 1500); } }
+      else { j--; naam.placeholder = w.slice(0, j) || '​'; if (j <= 0) { del = false; i = (i + 1) % NAMES.length; } }
+      setTimeout(tick, del ? 32 : 70);
+    }
+    tick();
+  })();
+
+  makePhone($('#phHost'));
+  refresh();
+  window.addEventListener('resize', fit);
+  if ('ResizeObserver' in window) { var ro = new ResizeObserver(fit); ro.observe(phone.vp); }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  $('#demoTag').hidden = !DEMO;
+  document.body.style.setProperty('--prog', .1); $('#progi').style.width = '10%'; $('#progbar').setAttribute('aria-valuenow', 10);
+  track('PageView', {});
+})();
+</script>
+</body></html>
