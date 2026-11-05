@@ -453,6 +453,9 @@ html, body { overflow-x: clip; }
 .bld .ph-bz.done { animation: bdone 1.3s ease-out; }
 @keyframes bdone { 0% { box-shadow: 0 0 0 2px #1b1b1e, 0 0 0 0 rgba(255,140,60,.9), 0 50px 90px -34px rgba(244,27,54,.7); transform: scale(1); } 40% { transform: scale(1.035); } 100% { box-shadow: 0 0 0 2px #1b1b1e, 0 0 0 46px rgba(255,140,60,0), 0 50px 90px -34px rgba(244,27,54,.7); transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) { .wand .halo, .ring, .bld .pop, .bld .ph-bz.done { animation: none !important; } }
+.lg .lgi { max-height: 30px; max-width: 150px; object-fit: contain; }
+.lg:not(.nologo) .lgi ~ .mk, .lg:not(.nologo) .lgi ~ .nm { display: none; }
+.lg.nologo .lgi { display: none; }
 </style>
 </head><body>
 
@@ -747,7 +750,9 @@ html, body { overflow-x: clip; }
 
   function allPals() {
     var list = PALS.slice();
-    if (S.route === 'ja' && S.domain) { var h = hashStr(S.domain) % 360; list.unshift({ id: 'site', n: 'Kleuren van je website', s: 'Overnemen uit je site', bg: '#FBF8F4', ink: '#1c1b22', p: hsl(h, 58, 34), a: hsl((h + 38) % 360, 85, 58), site: true }); }
+    if (S.route === 'ja' && S.domain) { var h = hashStr(S.domain) % 360, sp = hsl(h, 58, 34), sa = hsl((h + 38) % 360, 85, 58);
+      if (S.siteCols && S.siteCols[0]) { var rc = rgb(S.siteCols[0]), lum = (rc[0] * .299 + rc[1] * .587 + rc[2] * .114) / 255; sp = lum > .55 ? mix(S.siteCols[0], '#000000', .38) : S.siteCols[0]; sa = S.siteCols[1] || mix(S.siteCols[0], '#ffffff', .25); }
+      list.unshift({ id: 'site', n: 'Kleuren van je website', s: 'Overnemen uit je site', bg: '#FBF8F4', ink: '#1c1b22', p: sp, a: sa, site: true }); }
     list.push({ id: 'eigen', n: 'Eigen kleuren', s: 'Kies zelf twee kleuren', bg: '#FBF8F4', ink: '#1c1b22', p: S.cp, a: S.ca, custom: true });
     return list;
   }
@@ -785,14 +790,17 @@ html, body { overflow-x: clip; }
   function nm() { return S.naam.trim() || 'Jouw bedrijf'; }
   function ini() { return nm().charAt(0).toUpperCase(); }
   function slug() { if (S.route === 'ja' && S.domain) return S.domain; var s = nm().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ''); return (s || 'jouwbedrijf') + '.nl'; }
-  function logoHTML() { return '<span class="lg"><span class="mk">' + esc(ini()) + '</span><span class="nm">' + esc(nm()) + '</span></span>'; }
+  function logoOk() { var l = S.facts && S.facts.logo; return !!(l && S.route === 'ja' && /^https:\/\//.test(l) && !/white|wit[_-]|negatief|inverse|light/i.test(l) && /\.(png|jpe?g|svg|webp)(\?|$)/i.test(l)); }
+  function logoHTML() { return '<span class="lg">' + (logoOk() ? '<img class="lgi" src="' + esc(S.facts.logo) + '" alt="' + esc(nm()) + '" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add(\'nologo\')">' : '') + '<span class="mk">' + esc(ini()) + '</span><span class="nm">' + esc(nm()) + '</span></span>'; }
   function chipHTML(tag) { return logoHTML() + (tag ? '<span class="tag">je logo</span>' : ''); }
   function miniHTML(p) { return '<span class="mini" style="' + palVars(p) + '"><i class="m-mk"></i><i class="m-ln"></i><i class="m-h1"></i><i class="m-h2"></i><i class="m-bt"></i><i class="m-ac"></i><i class="m-rg"></i></span>'; }
 
   function siteHTML() {
     var b = BR[S.branche], n = esc(nm());
     var h1 = S.branche === 'anders' ? 'Welkom bij ' + (S.naam.trim() ? n : 'jouw bedrijf') + '.' : b.h;
-    var cards = b.sv.map(function (x, i) { return '<div class="s-card" data-go="cta"><em>0' + (i + 1) + '</em><div><h3>' + x[0] + '</h3><p>' + x[1] + '</p></div></div>'; }).join('');
+    var svc = b.sv.map(function (x) { return x.slice(); });
+    if (S.facts && S.route === 'ja' && S.facts.services && S.facts.services.length >= 3) { svc = S.facts.services.slice(0, 3).map(function (t, i) { var d = S.branche !== 'anders' && b.sv[i] ? b.sv[i][1] : 'Persoonlijk advies en een nette uitvoering.'; return [esc(t), d]; }); }
+    var cards = svc.map(function (x, i) { return '<div class="s-card" data-go="cta"><em>0' + (i + 1) + '</em><div><h3>' + x[0] + '</h3><p>' + x[1] + '</p></div></div>'; }).join('');
     return '<nav class="s-nav" data-nav>' + logoHTML() + '<button class="s-burger" data-menu type="button" tabindex="-1" aria-label="Menu"><i></i><i></i><i></i></button><div class="s-menu"><a data-go="svc">Diensten</a><a data-go="over">Over ons</a><a data-go="rev">Ervaringen</a><a data-go="cta">Contact</a></div></nav>' +
       '<section class="s-hero"><span class="s-kick">' + esc(b.k) + '</span><h1>' + h1 + '</h1><p>' + esc(b.s) + '</p><div class="s-btns"><a class="s-b p" data-go="cta">' + esc(b.cta) + '</a><a class="s-b g" data-go="svc">Bekijk diensten</a></div>' +
       '<div class="s-artw"><div class="s-art"></div><div class="s-float"><em>' + IC.chk + '</em><div><b>Gratis en vrijblijvend</b><span>Vraag direct je offerte aan</span></div></div></div></section>' +
@@ -994,6 +1002,26 @@ html, body { overflow-x: clip; }
     show(ja ? 'url' : 'bedrijf');
   }); });
 
+  var SB_URL = 'https://skdjbifmtleiogbkqwid.supabase.co', SB_KEY = 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS';
+  var factsP = null, factsDone = true, factsFor = '';
+  var BKEY = [['schilder', /schilder|verfwerk|spuitwerk|behang/], ['horeca', /restaurant|caf[eé]|horeca|lunch|diner|bistro|catering|bakkerij|menukaart|reserveer/], ['beauty', /kapper|kapsalon|salon|beauty|nagel|wimper|schoonheid|massage|barber/], ['zorg', /fysio|huisarts|tandarts|praktijk|therap|zorg|coach|psycholog|welzijn/], ['winkel', /webshop|winkel|collectie|bestel|shop\b/], ['bouw', /bouw|verbouw|aannemer|timmer|klus|renovat|dakdek|stukadoor|tegelzetter|installat|loodgiet|elektri|cv-|hovenier|tuin|vloer/], ['zakelijk', /advies|advocaat|accountant|makelaar|administratie|notaris|verzeker|bureau|consult|zakelijk|marketing/]];
+  function guessBranche(t) { t = String(t || ''); for (var i = 0; i < BKEY.length; i++) if (BKEY[i][1].test(t)) return BKEY[i][0]; return ''; }
+  function applyFacts() {
+    var F = S.facts; if (!F) return;
+    if (F.name && !S.nTouched) S.naam = F.name;
+    if (F.colors && F.colors[0]) S.siteCols = F.colors;
+    if (!S.brPicked) { var g = guessBranche(F.signals); if (g) { S.branche = g; S.brPicked = true; } }
+    try { buildBranches(); buildPals(); refresh(); } catch (e) {}
+  }
+  function startFacts(d) {
+    if (!d || factsFor === d) return; factsFor = d; S.facts = null; factsDone = false;
+    var ac = ('AbortController' in window) ? new AbortController() : null, to = setTimeout(function () { if (ac) ac.abort(); }, 14000);
+    factsP = fetch(SB_URL + '/functions/v1/dwd-demo-read', { method: 'POST', signal: ac ? ac.signal : undefined, headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY }, body: JSON.stringify({ url: d }) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { if (j && j.ok && j.facts && factsFor === d) { S.facts = j.facts; applyFacts(); track('SiteRead', { ok: true }); } else track('SiteRead', { ok: false }); })
+      .catch(function () { track('SiteRead', { ok: false }); })
+      .then(function () { clearTimeout(to); factsDone = true; });
+  }
   var urlI = $('#url');
   function onUrl() {
     S.url = urlI.value; var d = domainOf(S.url); S.domain = d; $('#f-url').classList.remove('err'); $('#e-url').textContent = '';
@@ -1008,6 +1036,7 @@ html, body { overflow-x: clip; }
   function nextUrl() {
     if (!S.domain) { $('#f-url').classList.add('err'); $('#e-url').textContent = 'Vul het adres van je website in, bijvoorbeeld www.jouwbedrijf.nl.'; urlI.focus(); shake($('#go-url')); return; }
     if (!S.naam.trim()) S.naam = nameFromDomain(S.domain);
+    startFacts(S.domain);
     track('Contact', { step: 'url' }); show('bedrijf');
   }
   $('#go-url').addEventListener('click', nextUrl);
@@ -1065,7 +1094,7 @@ html, body { overflow-x: clip; }
     show('laden');
     loadTimers.forEach(clearTimeout); loadTimers = [];
     var items = $$('#stg li'), t = 0;
-    startBuild(total);
+    if (ja && !factsDone) { Promise.race([factsP, new Promise(function (r) { setTimeout(r, 3500); })]).then(function () { startBuild(total); }); } else startBuild(total);
     loadTimers.push(setTimeout(function () { $('#lbi').style.transition = 'width ' + (total / 1000) + 's linear'; $('#lbi').style.width = '100%'; }, 60));
     st.forEach(function (s, i) {
       loadTimers.push(setTimeout(function () {
@@ -1121,7 +1150,7 @@ html, body { overflow-x: clip; }
     try { navigator.clipboard.writeText(CALL_NR).then(done, done); } catch (e) { done(); }
   });
   $('#restart').addEventListener('click', function () {
-    S = fresh();
+    factsFor = ""; S = fresh();
     ['#url', '#naam', '#naam2', '#vn', '#tel'].forEach(function (s) { $(s).value = ''; });
     $('#urlchip').hidden = true; $('#f-naam2').hidden = true; $('#nameblock').hidden = false; $('#lbl-br').hidden = false;
     $$('#live .chip, #beslis .chip').forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
