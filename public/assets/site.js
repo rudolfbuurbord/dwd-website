@@ -156,7 +156,7 @@
       body: JSON.stringify({ id: ref, email: em.value.trim(), phone: p, website: site, source: location.pathname })
     }).then(function (r) {
       if (!r.ok) throw new Error('status ' + r.status);
-      form.reset(); say('Je aanvraag is ontvangen. We nemen contact met je op. Je referentie: ' + ref.slice(0, 8), 'ok');
+      form.reset(); if (window.dwdTrack) dwdTrack('Lead', { content_name: 'contactformulier' }, ref); say('Je aanvraag is ontvangen. We nemen contact met je op. Je referentie: ' + ref.slice(0, 8), 'ok');
     }).catch(function () { say('Versturen lukte niet. Probeer het opnieuw of mail ons op info@dewebsitedokters.nl.', 'bad'); }).then(function () { btn.disabled = false; });
   });
 })();

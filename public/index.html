@@ -915,7 +915,7 @@ footer.mega .glow-clip .lava { opacity: calc(.3 + var(--p) * .7); -webkit-mask-i
       <div><h4>Bedrijfsgegevens</h4><div class="bi"><span><b>De Website Dokters</b></span><span>Enschede, Nederland</span><span>KvK 74617079</span><span>BTWID NL002426495B04</span></div><button class="mtog" id="mtog" type="button" aria-pressed="false">Beweging pauzeren</button></div>
       <div class="mg-legal">
         <span>© 2026 De Website Dokters · Enschede</span>
-        <p class="mg-ck">Deze site gebruikt geen marketing- of analysecookies.</p>
+        <p class="mg-ck">Marketingcookies alleen met jouw toestemming.</p>
         <nav aria-label="Juridisch"><a href="/algemene-voorwaarden">Algemene voorwaarden</a><a href="/privacyverklaring">Privacyverklaring</a><a href="/cookiebeleid">Cookiebeleid</a></nav>
       </div>
     </div>
@@ -1205,7 +1205,7 @@ footer.mega .glow-clip .lava { opacity: calc(.3 + var(--p) * .7); -webkit-mask-i
     sb.disabled = true; ok.textContent = 'Even geduld…';
     var ref = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2);
     fetch(cfg.sb + '/rest/v1/dwd_site_requests', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: cfg.k, Authorization: 'Bearer ' + cfg.k, Prefer: 'return=minimal' }, body: JSON.stringify({ id: ref, email: m.value.trim(), phone: p, website: site, source: '/' }) })
-      .then(function (r) { if (!r.ok) throw new Error('status ' + r.status); $('#mailForm').reset(); ok.textContent = 'Je aanvraag is ontvangen. We nemen contact met je op. Je referentie: ' + ref.slice(0, 8); })
+      .then(function (r) { if (!r.ok) throw new Error('status ' + r.status); $('#mailForm').reset(); if (window.dwdTrack) dwdTrack('Lead', { content_name: 'contactformulier' }, ref); ok.textContent = 'Je aanvraag is ontvangen. We nemen contact met je op. Je referentie: ' + ref.slice(0, 8); })
       .catch(function () { ok.textContent = ''; err.textContent = 'Versturen lukte niet. Probeer het opnieuw of mail ons op info@dewebsitedokters.nl.'; })
       .then(function () { sb.disabled = false; });
   });
@@ -1304,4 +1304,4 @@ footer.mega .glow-clip .lava { opacity: calc(.3 + var(--p) * .7); -webkit-mask-i
   window.addEventListener('scroll', onRise, { passive: true }); window.addEventListener('resize', onRise); rise();
 })();
 </script>
-</body></html>
+<script src="/assets/consent.js" defer></script></body></html>

@@ -645,7 +645,7 @@ html, body { overflow-x: clip; }
         <span class="lbl" style="margin-top:8px">Wanneer mogen we bellen?</span>
         <div class="chips" id="moments" role="group" aria-label="Moment om te bellen"></div>
         <div class="bar"><button class="btn" type="button" id="go-contact">Bel me over mijn website <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button>
-          <p class="fine">We bellen je één keer om je ontwerp door te nemen. Je gegevens gebruiken we alleen daarvoor.</p></div>
+          <p class="fine">We bellen je één keer om je ontwerp door te nemen. Je gegevens gebruiken we alleen daarvoor. Lees onze <a href="/privacyverklaring" target="_blank" rel="noopener">privacyverklaring</a>.</p></div>
         <details class="priv"><summary>Wat doen we met je gegevens?</summary><p>We gebruiken je naam en nummer alleen om je te bellen over je website. We geven ze niet door aan anderen en verwijderen ze op verzoek. Mail naar info@dewebsitedokters.nl als je dat wilt.</p></details>
         <p style="margin-top:18px"><a class="wa" href="https://wa.me/31616091507" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 1-13.4 7.8L3 21l1.3-4.4A9 9 0 1 1 21 12z"/></svg>Liever appen? Stuur ons een bericht</a></p>
       </section>
@@ -761,7 +761,7 @@ html, body { overflow-x: clip; }
 
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function track(ev, d) {
-    try { if (window.fbq) window.fbq('trackCustom', ev, d || {}); } catch (e) {}
+    try { if (ev === 'Lead') { if (window.dwdTrack) window.dwdTrack('Lead', { content_name: 'funnel' }); } else if (window.fbq) window.fbq('trackCustom', ev, d || {}); } catch (e) {}
     try { (window.dataLayer = window.dataLayer || []).push({ event: ev, detail: d || {} }); } catch (e) {}
   }
 
@@ -1242,4 +1242,4 @@ html, body { overflow-x: clip; }
   track('PageView', {});
 })();
 </script>
-</body></html>
+<script src="/assets/consent.js" defer></script></body></html>
