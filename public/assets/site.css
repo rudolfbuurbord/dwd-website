@@ -804,3 +804,4 @@ footer.mega .glow-clip .lava { opacity: calc(.3 + var(--p) * .7); -webkit-mask-i
 
 .section .shell > div:has(> h2) { margin-bottom: clamp(1.8rem, 4vw, 3rem); }
 .contact-hero, .pg-contact .ph { padding-bottom: clamp(150px, 16vw, 220px); }
+

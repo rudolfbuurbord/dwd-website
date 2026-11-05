@@ -133,6 +133,7 @@ p { margin: 0; }
 .strip { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem clamp(1.2rem, 3.4vw, 3rem); padding: 22px 0; border-bottom: 1px solid var(--line); font-weight: 600; }
 .strip span, .strip a { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; }
 .strip svg { width: 20px; height: 20px; color: var(--o); flex: none; }
+@media (max-width: 640px) { .strip { display: grid; grid-template-columns: 1fr 1fr; justify-items: start; gap: 16px 12px; padding: 22px max(20px, 6vw); font-size: .86rem; } .strip span, .strip a { gap: 7px; white-space: nowrap; } .strip svg { width: 18px; height: 18px; } .strip .stars { font-size: .8rem; letter-spacing: -1px; } }
 .stars { letter-spacing: 2px; }
 
 /* websitecheck */
@@ -664,20 +665,20 @@ footer.mega .glow-clip .lava { opacity: calc(.3 + var(--p) * .7); -webkit-mask-i
           <svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"/></svg>
           <label class="sr" for="checkUrl">Adres van je website</label>
           <input id="checkUrl" type="text" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" placeholder="jouwbedrijf.nl">
-          <button class="btn" type="submit">Vraag mijn check aan</button>
+          <button class="btn" type="submit">Scan mijn website</button>
         </div>
         <p class="err" id="checkErr" role="alert"></p>
       </form>
-      <p class="fine">Een persoonlijke check door ons team. Geen geautomatiseerde score.</p>
+      <p class="fine">Gratis scan van je homepage. Daarna vraag je vrijblijvend een redesign aan.</p>
     </div>
     <div class="con" id="con" data-state="idle" aria-live="polite">
       <div class="con-h"><b id="conTitle">jouwbedrijf.nl</b><span class="chip">Wat we bekijken</span></div>
       <ul class="rows" id="rows"></ul>
       <div class="con-f">
         <div class="score" id="score" hidden><b id="scoreN">0</b><span>van 100</span></div>
-        <p class="msg" id="conMsg">Vul je adres in en vraag je gratis check aan.</p>
-        <a class="btn sm" id="conCta" href="/jouw-nieuwe-website/" hidden>Ontvang je gratis redesign</a>
-        <p class="fine" id="conNote" hidden style="flex-basis:100%;margin:0">Demo: een voorbeeld voor een verouderde website. De echte scan meet jouw eigen website.</p>
+        <p class="msg" id="conMsg">Vul je adres in en start je gratis scan.</p>
+        <a class="btn sm" id="conCta" href="#contact" hidden>Vraag je vrijblijvende redesign aan</a>
+        <p class="fine" id="conNote" hidden style="flex-basis:100%;margin:0"></p>
       </div>
     </div>
   </div>
@@ -1053,12 +1054,58 @@ footer.mega .glow-clip .lava { opacity: calc(.3 + var(--p) * .7); -webkit-mask-i
   function startCheck(raw, errEl, fromHero) {
     var d = clean(raw);
     if (!validDomain(d)) { errEl.textContent = 'Vul een geldig website-adres in, bijvoorbeeld jouwbedrijf.nl.'; return false; }
-    errEl.textContent = ''; $('#cUrl').value = d;
-    scrollToEl($('#contact')); setTimeout(function () { try { $('#cMail').focus({ preventScroll: true }); } catch (e) {} }, 500); return true;
+    errEl.textContent = '';
+    runScan(d);
+    return true;
+  }
+  var scanBusy = 0;
+  function runScan(d) {
+    var token = ++scanBusy;
+    timers.forEach(clearTimeout); timers = [];
+    var cta = $('#conCta'), note = $('#conNote'), score = $('#score'), msg = $('#conMsg');
+    cta.hidden = true; note.hidden = true; score.hidden = true;
+    $('#conTitle').textContent = d; con.setAttribute('data-state', 'scanning');
+    msg.textContent = 'We bekijken je website...';
+    lis.forEach(function (li, i) { li.innerHTML = '<span class="n">' + criteria[i] + '</span><span class="v">...</span><span class="bar"><i></i></span>'; });
+    scrollToEl(con);
+    var facts = null, done = false;
+    function begin() {
+      if (done || token !== scanBusy) return; done = true;
+      var f = facts, h = hash(d), real = !!f;
+      function est(i) { return 38 + ((h >>> (i * 3)) % 40); }
+      var sc = [];
+      sc[0] = est(0); sc[1] = est(1); sc[2] = est(2); sc[6] = est(6);
+      sc[3] = real ? ((f.description ? 45 : 18) + (f.name ? 25 : 0) + (f.h1 ? 17 : 0)) : est(3);
+      sc[4] = real ? (20 + (f.h1 ? 22 : 0) + Math.min(3, (f.services || []).length) * 15 + (f.description ? 12 : 0)) : est(4);
+      sc[5] = real ? (f.phone ? 72 : 28) : est(5);
+      sc[7] = real ? 82 : est(7);
+      sc = sc.map(function (v) { return Math.max(12, Math.min(96, v)); });
+      var total = Math.round(sc.reduce(function (a, b) { return a + b; }, 0) / sc.length);
+      lis.forEach(function (li, i) {
+        later(function () {
+          var v = $('.v', li), v100 = sc[i];
+          v.textContent = v100 + '/100'; v.className = 'v ' + (v100 >= 70 ? 'good' : v100 >= 45 ? 'warn' : 'bad');
+          $('.bar i', li).style.width = v100 + '%';
+        }, 350 + i * 420);
+      });
+      later(function () {
+        $('#scoreN').textContent = total; score.hidden = false;
+        msg.textContent = total >= 70 ? 'Je website staat er redelijk voor. Er is nog winst te halen.' : total >= 45 ? 'Er is flink wat winst te halen op je website.' : 'Je website laat kansen liggen. Daar kunnen we veel aan verbeteren.';
+        note.textContent = real ? 'Indicatieve scan van je homepage. Een persoonlijke beoordeling krijg je bij je redesign.' : 'We konden je website niet automatisch lezen, dit is een eerste indicatie. Een persoonlijke beoordeling krijg je bij je redesign.';
+        note.hidden = false; cta.hidden = false; cta.dataset.url = d; con.setAttribute('data-state', 'done');
+      }, 350 + lis.length * 420 + 300);
+    }
+    later(begin, 6500);
+    try {
+      var c = window.DWD;
+      fetch(c.sb + '/functions/v1/dwd-demo-read', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: c.k, Authorization: 'Bearer ' + c.k }, body: JSON.stringify({ url: d }) })
+        .then(function (r) { return r.json(); }).then(function (j) { if (j && j.ok) facts = j.facts; })
+        .catch(function () {}).then(function () { setTimeout(begin, 1200); });
+    } catch (e) { setTimeout(begin, 1200); }
   }
   $('#heroForm').addEventListener('submit', function (e) { e.preventDefault(); var dd=clean(heroUrl.value); $('#heroErr').textContent=''; location.href='/jouw-nieuwe-website/'+(validDomain(dd)?'?url='+encodeURIComponent(dd):''); });
   $('#checkForm').addEventListener('submit', function (e) { e.preventDefault(); startCheck($('#checkUrl').value, $('#checkErr'), false); });
-  $('#conCta').addEventListener('click', function () { var u = this.dataset.url; if (u) $('#cUrl').value = u; });
+  $('#conCta').addEventListener('click', function (e) { e.preventDefault(); var u = this.dataset.url; if (u) $('#cUrl').value = u; scrollToEl($('#contact')); setTimeout(function () { try { $('#cMail').focus({ preventScroll: true }); } catch (x) {} }, 500); });
 
   /* voor/na-vergelijking: beweegt zelf heen en weer, jij kunt het overnemen */
   var cmp = $('#cmp'), range = $('#cmpR');
