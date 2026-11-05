@@ -456,6 +456,20 @@ html, body { overflow-x: clip; }
 .lg .lgi { max-height: 30px; max-width: 150px; object-fit: contain; }
 .lg:not(.nologo) .lgi ~ .mk, .lg:not(.nologo) .lgi ~ .nm { display: none; }
 .lg.nologo .lgi { display: none; }
+.fonts { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 0; }
+.sty .shp { display: inline-flex; align-items: center; justify-content: center; height: 34px; padding: 0 16px; background: var(--grad); color: #111; font: 800 .8rem/1 var(--f-b); }
+.styles:not(.fonts) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.styles .sty { display: block; padding: 12px 10px; }
+.styles .sty b { margin-top: 8px; }
+.lookprev { margin: 18px 0 4px; border-radius: 22px; overflow: hidden; border: 1px solid var(--line-2); background: var(--sb, #FBF8F4); color: var(--si, #1c1b22); padding: 18px; display: grid; gap: 12px; }
+.lookprev .lg { margin-bottom: 4px; }
+.lookprev .lp-h { font: var(--hw, 800) clamp(1.7rem, 7vw, 2.2rem)/1.05 var(--hf); letter-spacing: -.02em; }
+.lookprev .lp-p { color: color-mix(in srgb, var(--si) 62%, transparent); font-size: .95rem; }
+.lookprev .lp-b { display: flex; gap: 8px; flex-wrap: wrap; }
+.lookprev .lp-b span { display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border-radius: var(--btnr); font: 700 .88rem/1 'Figtree', sans-serif; }
+.lookprev .lp-b .p { background: var(--p); color: var(--onp); }
+.lookprev .lp-b .g { border: 1.5px solid color-mix(in srgb, var(--si) 30%, transparent); }
+.lookprev .lp-a { height: 8px; border-radius: 8px; background: linear-gradient(90deg, var(--p), var(--a)); }
 </style>
 </head><body>
 
@@ -534,16 +548,18 @@ html, body { overflow-x: clip; }
 
       <section class="step" data-s="look" tabindex="-1" aria-labelledby="h-look">
         <h2 class="q" id="h-look">kies je kleuren</h2>
-        <p class="sub">Je kunt ze later altijd nog aanpassen.</p>
-        <div class="lchip" id="chip3" aria-label="Zo ziet je logo eruit"></div>
-        <span class="lbl">Kleurenpalet</span>
+        <p class="sub" id="sub-look">Je kunt ze later altijd nog aanpassen.</p>
+        <div class="lookprev" id="lookprev" aria-hidden="true"></div>
+        <span class="lbl" id="lblpal">Kleurenpalet</span>
         <div class="pals" id="pals" role="group" aria-label="Kleurenpalet"></div>
         <div class="pickers" id="pickers" hidden>
           <label class="pick"><input type="color" id="cp" value="#E8572A" aria-label="Hoofdkleur"><span><small>Kies</small>Hoofdkleur</span></label>
           <label class="pick"><input type="color" id="ca" value="#1C2B4A" aria-label="Accentkleur"><span><small>Kies</small>Accentkleur</span></label>
         </div>
-        <span class="lbl">Stijl</span>
-        <div class="styles" id="styles" role="group" aria-label="Stijl"></div>
+        <span class="lbl">Vorm van knoppen en blokken</span>
+        <div class="styles" id="styles" role="group" aria-label="Vorm"></div>
+        <span class="lbl">Lettertype</span>
+        <div class="styles fonts" id="fonts" role="group" aria-label="Lettertype"></div>
         <div class="bar"><button class="btn" type="button" id="go-look">Maak mijn website <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button></div>
       </section>
 
@@ -698,10 +714,16 @@ html, body { overflow-x: clip; }
     { id: 'pruim',  n: 'Pruim & perzik', s: 'Warm en eigenzinnig', bg: '#FBF5F2', ink: '#1F1220', p: '#5A2A55', a: '#F28A6B' },
     { id: 'salie',  n: 'Salie & klei', s: 'Zacht en natuurlijk', bg: '#F3F1EA', ink: '#1C211B', p: '#5C7155', a: '#B5643C' }
   ];
+  var FNT = {
+    strak:    { n: 'Strak', d: 'Krachtig en modern', hf: "'Bricolage Grotesque', 'Figtree', sans-serif", hw: 800 },
+    helder:   { n: 'Helder', d: 'Rond en vriendelijk', hf: "'Figtree', system-ui, sans-serif", hw: 800 },
+    elegant:  { n: 'Elegant', d: 'Klassiek met karakter', hf: "'Fraunces', Georgia, serif", hw: 500 },
+    karakter: { n: 'Karakter', d: 'Opvallend en speels', hf: "'Gabarito', 'Figtree', sans-serif", hw: 800 }
+  };
   var STY = {
-    rustig: { n: 'Rustig', d: 'Elegant en kalm', hf: "'Fraunces', Georgia, serif", hw: 500, btnr: '4px', rad: '6px', artr: '140px 140px 10px 10px', markr: '4px' },
-    strak:  { n: 'Strak',  d: 'Modern en krachtig', hf: "'Bricolage Grotesque', 'Figtree', sans-serif", hw: 800, btnr: '12px', rad: '16px', artr: '24px', markr: '10px' },
-    warm:   { n: 'Warm',   d: 'Vriendelijk en rond', hf: "'Figtree', system-ui, sans-serif", hw: 800, btnr: '999px', rad: '26px', artr: '46% 54% 30% 70% / 52% 38% 62% 48%', markr: '50%' }
+    rustig: { n: 'Klassiek', d: 'Scherpe hoeken', hf: "'Fraunces', Georgia, serif", hw: 500, btnr: '4px', rad: '6px', artr: '140px 140px 10px 10px', markr: '4px' },
+    strak:  { n: 'Modern',  d: 'Zacht afgerond', hf: "'Bricolage Grotesque', 'Figtree', sans-serif", hw: 800, btnr: '12px', rad: '16px', artr: '24px', markr: '10px' },
+    warm:   { n: 'Rond',   d: 'Volledig rond', hf: "'Figtree', system-ui, sans-serif", hw: 800, btnr: '999px', rad: '26px', artr: '46% 54% 30% 70% / 52% 38% 62% 48%', markr: '50%' }
   };
   var GOALS = {
     pro:   { l: 'Professioneler overkomen', t: 'Een rustig, consistent ontwerp', d: 'Jouw logo en kleuren op elke pagina, met nette teksten en beeld die bij je passen.' },
@@ -730,7 +752,7 @@ html, body { overflow-x: clip; }
     ['Zijn de prijzen inclusief btw?', 'Nee. De genoemde prijzen zijn indicatief en exclusief btw.']
   ];
 
-  function fresh() { return { route: null, url: '', domain: '', naam: '', nTouched: false, branche: 'anders', brPicked: false, goals: [], live: '', beslis: '', pal: 'koning', cp: '#E8572A', ca: '#1C2B4A', stijl: 'strak', vn: '', tel: '', moment: 'meteen', generated: false }; }
+  function fresh() { return { route: null, url: '', domain: '', naam: '', nTouched: false, branche: 'anders', brPicked: false, goals: [], live: '', beslis: '', pal: 'koning', cp: '#E8572A', ca: '#1C2B4A', stijl: 'strak', font: 'strak', vn: '', tel: '', moment: 'meteen', generated: false }; }
   var S = fresh();
   var hist = [], cur = 'route';
 
@@ -763,7 +785,7 @@ html, body { overflow-x: clip; }
     var r = rgb(p.ink);
     return '--sb:' + p.bg + ';--si:' + p.ink + ';--p:' + p.p + ';--a:' + p.a + ';--ag:' + (rb ? RAIN : p.a) + ';--c1:' + (rb ? '#ffffff' : p.a) + ';--art:' + (rb ? RAIN : 'linear-gradient(150deg,' + p.p + ',' + mix(p.p, p.a, .5) + ')') + ';--onp:' + on(p.p) + ';--ona:' + (rb ? '#111111' : on(p.a)) + ';--card:' + card + ';--muted:' + mix(p.ink, p.bg, .38) + ';--line:rgba(' + r[0] + ',' + r[1] + ',' + r[2] + ',.12);--kc:' + p.p + ';';
   }
-  function styVars() { var st = STY[S.stijl]; return '--hf:' + st.hf + ';--hw:' + st.hw + ';--btnr:' + st.btnr + ';--rad:' + st.rad + ';--artr:' + st.artr + ';--markr:' + st.markr + ';'; }
+  function styVars() { var st = STY[S.stijl], fo = FNT[S.font] || FNT.strak; return '--hf:' + fo.hf + ';--hw:' + fo.hw + ';--btnr:' + st.btnr + ';--rad:' + st.rad + ';--artr:' + st.artr + ';--markr:' + st.markr + ';'; }
   function vars() { return palVars(pal()) + styVars(); }
 
   var WORDS = 'bakkerij slagerij schildersbedrijf schilders schilder schilderwerk schilderwerken bouw bouwbedrijf bouwen klus klussen klusbedrijf installatie installatiebedrijf techniek loodgieter loodgietersbedrijf dakdekker dakwerken dakbedekking stukadoor stukadoors hoveniers hovenier tuin tuinen kapsalon kapper studio praktijk tandarts tandartspraktijk huisarts fysio fysiotherapie restaurant cafe brasserie bistro groep advies adviesbureau administratie accountants accountant makelaardij makelaars schoonmaak transport vervoer auto autos garage autobedrijf autoschade webshop mode bloemen bloemist fotografie fotograaf timmerwerk timmerman aannemer aannemersbedrijf vloeren vloer keukens keuken badkamer badkamers glas glaszetter fiets fietsen sport sportschool yoga massage salon beauty nagel nagels wellness atelier ontwerp design interieur interieurbouw jouw bedrijf mijn onze uw het een van den der de en op aan bij voor jansen janssen dijk vries bakker smit visser mulder bos groen groot klein oost west noord zuid nieuw oud hoek kamp berg dal veld beek brink marsman hendriks hendrik peter pieter jan karel anna maria linde tulp roos eik beuk'.split(' ');
@@ -942,7 +964,10 @@ html, body { overflow-x: clip; }
     $('#pickers').hidden = S.pal !== 'eigen';
   }
   $('#styles').innerHTML = Object.keys(STY).map(function (k) {
-    var s = STY[k]; return '<button class="sty" type="button" data-st="' + k + '" aria-pressed="' + (k === S.stijl) + '"><span class="aa" style="font-family:' + s.hf + ';font-weight:' + s.hw + '">Aa</span><b>' + s.n + '</b><small>' + s.d + '</small></button>';
+    var s = STY[k]; return '<button class="sty" type="button" data-st="' + k + '" aria-pressed="' + (k === S.stijl) + '"><span class="shp" style="border-radius:' + s.btnr + '">Knop</span><b>' + s.n + '</b><small>' + s.d + '</small></button>';
+  }).join('');
+  $('#fonts').innerHTML = Object.keys(FNT).map(function (k) {
+    var s = FNT[k]; return '<button class="sty" type="button" data-f="' + k + '" aria-pressed="' + (k === S.font) + '"><span class="aa" style="font-family:' + s.hf + ';font-weight:' + s.hw + '">Aa</span><b>' + s.n + '</b><small>' + s.d + '</small></button>';
   }).join('');
   $('#live').innerHTML = Object.keys(LIVE).map(function (k) { return '<button class="chip" type="button" data-l="' + k + '" aria-pressed="false">' + LIVE[k] + '</button>'; }).join('');
   $('#beslis').innerHTML = Object.keys(BESLIS).map(function (k) { return '<button class="chip" type="button" data-d="' + k + '" aria-pressed="false">' + BESLIS[k] + '</button>'; }).join('');
@@ -955,6 +980,10 @@ html, body { overflow-x: clip; }
 
   function refresh() {
     $$('.lchip').forEach(function (c) { c.setAttribute('style', vars()); c.innerHTML = chipHTML(c.id !== 'chip4' && c.id !== 'chip6'); });
+    var lp = $('#lookprev'); if (lp) { lp.setAttribute('style', vars()); var bb = BR[S.branche] || BR.anders; lp.innerHTML = logoHTML() + '<div class="lp-h">' + (S.branche === 'anders' ? 'Welkom bij ' + esc(nm()) + '.' : bb.h) + '</div><div class="lp-p">Zo komen je kleuren, vorm en lettertype samen.</div><div class="lp-b"><span class="p">' + esc(bb.cta) + '</span><span class="g">Bekijk diensten</span></div><div class="lp-a"></div>'; }
+    var fs = !!S.fromSite; $('#pals').hidden = fs; $('#lblpal').hidden = fs; if (fs) $('#pickers').hidden = false;
+    $('#h-look').textContent = fs ? 'zo wordt jouw stijl' : 'kies je kleuren'; $('#lblpal').textContent = 'Kleurenpalet';
+    $('#sub-look').textContent = fs ? 'Dit zijn de kleuren die we op je website vonden. Pas ze aan als je wilt, en kies vorm en lettertype.' : 'Je kunt ze later altijd nog aanpassen.';
     $('#rv-naam').textContent = nm();
     $('#dn').textContent = nm();
     renderPhone();
@@ -997,7 +1026,7 @@ html, body { overflow-x: clip; }
     $('#lbl-br').hidden = ja;
     $('#h-bedrijf').textContent = ja ? 'wat voor bedrijf is het?' : 'hoe heet je bedrijf?';
     $('#sub-bedrijf').textContent = ja ? 'Dan kiezen we een indeling die bij je past.' : 'Je bedrijfsnaam gebruiken we als logo in het ontwerp.';
-    S.pal = ja ? 'site' : 'koning';
+    S.fromSite = ja && !!S.fromSite; S.pal = ja ? (S.fromSite ? 'eigen' : 'site') : 'koning';
     buildGoals(); buildPals(); refresh();
     show(ja ? 'url' : 'bedrijf');
   }); });
@@ -1009,7 +1038,7 @@ html, body { overflow-x: clip; }
   function applyFacts() {
     var F = S.facts; if (!F) return;
     if (F.name && !S.nTouched) S.naam = F.name;
-    if (F.colors && F.colors[0]) S.siteCols = F.colors;
+    if (F.colors && F.colors[0]) { S.siteCols = F.colors; if (S.route === 'ja') { S.cp = F.colors[0]; S.ca = F.colors[1] || mix(F.colors[0], '#ffffff', .3); S.pal = 'eigen'; S.fromSite = true; $('#cp').value = S.cp; $('#ca').value = S.ca; } }
     if (!S.brPicked) { var g = guessBranche(F.signals); if (g) { S.branche = g; S.brPicked = true; } }
     try { buildBranches(); buildPals(); refresh(); } catch (e) {}
   }
@@ -1078,6 +1107,8 @@ html, body { overflow-x: clip; }
   $('#ca').addEventListener('input', function (e) { S.ca = e.target.value; repaintEigen(); later(); });
   $('#styles').addEventListener('click', function (e) { var b = e.target.closest('[data-st]'); if (!b) return; S.stijl = b.getAttribute('data-st');
     $$('#styles .sty').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); }); later(); });
+  $('#fonts').addEventListener('click', function (e) { var b = e.target.closest('[data-f]'); if (!b) return; S.font = b.getAttribute('data-f');
+    $$('#fonts .sty').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); }); later(); });
   $('#go-look').addEventListener('click', function () { track('Contact', { step: 'look', pal: S.pal }); refresh(); startLoad(S.generated); });
 
   var loadTimers = [];
@@ -1133,7 +1164,7 @@ html, body { overflow-x: clip; }
     var lead = { id: Date.now().toString(36), tijd: new Date().toISOString(), voornaam: S.vn.trim(), telefoon: S.tel, belmoment: S.moment,
       heeft_website: S.route === 'ja', website_url: S.route === 'ja' ? S.url.trim() : '', bedrijfsnaam: S.naam.trim(), branche: S.branche,
       doelen: S.goals.map(function (k) { return GOALS[k].l; }), wanneer_live: LIVE[S.live], beslisser: BESLIS[S.beslis],
-      palet: p.n, hoofdkleur: p.p, accentkleur: p.a, stijl: S.stijl, bron: q };
+      palet: p.n, hoofdkleur: p.p, accentkleur: p.a, stijl: S.stijl, lettertype: S.font, bron: q };
     track('Lead', { route: S.route, branche: S.branche });
     try { fetch('https://skdjbifmtleiogbkqwid.supabase.co/rest/v1/dwd_funnel_leads', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'apikey': 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS', 'Prefer': 'return=minimal' }, body: JSON.stringify({ voornaam: lead.voornaam, telefoon: lead.telefoon, belmoment: String(lead.belmoment || '').slice(0, 40), website: lead.website_url ? lead.website_url.slice(0, 253) : null, bedrijfsnaam: lead.bedrijfsnaam ? lead.bedrijfsnaam.slice(0, 120) : null, branche: lead.branche ? String(lead.branche).slice(0, 80) : null, antwoorden: lead, source: 'funnel' }) }); } catch (e) {}
     if (CRM_WEBHOOK) { try { fetch(CRM_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead) }); } catch (e) {} }
