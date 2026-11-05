@@ -434,6 +434,25 @@ html, body { overflow-x: clip; }
 .site.desk .s-cta { margin: 48px; padding: 56px; text-align: center; } .site.desk .s-cta h2 { font-size: 42px; }
 .site.desk .s-foot { padding: 32px 48px 56px; display: flex; justify-content: space-between; align-items: center; margin-top: 48px; }
 @media (prefers-reduced-motion: reduce) { .rv-phone .phone { transition: none; } }
+
+.bld { margin-top: 18px; display: grid; justify-items: center; }
+.bld .phone { --ph-h: min(430px, 46svh); }
+.bld .ph-hint, .bld .ph-home { display: none; }
+.bld .bp { opacity: 0; filter: blur(8px); }
+.bld .pop { animation: bpop .8s cubic-bezier(.16,.84,.24,1); }
+@keyframes bpop { 0% { opacity: 0; transform: translateY(-12px) scale(.9); filter: blur(10px) brightness(2.4) saturate(1.6); } 45% { opacity: 1; } 70% { transform: none; } 100% { opacity: 1; filter: none; } }
+.ring { position: absolute; z-index: 7; pointer-events: none; border-radius: 14px; box-shadow: 0 0 0 2px rgba(255,190,110,.95), 0 0 26px 6px rgba(255,130,50,.8), inset 0 0 22px rgba(255,170,80,.55); animation: ringo .85s ease-out forwards; }
+@keyframes ringo { 0% { opacity: 1; transform: scale(.94); } 100% { opacity: 0; transform: scale(1.1); } }
+.trl { position: absolute; z-index: 8; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, #fff, #FFB35F 55%, transparent 70%); }
+.wand { position: absolute; left: 0; top: 0; width: 34px; height: 34px; margin: -11px 0 0 -24px; z-index: 9; pointer-events: none; transition: transform .38s cubic-bezier(.3,.8,.2,1), opacity .3s; }
+.wand svg { position: relative; width: 34px; height: 34px; filter: drop-shadow(0 3px 6px rgba(0,0,0,.45)); transform-origin: 60% 30%; transition: transform .15s; }
+.wand.tap svg { transform: rotate(-18deg) scale(1.12); }
+.wand .halo { position: absolute; left: -4px; top: -17px; width: 56px; height: 56px; border-radius: 50%; background: radial-gradient(circle, rgba(255,170,80,.75), rgba(255,110,46,0) 66%); animation: halo 1.2s ease-in-out infinite; }
+@keyframes halo { 0%, 100% { transform: scale(.8); opacity: .7; } 50% { transform: scale(1.25); opacity: 1; } }
+.spk { position: absolute; width: 9px; height: 9px; z-index: 8; pointer-events: none; background: radial-gradient(circle, #fff 0 20%, #FFB35F 21% 45%, transparent 46%); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+.bld .ph-bz.done { animation: bdone 1.3s ease-out; }
+@keyframes bdone { 0% { box-shadow: 0 0 0 2px #1b1b1e, 0 0 0 0 rgba(255,140,60,.9), 0 50px 90px -34px rgba(244,27,54,.7); transform: scale(1); } 40% { transform: scale(1.035); } 100% { box-shadow: 0 0 0 2px #1b1b1e, 0 0 0 46px rgba(255,140,60,0), 0 50px 90px -34px rgba(244,27,54,.7); transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .wand .halo, .ring, .bld .pop, .bld .ph-bz.done { animation: none !important; } }
 </style>
 </head><body>
 
@@ -527,10 +546,10 @@ html, body { overflow-x: clip; }
 
       <section class="step" data-s="laden" tabindex="-1" aria-labelledby="h-laden">
         <div class="ld">
-          <div class="lchip" id="chip4" aria-label="Jouw logo"></div>
+          
           <h2 class="q" id="h-laden">we maken jouw website</h2>
           <p class="sub">Dit duurt even. Je hoeft niets te doen.</p>
-          <div class="wfw" aria-hidden="true"><div class="wf" id="wf"><div class="w-nav"><i></i><b></b><span style="flex:1"></span><em></em></div><div class="w-h"><i></i><i></i></div><div class="w-t"><i></i><i></i></div><div class="w-b"></div><div class="w-art"></div><div class="w-c"><i></i><i></i></div></div><div class="sparks"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="bld" aria-hidden="true"><div id="bHost"></div></div>
           <ul class="stg" id="stg" aria-live="polite"></ul>
           <div class="lbar" aria-hidden="true"><i id="lbi"></i></div>
         </div>
@@ -786,7 +805,7 @@ html, body { overflow-x: clip; }
   }
 
   var phone = null;
-  function makePhone(host) {
+  function makePhone(host, own) {
     host.innerHTML = '<div class="phone"><div class="ph-bz"><div class="ph-scr"><div class="ph-st"><span>9:41</span><i></i><svg viewBox="0 0 18 12" fill="#111" aria-hidden="true"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4.5" width="3" height="7.5" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg></div><div class="ph-url"><div><svg viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 5V4a3 3 0 1 1 6 0v1h.5A1.5 1.5 0 0 1 11 6.5v4A1.5 1.5 0 0 1 9.5 12h-7A1.5 1.5 0 0 1 1 10.5v-4A1.5 1.5 0 0 1 2.5 5zm1.5 0h3V4a1.5 1.5 0 0 0-3 0z"/></svg><span class="u"></span></div></div><div class="ph-vp" tabindex="0" role="region" aria-label="Voorbeeld van jouw website, scroll om alles te bekijken"><div class="site" aria-hidden="true"></div></div><div class="ph-home"></div></div></div></div>' +
       '<span class="ph-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>Scroll in de telefoon</span>';
     var p = { host: host, vp: $('.ph-vp', host), site: $('.site', host), url: $('.u', host), touched: false };
@@ -803,9 +822,11 @@ html, body { overflow-x: clip; }
         p.vp.scrollTo({ top: Math.max(0, top), behavior: reduce ? 'auto' : 'smooth' });
       }
     });
-    phone = p; fit(); renderPhone(); return p;
+    if (own) { fitP(p); return p; } phone = p; fit(); renderPhone(); return p;
   }
-  function fit() { if (!phone) return; var w = phone.vp.clientWidth; if (w) phone.site.style.setProperty('--k', (w / (phone.site.classList.contains('desk') ? 1100 : 360)).toFixed(4)); }
+  function fitP(p) { var w = p.vp.clientWidth; if (w) p.site.style.setProperty('--k', (w / 360).toFixed(4)); }
+  var bP = null;
+  function fit() { if (bP) fitP(bP); if (!phone) return; var w = phone.vp.clientWidth; if (w) phone.site.style.setProperty('--k', (w / (phone.site.classList.contains('desk') ? 1100 : 360)).toFixed(4)); }
   function renderPhone() {
     if (!phone) return;
     var nav = $('[data-nav]', phone.site), open = nav && nav.classList.contains('open');
@@ -814,6 +835,79 @@ html, body { overflow-x: clip; }
     phone.site.innerHTML = siteHTML();
     if (open) $('[data-nav]', phone.site).classList.add('open');
     phone.url.textContent = slug();
+  }
+
+  /* ---- bouw-animatie: de echte website wordt voor je ogen opgebouwd ---- */
+  var bTimers = [];
+  function stopBuild() { bTimers.forEach(clearTimeout); bTimers = []; }
+  function bt(fn, ms) { bTimers.push(setTimeout(fn, ms)); }
+  function spark(scr, x, y) {
+    for (var n = 0; n < 12; n++) {
+      var s = document.createElement('i'); s.className = 'spk'; s.style.left = x + 'px'; s.style.top = y + 'px'; scr.appendChild(s);
+      var a = Math.random() * 6.283, d = 22 + Math.random() * 44;
+      if (s.animate) { var an = s.animate([{ transform: 'translate(-50%,-50%) scale(.2)', opacity: 1 }, { transform: 'translate(calc(-50% + ' + Math.cos(a) * d + 'px), calc(-50% + ' + Math.sin(a) * d + 'px)) scale(1)', opacity: 0 }], { duration: 650 + Math.random() * 300, easing: 'cubic-bezier(.2,.7,.3,1)' }); an.onfinish = function (ev) { return function () { ev.remove(); }; }(s); } else s.remove();
+    }
+  }
+  function trail(scr, wand) {
+    var s = scr.getBoundingClientRect(), r = wand.getBoundingClientRect(); if (!r.width) return;
+    var e = document.createElement('i'); e.className = 'trl'; e.style.left = (r.left + 24 - s.left) + 'px'; e.style.top = (r.top + 11 - s.top) + 'px'; scr.appendChild(e);
+    if (e.animate) { var a = e.animate([{ transform: 'translate(-50%,-50%) scale(1)', opacity: .95 }, { transform: 'translate(calc(-50% + ' + (Math.random() * 16 - 8) + 'px), calc(-50% + ' + (6 + Math.random() * 12) + 'px)) scale(.1)', opacity: 0 }], { duration: 560, easing: 'ease-out' }); a.onfinish = function () { e.remove(); }; } else e.remove();
+  }
+  function ring(scr, el) {
+    var s = scr.getBoundingClientRect(), r = el.getBoundingClientRect(), g = document.createElement('i'); g.className = 'ring';
+    g.style.left = (r.left - s.left) + 'px'; g.style.top = (r.top - s.top) + 'px'; g.style.width = r.width + 'px'; g.style.height = r.height + 'px'; scr.appendChild(g);
+    setTimeout(function () { g.remove(); }, 900);
+  }
+  function startBuild(total) {
+    stopBuild();
+    var host = $('#bHost'); if (!bP) bP = makePhone(host, true);
+    var p = bP, site = p.site, scr = $('.ph-scr', host);
+    var k = site.style.getPropertyValue('--k');
+    site.setAttribute('style', vars() + (k ? '--k:' + k + ';' : '')); site.innerHTML = siteHTML(); p.url.textContent = slug();
+    $$('.wand', scr).forEach(function (w) { w.remove(); }); $$('.spk', scr).forEach(function (w) { w.remove(); });
+    var bz = $('.ph-bz', host); bz.classList.remove('done'); p.vp.scrollTop = 0; fitP(p);
+    var T = [];
+    function add(sel, kind) { $$(sel, site).forEach(function (e) { T.push({ e: e, k: kind || 'pop' }); }); }
+    add('.s-nav .lg'); add('.s-burger'); add('.s-kick'); add('.s-hero h1', 'type'); add('.s-hero p'); add('.s-btns'); add('.s-artw');
+    add('.s-usp div'); add('.s-sec h2'); add('.s-card'); add('.s-about'); add('.s-rev'); add('.s-cta'); add('.s-foot');
+    if (reduce) return;
+    T.forEach(function (o) {
+      o.e.classList.add('bp');
+      if (o.k === 'type') { o.txt = o.e.textContent; o.e.style.minHeight = o.e.offsetHeight + 'px'; o.e.textContent = '\u00a0'; }
+    });
+    var wand = document.createElement('div'); wand.className = 'wand';
+    wand.innerHTML = '<i class="halo"></i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21 14 10" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/><path d="M17 2l1.7 4.6L23.3 8l-4.6 1.7L17 14.3l-1.7-4.6L10.7 8l4.6-1.7z" fill="#FFD27A"/></svg>';
+    wand.style.opacity = '0'; scr.appendChild(wand);
+    var quick = total < 8000, d = Math.max(quick ? 90 : 420, Math.min(900, total * .8 / (T.length + 3)));
+    var cx = 12, cy = 60; wand.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
+    function reveal(o) {
+      o.e.classList.remove('bp'); o.e.classList.add('pop'); if (!quick) ring(scr, o.e);
+      var r = o.e.getBoundingClientRect(), s = scr.getBoundingClientRect();
+      if (!quick) spark(scr, r.left - s.left + Math.min(r.width / 2, 90), r.top - s.top + Math.min(r.height / 2, 26));
+    }
+    var t = 250;
+    T.forEach(function (o, i) {
+      var extra = 0;
+      bt(function () { wand.style.opacity = '1';
+        var vr = p.vp.getBoundingClientRect(), r = o.e.getBoundingClientRect();
+        if (r.bottom > vr.bottom - 24 || r.top < vr.top + 40) p.vp.scrollBy({ top: r.top - vr.top - vr.height * .3, behavior: 'smooth' });
+      }, t);
+      bt(function () {
+        var s = scr.getBoundingClientRect(), r = o.e.getBoundingClientRect();
+        var x = r.left - s.left + Math.min(r.width / 2, 90), y = r.top - s.top + Math.min(r.height / 2, 26);
+        wand.style.transition = 'transform ' + Math.round(d * .55) + 'ms cubic-bezier(.3,.8,.2,1), opacity .3s';
+        wand.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+        if (!quick) { var iv = setInterval(function () { trail(scr, wand); }, 40); bTimers.push(iv); setTimeout(function () { clearInterval(iv); }, d * .6); }
+      }, t + (quick ? 0 : 260));
+      bt(function () {
+        wand.classList.add('tap'); bt(function () { wand.classList.remove('tap'); }, 160);
+        reveal(o);
+        if (o.k === 'type') { var n = 0, tx = o.txt, st = Math.max(24, Math.min(70, d * 1.6 / tx.length)); (function tick() { n++; o.e.textContent = tx.slice(0, n); if (n < tx.length) bt(tick, st); })(); }
+      }, t + (quick ? d * .5 : 260 + d * .6));
+      t += d + (o.k === 'type' ? d * 1.2 : 0) + (quick ? 0 : 120);
+    });
+    bt(function () { wand.style.opacity = '0'; p.vp.scrollTo({ top: 0, behavior: 'smooth' }); }, Math.max(t, total * .8));
+    bt(function () { bz.classList.add('done'); T.forEach(function (o) { o.e.classList.remove('bp'); }); }, Math.max(t, total * .8) + 700);
   }
   function hint() {
     if (reduce || !phone || !phone.vp.clientWidth) return;
@@ -852,7 +946,6 @@ html, body { overflow-x: clip; }
   buildBranches(); buildGoals(); buildPals();
 
   function refresh() {
-    $('#wf').setAttribute('style', vars());
     $$('.lchip').forEach(function (c) { c.setAttribute('style', vars()); c.innerHTML = chipHTML(c.id !== 'chip4' && c.id !== 'chip6'); });
     $('#rv-naam').textContent = nm();
     $('#dn').textContent = nm();
@@ -968,24 +1061,21 @@ html, body { overflow-x: clip; }
     var total = st.reduce(function (a, s) { return a + s[1]; }, 0);
     $('#stg').innerHTML = st.map(function (s) { return '<li><i>' + IC.chk + '</i><span>' + esc(s[0]) + '</span></li>'; }).join('');
     $('#h-laden').textContent = quick ? 'we passen je website aan' : 'we maken jouw website';
-    $$('#wf > *').forEach(function (e) { e.classList.remove('in'); });
     $('#lbi').style.transition = 'none'; $('#lbi').style.width = '0%';
     show('laden');
     loadTimers.forEach(clearTimeout); loadTimers = [];
-    var items = $$('#stg li'), blocks = $$('#wf > *'), t = 0;
+    var items = $$('#stg li'), t = 0;
+    startBuild(total);
     loadTimers.push(setTimeout(function () { $('#lbi').style.transition = 'width ' + (total / 1000) + 's linear'; $('#lbi').style.width = '100%'; }, 60));
     st.forEach(function (s, i) {
       loadTimers.push(setTimeout(function () {
         if (i > 0) { items[i - 1].classList.remove('now'); items[i - 1].classList.add('done'); }
         items[i].classList.add('now');
-        var upto = Math.round(blocks.length * (i + 1) / st.length);
-        blocks.forEach(function (b, bi) { if (bi < upto) loadTimers.push(setTimeout(function () { b.classList.add('in'); }, bi * 160)); });
       }, t));
       t += s[1];
     });
     loadTimers.push(setTimeout(function () {
       items[items.length - 1].classList.remove('now'); items[items.length - 1].classList.add('done');
-      blocks.forEach(function (b) { b.classList.add('in'); });
       S.generated = true;
       loadTimers.push(setTimeout(function () {
         track('ViewContent', { page: 'onthulling' });
