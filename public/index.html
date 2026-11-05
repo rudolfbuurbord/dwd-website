@@ -1056,7 +1056,7 @@ footer.mega .glow-clip .lava { opacity: calc(.3 + var(--p) * .7); -webkit-mask-i
     errEl.textContent = ''; $('#cUrl').value = d;
     scrollToEl($('#contact')); setTimeout(function () { try { $('#cMail').focus({ preventScroll: true }); } catch (e) {} }, 500); return true;
   }
-  $('#heroForm').addEventListener('submit', function (e) { e.preventDefault(); var dd=clean(heroUrl.value); if(!validDomain(dd)){ $('#heroErr').textContent='Vul een geldig website-adres in, bijvoorbeeld jouwbedrijf.nl.'; return; } location.href='/jouw-nieuwe-website/'; });
+  $('#heroForm').addEventListener('submit', function (e) { e.preventDefault(); var dd=clean(heroUrl.value); $('#heroErr').textContent=''; location.href='/jouw-nieuwe-website/'+(validDomain(dd)?'?url='+encodeURIComponent(dd):''); });
   $('#checkForm').addEventListener('submit', function (e) { e.preventDefault(); startCheck($('#checkUrl').value, $('#checkErr'), false); });
   $('#conCta').addEventListener('click', function () { var u = this.dataset.url; if (u) $('#cUrl').value = u; });
 

@@ -586,7 +586,7 @@ details.priv p { margin-top: 8px; max-width: 46ch; }
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ===== instellingen om later te koppelen ===== */
-  var DEMO = true;
+  var DEMO = false;
   var SLOTS = { total: 2, left: 2 };
   var CRM_WEBHOOK = '';
   var CALL_NR = '+31 6 1609 1507';
@@ -1015,6 +1015,7 @@ details.priv p { margin-top: 8px; max-width: 46ch; }
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
   $('#demoTag').hidden = !DEMO;
   document.body.style.setProperty('--prog', .1); $('#progi').style.width = '10%'; $('#progbar').setAttribute('aria-valuenow', 10);
+  try { var pu = new URLSearchParams(location.search).get('url'); if (pu && /^[\w.-]{3,253}$/.test(pu)) { document.querySelector('[data-route="ja"]').click(); urlI.value = pu; urlI.dispatchEvent(new Event('input', { bubbles: true })); } } catch (e) {}
   track('PageView', {});
 })();
 </script>
