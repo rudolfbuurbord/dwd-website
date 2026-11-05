@@ -395,9 +395,45 @@ details.priv p { margin-top: 8px; max-width: 46ch; }
 @media (max-width: 400px) { .styles { grid-template-columns: 1fr; } .sty { display: grid; grid-template-columns: 2.4rem 1fr; gap: 0 12px; align-items: center; } .sty b { margin: 0; } .sty small { grid-column: 2; } .sty .aa { grid-row: span 2; } }
 @media (prefers-reduced-motion: reduce) { .glow, .logo svg, .step.on, .ph-hint svg, .lv i, .stg li.now i, .wfw::after, .wfw .sparks i, .wf > .in { animation: none !important; } .glow-clip, .prog i, .lbar i { transition: none; } }
 .rv-show { text-align: center; }
-.step { overflow-x: clip; }
+[data-s=laden] { overflow-x: clip; }
 .rv-btns .btn, .fin .btn { width: min(100%, 420px) !important; justify-self: center !important; margin-inline: auto; }
 .rv-btns { justify-items: center; }
+
+.dvsw { display: inline-flex; gap: 4px; padding: 4px; margin: 22px auto 0; border: 1px solid var(--line-2); border-radius: 99px; background: rgba(17,17,18,.8); }
+.dvsw button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 0; border-radius: 99px; background: transparent; color: var(--soft); font: 700 .88rem/1 var(--f-b); cursor: pointer; }
+.dvsw button svg { width: 20px; height: 20px; }
+.dvsw button[aria-pressed="true"] { background: var(--fg); color: #111; }
+.rv-phone.desk { display: flex; flex-wrap: wrap; justify-content: center; }
+.rv-phone.desk .ph-hint { flex-basis: 100%; justify-content: center; margin-top: 8px; }
+html, body { overflow-x: clip; }
+.site { text-align: left; }
+.rv-phone.desk .phone { height: auto; width: min(94vw, 1000px); aspect-ratio: 16 / 10.4; max-width: none; margin-bottom: 14px; }
+.rv-phone.desk .ph-bz { padding: 8px 8px 10px; border-radius: 16px; }
+.rv-phone.desk .ph-scr { border-radius: 8px; }
+.rv-phone.desk .ph-st, .rv-phone.desk .ph-home { display: none; }
+.rv-phone.desk .phone::after { content: ""; position: absolute; left: -5%; right: -5%; bottom: -12px; height: 12px; border-radius: 0 0 18px 18px; background: linear-gradient(#2a2a2e, #0b0b0d); box-shadow: 0 20px 40px -10px rgba(244,27,54,.45); }
+.site.desk { width: 1100px; }
+.site.desk .s-nav { padding: 16px 48px; }
+.site.desk .s-burger { display: none; }
+.site.desk .s-menu { position: static; display: flex; gap: 30px; padding: 0; background: none; box-shadow: none; }
+.site.desk .s-menu a { border: 0; padding: 0; font-size: 15px; }
+.site.desk .s-hero { display: grid; grid-template-columns: 1.05fr 1fr; column-gap: 56px; align-items: center; padding: 56px 48px 20px; }
+.site.desk .s-hero > * { grid-column: 1; justify-self: start; }
+.site.desk .s-hero > .s-artw { grid-column: 2; grid-row: 1 / span 4; justify-self: stretch; }
+.site.desk .s-hero h1 { font-size: 64px; }
+.site.desk .s-hero p { font-size: 19px; max-width: 40ch; }
+.site.desk .s-art { height: 400px; }
+.site.desk .s-usp { padding: 40px 48px 8px; gap: 24px; }
+.site.desk .s-sec { padding: 64px 48px 8px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.site.desk .s-sec h2 { grid-column: 1 / -1; font-size: 42px; margin-bottom: 6px; }
+.site.desk .s-card { margin-bottom: 0; grid-template-columns: 1fr; align-content: start; padding: 24px; }
+.site.desk .s-about { margin-top: 64px; padding: 64px 48px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 56px; align-items: center; }
+.site.desk .s-about h2 { font-size: 42px; grid-column: 1; } .site.desk .s-about p { grid-column: 1; font-size: 18px; }
+.site.desk .s-about ul { grid-column: 2; grid-row: 1 / span 2; margin: 0; }
+.site.desk .s-rev { margin: 48px; padding: 44px; text-align: center; } .site.desk .s-rev q { font-size: 32px; max-width: 760px; margin-inline: auto; }
+.site.desk .s-cta { margin: 48px; padding: 56px; text-align: center; } .site.desk .s-cta h2 { font-size: 42px; }
+.site.desk .s-foot { padding: 32px 48px 56px; display: flex; justify-content: space-between; align-items: center; margin-top: 48px; }
+@media (prefers-reduced-motion: reduce) { .rv-phone .phone { transition: none; } }
 </style>
 </head><body>
 
@@ -531,7 +567,8 @@ details.priv p { margin-top: 8px; max-width: 46ch; }
 
         <div class="sec rv-show"><span class="kick">Jouw ontwerp</span><h3 class="t">en zo ziet jouw website eruit</h3>
           <p class="intro" style="margin-inline:auto">Scroll er zelf doorheen en tik op het menu. Zo ziet hij er op een telefoon uit.</p>
-          <div class="rv-phone" id="phHost" style="margin-top:28px"></div>
+          <div class="dvsw" role="group" aria-label="Kies weergave"><button type="button" data-dev="m" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>Telefoon</button><button type="button" data-dev="d" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="11" rx="1.8"/><path d="M2 19.5h20"/></svg>Laptop</button></div>
+          <div class="rv-phone" id="phHost" style="margin-top:22px"></div>
           <div class="rv-btns"><button class="btn" type="button" data-cta>Ja, maak dit voor mij <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button><button class="btn ghost" type="button" id="adjust">Kleuren aanpassen</button></div>
           <p class="cap2" style="text-align:center">Ontwerpvoorbeeld met voorbeeldteksten. Je eigen teksten, foto's en logo regelen we samen.</p>
         </div>
@@ -768,7 +805,7 @@ details.priv p { margin-top: 8px; max-width: 46ch; }
     });
     phone = p; fit(); renderPhone(); return p;
   }
-  function fit() { if (!phone) return; var w = phone.vp.clientWidth; if (w) phone.site.style.setProperty('--k', (w / 360).toFixed(4)); }
+  function fit() { if (!phone) return; var w = phone.vp.clientWidth; if (w) phone.site.style.setProperty('--k', (w / (phone.site.classList.contains('desk') ? 1100 : 360)).toFixed(4)); }
   function renderPhone() {
     if (!phone) return;
     var nav = $('[data-nav]', phone.site), open = nav && nav.classList.contains('open');
@@ -1024,6 +1061,13 @@ details.priv p { margin-top: 8px; max-width: 46ch; }
   })();
 
   makePhone($('#phHost'));
+  $$('[data-dev]').forEach(function (b) { b.addEventListener('click', function () {
+    var d = b.getAttribute('data-dev') === 'd', h = $('#phHost');
+    $$('[data-dev]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    h.classList.toggle('desk', d); phone.site.classList.toggle('desk', d);
+    var ht = $('.ph-hint', h); if (ht && ht.lastChild) ht.lastChild.nodeValue = d ? 'Scroll in het scherm' : 'Scroll in de telefoon';
+    phone.vp.scrollTop = 0; fit(); setTimeout(fit, 60); track('ViewContent', { device: d ? 'laptop' : 'telefoon' });
+  }); });
   refresh();
   window.addEventListener('resize', fit);
   if ('ResizeObserver' in window) { var ro = new ResizeObserver(fit); ro.observe(phone.vp); }
