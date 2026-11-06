@@ -43,6 +43,7 @@ body.burst .glow-clip { height: 92vh; }
 .logo svg { width: 30px; height: 27px; animation: beat 2.8s ease-in-out infinite; transform-origin: 50% 62%; }
 @keyframes beat { 0%, 62%, 100% { scale: 1; } 14% { scale: 1.07; } 30% { scale: 1; } 42% { scale: 1.04; } }
 .cnt { white-space: nowrap; justify-self: end; font: 700 .8rem/1.2 var(--f-b); color: var(--soft); letter-spacing: .03em; text-align: right; }
+@media (max-width: 480px) { .top { grid-template-columns: 44px minmax(0, 1fr) 76px; gap: 4px; } .cnt { font-size: .72rem; letter-spacing: .01em; } .logo { font-size: 1.02rem; gap: 7px; } }
 .demo-tag { display: inline-block; margin-top: 4px; padding: 3px 8px; border-radius: 99px; border: 1px dashed var(--line-2); font: 700 .66rem/1 var(--f-b); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .prog { height: 3px; border-radius: 3px; background: var(--line); overflow: hidden; }
 .prog i { display: block; height: 100%; width: 0; background: var(--grad); border-radius: inherit; transition: width .8s cubic-bezier(.2,.7,.2,1); }
@@ -1201,6 +1202,8 @@ html, body { overflow-x: clip; }
     $$('#live .chip, #beslis .chip').forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
     $$('#moments .chip').forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-m') === 'meteen' ? 'true' : 'false'); });
     $$('#styles .sty').forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-st') === 'strak' ? 'true' : 'false'); });
+    $$('#sfeer .sty').forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
+    $$('#fonts .sty').forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-f') === 'strak' ? 'true' : 'false'); });
     buildBranches(); buildGoals(); buildPals(); hist = []; refresh(); show('route');
   });
 
