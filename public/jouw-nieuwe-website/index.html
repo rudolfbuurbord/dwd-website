@@ -473,8 +473,33 @@ html, body { overflow-x: clip; }
 .lookprev .lp-b .g { border: 1.5px solid color-mix(in srgb, var(--si) 30%, transparent); }
 .lookprev .lp-a { height: 8px; border-radius: 8px; background: linear-gradient(90deg, var(--p), var(--a)); }
 
+
+/* ---- Merk-controle (klopt dit?) ---- */
+.mlogo { margin-top: 10px; min-height: 110px; display: grid; place-items: center; padding: 20px; border-radius: 22px; background: #fff; color: #1c1b22; border: 1px solid var(--line-2); }
+.mlogo .lg { justify-content: center; }
+.mlogo .lg .lgi { max-height: 78px; max-width: 100%; }
+.mnote { margin-top: 10px; font-size: .86rem; line-height: 1.45; color: var(--muted); min-height: 1.2em; }
+.mbtns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.mbtn { position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid var(--line-2); background: transparent; color: var(--fg); font: 700 .88rem/1 var(--f-b); cursor: pointer; }
+.mbtn:hover { border-color: var(--fg); }
+.mbtn input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.mbtn:focus-within { outline: 2px solid var(--fg); outline-offset: 2px; }
+.mcol { display: flex; align-items: center; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+.msw { width: 56px; height: 56px; border-radius: 16px; border: 2px solid var(--fg); flex: none; }
+.mhex { font: 700 1rem/1 var(--f-b); letter-spacing: .04em; text-transform: uppercase; min-width: 4.8em; }
+.msws { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.msws button { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--line-2); cursor: pointer; padding: 0; }
+.msws button[aria-pressed="true"] { border-color: var(--fg); box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--fg); }
+
 /* ---- Beauty-variant (Daglicht) ---- */
-.site.bty { --bw: max(300, calc(var(--hw) - 450)); --bi: color-mix(in srgb, var(--p) 58%, #000); --bd: color-mix(in srgb, var(--p) 34%, #000); --bt: color-mix(in srgb, var(--p) 30%, #fff); --bm: color-mix(in srgb, var(--p) 14%, #fff); --bb: color-mix(in srgb, var(--p) 6%, #fff); --bp: color-mix(in srgb, var(--p) 45%, #fff); background: var(--bb); color: var(--bi); font-family: 'Figtree', system-ui, sans-serif; }
+.site.bty { --bw: max(300, calc(var(--hw) - 450)); --bi: color-mix(in srgb, var(--p) 58%, #000); --bd: color-mix(in srgb, var(--p) 34%, #000); --bt: color-mix(in srgb, var(--p) 30%, var(--sb)); --bm: color-mix(in srgb, var(--p) 14%, var(--sb)); --bb: color-mix(in srgb, var(--p) 6%, var(--sb)); --bp: color-mix(in srgb, var(--a) 70%, var(--sb)); background: var(--bb); color: var(--bi); font-family: 'Figtree', system-ui, sans-serif; }
+.site.bty.dk { --bb: var(--sb); --bi: var(--si); --bd: color-mix(in srgb, var(--p) 40%, #000); }
+.bty.dk .s-card { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.12); }
+.bty.dk .b-pill { background: rgba(0,0,0,.4); border-color: rgba(255,255,255,.18); color: var(--si); }
+.bty.dk .b-map span { background: rgba(0,0,0,.5); color: var(--si); }
+.bty.dk .b-map { border-color: rgba(255,255,255,.12); }
+.bty.dk .s-b.p { background: var(--p); color: var(--onp); }
+.bty.dk .b-flogo, .bty.dk .s-nav .lg:not(.nologo):has(.lgi) { background: #fff; }
 .site.bty h1, .site.bty h2, .site.bty h3 { font-family: var(--hf); font-weight: var(--bw); letter-spacing: -.035em; }
 .bty .b-hero { position: relative; height: 690px; overflow: hidden; background: linear-gradient(180deg, var(--bt) 0%, var(--bm) 45%, var(--bb) 80%); }
 .bty .s-nav { position: absolute; z-index: 5; left: 0; right: 0; top: 0; background: none; border: 0; box-shadow: none; padding: 12px 16px; }
@@ -482,14 +507,14 @@ html, body { overflow-x: clip; }
 .bty .s-kick { display: block; box-sizing: border-box; width: 100%; position: absolute; left: 0; right: 0; top: 66px; text-align: center; font: 700 10px/1 'Figtree', sans-serif; letter-spacing: .32em; text-transform: uppercase; opacity: .8; padding: 0; background: none; color: inherit; }
 .bty .b-big { white-space: nowrap; position: absolute; left: 0; right: 0; top: 92px; text-align: center; font: var(--bw) var(--fs, 100px)/.86 var(--hf); letter-spacing: -.025em; text-transform: uppercase; background: linear-gradient(180deg, color-mix(in srgb, var(--p) 95%, #fff) 0%, color-mix(in srgb, var(--p) 60%, #fff) 55%, var(--bm) 98%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; overflow-wrap: anywhere; padding: 0 8px; }
 .bty .b-ph { position: absolute; left: -20px; top: 132px; width: 400px; height: 600px; object-fit: cover; filter: drop-shadow(0 24px 30px color-mix(in srgb, var(--p) 25%, transparent)); }
-.bty .b-fade { position: absolute; left: 0; right: 0; top: 440px; height: 250px; background: linear-gradient(180deg, rgba(255,255,255,0), var(--bb) 70%); }
+.bty .b-fade { position: absolute; left: 0; right: 0; top: 440px; height: 250px; background: linear-gradient(180deg, color-mix(in srgb, var(--bb) 0%, transparent), var(--bb) 70%); }
 .bty .b-pill { position: absolute; z-index: 4; left: 12px; top: 300px; display: flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 99px; background: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.8); font-size: 11.5px; font-weight: 600; }
-.bty .b-pill i { width: 7px; height: 7px; border-radius: 50%; background: var(--bi); }
+.bty .b-pill i { width: 7px; height: 7px; border-radius: 50%; background: var(--a); }
 .bty .b-hero .t { position: absolute; z-index: 5; left: 16px; right: 16px; bottom: 22px; display: flex; flex-direction: column; gap: 12px; }
 .bty .b-hero h1 { font-size: 30px; font-weight: calc(var(--bw) + 100); line-height: 1.04; }
 .bty .s-btns { display: block; margin: 0; }
-.bty .s-b.p { width: 100%; justify-content: space-between; height: 52px; padding: 0 8px 0 22px; border-radius: 99px; background: var(--bi); color: #fff; box-sizing: border-box; }
-.bty .s-b.p i { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.2); display: grid; place-items: center; font-style: normal; }
+.bty .s-b.p { width: 100%; justify-content: space-between; height: 52px; padding: 0 8px 0 22px; border-radius: var(--btnr); background: var(--bi); color: #fff; box-sizing: border-box; }
+.bty .s-b.p i { width: 38px; height: 38px; border-radius: calc(var(--btnr) * .7); background: rgba(255,255,255,.2); display: grid; place-items: center; font-style: normal; }
 .bty .b-st { padding: 64px 18px 56px; background: var(--bb); }
 .bty .b-st small, .bty .s-sec small, .bty .s-cta small { display: block; font: 700 10.5px/1 'Figtree', sans-serif; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 20px; opacity: .75; }
 .bty .b-st p.b { font: var(--bw) 32px/1.06 var(--hf); letter-spacing: -.04em; }
@@ -499,13 +524,13 @@ html, body { overflow-x: clip; }
 .bty .s-sec h2 { font-size: 36px; font-weight: var(--bw); margin-bottom: 8px; }
 .bty .s-sec .nt, .bty .b-note { font-size: 12px; opacity: .65; margin-top: 12px; }
 .bty .s-sec > p.in { font-size: 15px; opacity: .75; margin-bottom: 22px; }
-.bty .s-card { grid-template-columns: 1fr; min-height: 160px; align-content: space-between; border-radius: 24px; background: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.9); box-shadow: 0 22px 36px -30px color-mix(in srgb, var(--p) 60%, transparent); position: relative; overflow: hidden; }
+.bty .s-card { grid-template-columns: 1fr; min-height: 160px; align-content: space-between; border-radius: var(--rad); background: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.9); box-shadow: 0 22px 36px -30px color-mix(in srgb, var(--p) 60%, transparent); position: relative; overflow: hidden; }
 .bty .s-card::after { content: ""; position: absolute; right: -50px; top: -50px; width: 160px; height: 160px; border-radius: 50%; background: radial-gradient(circle at 40% 40%, var(--bp), transparent 70%); opacity: .8; }
 .bty .s-card em { width: auto; height: auto; background: none; border-radius: 0; place-items: start; font: var(--bw) 34px/1 var(--hf); color: var(--bp); position: relative; z-index: 1; }
 .bty .s-card > div { position: relative; z-index: 1; }
 .bty .s-card h3 { font-size: 21px; font-weight: 600; }
 .bty .s-card p { color: inherit; opacity: .75; }
-.bty .b-map { position: relative; height: 200px; border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,.85); background: linear-gradient(135deg, var(--bb), var(--bm)); margin-top: 14px; }
+.bty .b-map { position: relative; height: 200px; border-radius: var(--rad); overflow: hidden; border: 1px solid rgba(255,255,255,.85); background: linear-gradient(135deg, var(--bb), var(--bm)); margin-top: 14px; }
 .bty .b-map > svg:first-child { position: absolute; inset: 0; width: 100%; height: 100%; }
 .bty .s-kick::before { display: none; }
 .bty .b-pin { height: 39px; color: var(--bi); position: absolute; left: 50%; top: 40%; width: 30px; margin-left: -15px; animation: bobp 1.9s ease-in-out infinite; }
@@ -525,14 +550,14 @@ html, body { overflow-x: clip; }
 .bty details p { margin-top: 10px; font-size: 14.5px; line-height: 1.55; opacity: .8; }
 .bty .s-cta { background: var(--bd); color: #fff; text-align: center; padding: 64px 18px; }
 .bty .s-cta h2 { font-size: 40px; font-weight: var(--bw); line-height: .98; margin: 0 0 24px; }
-.bty .s-cta .s-b { width: 100%; box-sizing: border-box; background: var(--bi); color: #fff; border: 1px solid rgba(255,255,255,.28); border-radius: 99px; height: 56px; }
+.bty .s-cta .s-b { width: 100%; box-sizing: border-box; background: var(--a); color: var(--ona); border: 0; border-radius: var(--btnr); height: 56px; }
 .bty .s-foot { background: var(--bd); color: #E7EEE9; margin: 0; border-top: 1px solid rgba(255,255,255,.12); text-align: center; padding: 30px 18px 56px; }
 .bty .b-fbig { font: var(--bw) 44px/.9 var(--hf); letter-spacing: -.03em; text-transform: uppercase; background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.25)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; overflow-wrap: anywhere; }
 .bty .s-foot nav { justify-content: center; color: #fff; }
 .bty .b-ex { font-size: 11.5px; opacity: .55; }
 .bty .s-nav .lg:not(.nologo) .lgi { max-height: 52px; max-width: 150px; }
-.bty .s-nav .lg:not(.nologo):has(.lgi) { background: rgba(255,255,255,.8); padding: 6px 12px; border-radius: 16px; }
-.bty .b-flogo { display: inline-block; background: #fff; border-radius: 18px; padding: 10px 16px; margin-bottom: 18px; }
+.bty .s-nav .lg:not(.nologo):has(.lgi) { background: rgba(255,255,255,.8); padding: 6px 12px; border-radius: calc(var(--rad) * .7); }
+.bty .b-flogo { display: inline-block; background: #fff; border-radius: calc(var(--rad) * .7); padding: 10px 16px; margin-bottom: 18px; }
 .bty .b-flogo img { display: block; max-height: 64px; max-width: 180px; object-fit: contain; }
 .site.desk.bty .b-hero { height: 700px; }
 .site.desk.bty .b-big { font-size: calc(var(--fs, 100px) * 1.6); top: 90px; }
@@ -617,6 +642,25 @@ html, body { overflow-x: clip; }
         <div class="chips" id="beslis" role="group" aria-label="Wie beslist"></div>
         <p class="msgb" id="e-tempo" role="alert"></p>
         <div class="bar"><button class="btn" type="button" id="go-tempo">Volgende <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button></div>
+      </section>
+
+      <section class="step" data-s="merk" tabindex="-1" aria-labelledby="h-merk">
+        <h2 class="q" id="h-merk">klopt dit?</h2>
+        <p class="sub" id="sub-merk">Dit lazen we van je website.</p>
+        <span class="lbl">Je logo</span>
+        <div class="mlogo" id="mlogo"></div>
+        <p class="mnote" id="n-logo" role="status"></p>
+        <div class="mbtns">
+          <label class="mbtn" id="lb-file"><input type="file" id="logofile" accept="image/png,image/jpeg,image/webp,image/svg+xml"><span>Ander logo uploaden</span></label>
+          <button class="mbtn" type="button" id="logooff">Geen logo gebruiken</button>
+          <button class="mbtn" type="button" id="logoback" hidden>Gevonden logo gebruiken</button>
+        </div>
+        <span class="lbl">Je hoofdkleur</span>
+        <div class="mcol"><span class="msw" id="msw"></span><span class="mhex" id="mhex"></span>
+          <label class="mbtn" id="lb-col"><input type="color" id="cp2" aria-label="Andere hoofdkleur"><span>Andere kleur</span></label></div>
+        <div class="msws" id="msws" role="group" aria-label="Kleuren van je website"></div>
+        <p class="mnote" id="n-col" role="status"></p>
+        <div class="bar"><button class="btn" type="button" id="go-merk"><span id="go-merk-t">Ja, dit klopt</span> <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button></div>
       </section>
 
       <section class="step" data-s="look" tabindex="-1" aria-labelledby="h-look">
@@ -827,7 +871,7 @@ html, body { overflow-x: clip; }
     ['Zijn de prijzen inclusief btw?', 'Nee. De genoemde prijzen zijn indicatief en exclusief btw.']
   ];
 
-  function fresh() { return { route: null, url: '', domain: '', naam: '', nTouched: false, branche: 'anders', brPicked: false, goals: [], live: '', beslis: '', pal: 'koning', cp: '#E8572A', ca: '#1C2B4A', stijl: 'strak', font: 'strak', sfeer: '', vn: '', tel: '', moment: 'meteen', generated: false }; }
+  function fresh() { return { route: null, url: '', domain: '', naam: '', nTouched: false, branche: 'anders', brPicked: false, goals: [], live: '', beslis: '', logoData: '', logoOff: false, pal: 'koning', cp: '#E8572A', ca: '#1C2B4A', stijl: 'strak', font: 'strak', sfeer: '', vn: '', tel: '', moment: 'meteen', generated: false }; }
   var S = fresh();
   var hist = [], cur = 'route';
 
@@ -845,6 +889,11 @@ html, body { overflow-x: clip; }
   function hsl(h, s, l) { s /= 100; l /= 100; var k = function (n) { return (n + h / 30) % 12; }, a = s * Math.min(l, 1 - l), f = function (n) { return l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1))); }; return hex([f(0) * 255, f(8) * 255, f(4) * 255]); }
   function hashStr(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
 
+  function hueOf(h) { var c = rgb(h).map(function (v) { return v / 255; }), mx = Math.max(c[0], c[1], c[2]), mn = Math.min(c[0], c[1], c[2]), d = mx - mn, H = 0;
+    if (d) { if (mx === c[0]) H = ((c[1] - c[2]) / d) % 6; else if (mx === c[1]) H = (c[2] - c[0]) / d + 2; else H = (c[0] - c[1]) / d + 4; }
+    return { h: (H * 60 + 360) % 360, s: mx ? d / mx : 0 }; }
+  function autoAccent(p) { var o = hueOf(p), light = lum(p) > .5, sat = Math.max(48, Math.min(82, Math.round(o.s * 100 + 8))); if (o.s < .12) return light ? '#2b2b30' : '#e9d5b5'; return hsl((o.h + 34) % 360, sat, light ? 40 : 64); }
+  function setBrand(hexv) { S.cp = hexv; S.ca = autoAccent(hexv); S.pal = 'eigen'; S.fromSite = true; try { $('#cp').value = S.cp; $('#ca').value = S.ca; } catch (e) {} }
   function allPals() {
     var list = PALS.slice();
     if (S.route === 'ja' && S.domain) { var h = hashStr(S.domain) % 360, sp = hsl(h, 58, 34), sa = hsl((h + 38) % 360, 85, 58);
@@ -893,8 +942,9 @@ html, body { overflow-x: clip; }
   function nm() { return S.naam.trim() || 'Jouw bedrijf'; }
   function ini() { return nm().charAt(0).toUpperCase(); }
   function slug() { if (S.route === 'ja' && S.domain) return S.domain; var s = nm().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ''); return (s || 'jouwbedrijf') + '.nl'; }
-  function logoOk() { var l = S.facts && S.facts.logo; return !!(l && S.route === 'ja' && /^https:\/\//.test(l) && !/white|wit[_-]|negatief|inverse|light/i.test(l) && /\.(png|jpe?g|svg|webp)(\?|$)/i.test(l)); }
-  function logoHTML() { return '<span class="lg">' + (logoOk() ? '<img class="lgi" src="' + esc(S.facts.logo) + '" alt="' + esc(nm()) + '" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add(\'nologo\')">' : '') + '<span class="mk">' + esc(ini()) + '</span><span class="nm">' + esc(nm()) + '</span></span>'; }
+  function logoSrc() { if (S.route !== 'ja' || S.logoOff) return ''; if (S.logoData) return S.logoData; var l = S.facts && S.facts.logo; return (l && /^https:\/\//.test(l) && !/white|wit[_-]|negatief|inverse|light/i.test(l) && /\.(png|jpe?g|svg|webp)(\?|$)/i.test(l)) ? l : ''; }
+  function logoOk() { return !!logoSrc(); }
+  function logoHTML() { return '<span class="lg">' + (logoOk() ? '<img class="lgi" src="' + esc(logoSrc()) + '" alt="' + esc(nm()) + '" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add(\'nologo\')">' : '') + '<span class="mk">' + esc(ini()) + '</span><span class="nm">' + esc(nm()) + '</span></span>'; }
   function chipHTML(tag) { return logoHTML() + (tag ? '<span class="tag">je logo</span>' : ''); }
   function miniHTML(p) { return '<span class="mini" style="' + palVars(p) + '"><i class="m-mk"></i><i class="m-ln"></i><i class="m-h1"></i><i class="m-h2"></i><i class="m-bt"></i><i class="m-ac"></i><i class="m-rg"></i></span>'; }
 
@@ -924,7 +974,7 @@ html, body { overflow-x: clip; }
       '<section class="s-about" data-sec="loc" style="background:var(--bm);color:var(--bi);padding:52px 16px"><h2 style="font-size:36px;margin:0;color:inherit">Kom langs</h2><div class="b-map"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M-10 90C80 70 140 110 330 60" stroke="#fff" stroke-width="12" fill="none"/><path d="M160 -10C170 60 150 120 165 210" stroke="#fff" stroke-width="9" fill="none"/><path d="M-10 160L330 140" stroke="#fff" stroke-width="5" fill="none"/><rect x="20" y="20" width="60" height="40" rx="5" fill="color-mix(in srgb, var(--p) 18%, #fff)"/><rect x="200" y="110" width="70" height="46" rx="5" fill="color-mix(in srgb, var(--p) 18%, #fff)"/></svg>' + pin + '<span>' + (adr ? 'Voorbeeldkaart' : 'Voorbeeldkaart. Hier komt jouw adres.') + '</span></div>' + (adr || telTxt || mail ? '<div style="margin-top:18px;font-size:16px;line-height:1.6">' + (adr ? adr.replace(/, /, '<br>') + '<br>' : '') + (telTxt ? '<b>' + telTxt + '</b><br>' : '') + mail + '</div>' : '') + '</section>' +
       '<div class="b-faq"><h2>Veelgestelde vragen</h2>' + faq + '</div>' +
       '<section class="s-cta" data-sec="cta"><small>Afspraak maken</small><h2>Klaar voor jouw moment?</h2><a class="s-b">Maak een afspraak</a>' + (telTxt ? '<p style="margin-top:16px;font-size:15px;opacity:.85">of bel direct: <b>' + telTxt + '</b></p>' : '') + '</section>' +
-      '<footer class="s-foot">' + (logoOk() ? '<div class="b-flogo"><img src="' + esc(S.facts.logo) + '" alt="' + n + '" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></div>' : '') + '<div class="b-fbig">' + esc(nl) + '</div>' + '<nav><span>Behandelingen</span><span>Kom langs</span><span>Afspraak</span></nav>' + (adr || telTxt ? '<span>' + (adr ? adr + ' · ' : '') + telTxt + '</span>' : '') + '<span>© 2026 ' + n + '</span><span class="b-ex">Voorbeeld van een demo-ontwerp. Teksten, prijzen, reviews en kaart zijn voorbeelden.</span></footer>';
+      '<footer class="s-foot">' + (logoOk() ? '<div class="b-flogo"><img src="' + esc(logoSrc()) + '" alt="' + n + '" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></div>' : '') + '<div class="b-fbig">' + esc(nl) + '</div>' + '<nav><span>Behandelingen</span><span>Kom langs</span><span>Afspraak</span></nav>' + (adr || telTxt ? '<span>' + (adr ? adr + ' · ' : '') + telTxt + '</span>' : '') + '<span>© 2026 ' + n + '</span><span class="b-ex">Voorbeeld van een demo-ontwerp. Teksten, prijzen, reviews en kaart zijn voorbeelden.</span></footer>';
   }
   function siteHTML() {
     if (S.branche === 'beauty') return beautyHTML();
@@ -972,7 +1022,7 @@ html, body { overflow-x: clip; }
     var nav = $('[data-nav]', phone.site), open = nav && nav.classList.contains('open');
     var k = phone.site.style.getPropertyValue('--k');
     phone.site.setAttribute('style', vars() + (k ? '--k:' + k + ';' : ''));
-    phone.site.innerHTML = siteHTML(); phone.site.classList.toggle('bty', S.branche === 'beauty');
+    phone.site.innerHTML = siteHTML(); phone.site.classList.toggle('bty', S.branche === 'beauty'); phone.site.classList.toggle('dk', !!sfeerPal(pal()).dark);
     if (open) $('[data-nav]', phone.site).classList.add('open');
     phone.url.textContent = slug();
   }
@@ -1003,7 +1053,7 @@ html, body { overflow-x: clip; }
     var host = $('#bHost'); if (!bP) bP = makePhone(host, true);
     var p = bP, site = p.site, scr = $('.ph-scr', host);
     var k = site.style.getPropertyValue('--k');
-    site.setAttribute('style', vars() + (k ? '--k:' + k + ';' : '')); site.innerHTML = siteHTML(); site.classList.toggle('bty', S.branche === 'beauty'); p.url.textContent = slug();
+    site.setAttribute('style', vars() + (k ? '--k:' + k + ';' : '')); site.innerHTML = siteHTML(); site.classList.toggle('bty', S.branche === 'beauty'); site.classList.toggle('dk', !!sfeerPal(pal()).dark); p.url.textContent = slug();
     $$('.wand', scr).forEach(function (w) { w.remove(); }); $$('.spk', scr).forEach(function (w) { w.remove(); });
     var bz = $('.ph-bz', host); bz.classList.remove('done'); p.vp.scrollTop = 0; fitP(p);
     var T = [];
@@ -1094,9 +1144,9 @@ html, body { overflow-x: clip; }
   function refresh() {
     $$('.lchip').forEach(function (c) { c.setAttribute('style', vars()); c.innerHTML = chipHTML(c.id !== 'chip4' && c.id !== 'chip6'); });
     var lp = $('#lookprev'); if (lp) { lp.setAttribute('style', vars()); var bb = BR[S.branche] || BR.anders; lp.innerHTML = logoHTML() + '<div class="lp-h">' + (S.branche === 'anders' ? 'Welkom bij ' + esc(nm()) + '.' : bb.h) + '</div><div class="lp-p">Zo komen je kleuren, vorm en lettertype samen.</div><div class="lp-b"><span class="p">' + esc(bb.cta) + '</span><span class="g">Bekijk diensten</span></div><div class="lp-a"></div>'; }
-    var fs = !!S.fromSite; $('#pals').hidden = fs; $('#lblpal').hidden = fs; if (fs) $('#pickers').hidden = false;
-    $('#h-look').textContent = fs ? 'zo wordt jouw stijl' : 'kies je kleuren'; $('#lblpal').textContent = 'Kleurenpalet';
-    $('#sub-look').textContent = fs ? 'Dit zijn de kleuren die we op je website vonden. Pas ze aan als je wilt, en kies sfeer, vorm en lettertype.' : 'Je kunt ze later altijd nog aanpassen.';
+    var ja = S.route === 'ja'; $('#pals').hidden = ja; $('#lblpal').hidden = ja; $('#pickers').hidden = ja ? true : S.pal !== 'eigen';
+    $('#h-look').textContent = ja ? 'kies je stijl' : 'kies je kleuren'; $('#lblpal').textContent = 'Kleurenpalet';
+    $('#sub-look').textContent = ja ? 'Je logo en kleuren staan vast. Kies de sfeer, de vorm en het lettertype.' : 'Je kunt ze later altijd nog aanpassen.';
     $('#rv-naam').textContent = nm();
     $('#dn').textContent = nm();
     renderPhone();
@@ -1109,7 +1159,7 @@ html, body { overflow-x: clip; }
     $('#plan').innerHTML = cards.join('');
   }
 
-  function order() { return S.route === 'ja' ? ['route', 'url', 'bedrijf', 'doel', 'tempo', 'look', 'laden', 'onthulling', 'contact', 'klaar'] : ['route', 'bedrijf', 'doel', 'tempo', 'look', 'laden', 'onthulling', 'contact', 'klaar']; }
+  function order() { return S.route === 'ja' ? ['route', 'url', 'bedrijf', 'doel', 'tempo', 'merk', 'look', 'laden', 'onthulling', 'contact', 'klaar'] : ['route', 'bedrijf', 'doel', 'tempo', 'look', 'laden', 'onthulling', 'contact', 'klaar']; }
   function counter(id) {
     var o = order().filter(function (x) { return x !== 'laden' && x !== 'onthulling' && x !== 'klaar' && x !== 'contact'; });
     var i = o.indexOf(id); return (i < 1) ? '' : 'Stap ' + i + ' van ' + (o.length - 1);
@@ -1127,6 +1177,7 @@ html, body { overflow-x: clip; }
     window.scrollTo(0, 0);
     var first = id === 'url' ? $('#url') : (id === 'bedrijf' && S.route === 'nee') ? $('#naam') : id === 'contact' ? $('#vn') : null;
     if (first) { try { first.focus({ preventScroll: true }); } catch (e) { first.focus(); } } else { try { $('.step.on').focus({ preventScroll: true }); } catch (e) {} }
+    if (id === 'merk') renderMerk();
     if (id === 'onthulling') { refresh(); planHTML(); fit(); setTimeout(function () { fit(); hint(); }, 150); }
   }
   $('#back').addEventListener('click', function () { var p = hist.pop(); if (p === 'laden') p = hist.pop(); if (p === 'onthulling' && cur === 'contact') { show('onthulling', true); return; } if (p) show(p, true); });
@@ -1151,7 +1202,7 @@ html, body { overflow-x: clip; }
   function applyFacts() {
     var F = S.facts; if (!F) return;
     if (F.name && !S.nTouched) S.naam = F.name;
-    if (F.colors && F.colors[0]) { S.siteCols = F.colors; if (S.route === 'ja') { S.cp = F.colors[0]; S.ca = F.colors[1] || mix(F.colors[0], '#ffffff', .3); S.pal = 'eigen'; S.fromSite = true; if (!S.sfeer) { S.sfeer = 'licht'; $$('#sfeer .sty').forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-sf') === 'licht' ? 'true' : 'false'); }); } $('#cp').value = S.cp; $('#ca').value = S.ca; } }
+    if (F.colors && F.colors[0]) { S.siteCols = F.colors; if (S.route === 'ja') { setBrand(lum(F.colors[0]) > .55 ? mix(F.colors[0], '#000000', .38) : F.colors[0]); if (!S.sfeer) { S.sfeer = 'licht'; $$('#sfeer .sty').forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-sf') === 'licht' ? 'true' : 'false'); }); } } }
     if (!S.brPicked) { var g = guessBranche(F.signals); if (g) { S.branche = g; S.brPicked = true; } }
     try { buildBranches(); buildPals(); refresh(); } catch (e) {}
   }
@@ -1209,7 +1260,7 @@ html, body { overflow-x: clip; }
   $('#beslis').addEventListener('click', function (e) { var b = e.target.closest('[data-d]'); if (!b) return; S.beslis = b.getAttribute('data-d'); $$('#beslis .chip').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); }); $('#e-tempo').textContent = ''; });
   $('#go-tempo').addEventListener('click', function () {
     if (!S.live || !S.beslis) { $('#e-tempo').textContent = !S.live ? 'Kies wanneer je live wilt.' : 'Kies wie er beslist.'; shake($('#go-tempo')); return; }
-    track('Contact', { step: 'tempo', live: S.live, beslis: S.beslis }); show('look');
+    track('Contact', { step: 'tempo', live: S.live, beslis: S.beslis }); show(S.route === 'ja' ? 'merk' : 'look');
   });
 
   $('#pals').addEventListener('click', function (e) { var b = e.target.closest('[data-p]'); if (!b) return; S.pal = b.getAttribute('data-p');
@@ -1224,6 +1275,51 @@ html, body { overflow-x: clip; }
     $$('#sfeer .sty').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); }); later(); });
   $('#fonts').addEventListener('click', function (e) { var b = e.target.closest('[data-f]'); if (!b) return; S.font = b.getAttribute('data-f');
     $$('#fonts .sty').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); }); later(); });
+
+  var brandChanged = false;
+  function renderMerk() {
+    var F = S.facts, got = !!(F && F.colors && F.colors[0]), wait = !factsDone;
+    if (wait && factsP) factsP.then(function () { if (cur === 'merk') renderMerk(); });
+    if (S.route === 'ja') { S.pal = 'eigen'; S.fromSite = true; }
+    var pl = $('#mlogo'); pl.setAttribute('style', vars()); pl.innerHTML = logoHTML();
+    var fl = !!(F && F.logo), has = logoOk();
+    $('#sub-merk').textContent = wait ? 'We lezen je website nog...' : (got || fl ? 'Dit lazen we van je website. Kloppen je logo en je kleur?' : 'We konden je logo en kleur niet goed lezen. Kies ze hieronder.');
+    $('#n-logo').textContent = has ? (S.logoData ? 'Dit is het logo dat je uploadde.' : 'Dit is het logo dat we op je website vonden.') : (S.logoOff ? 'We gebruiken je bedrijfsnaam als logo.' : 'We vonden geen logo. Upload er een, of we gebruiken je bedrijfsnaam.');
+    $('#logooff').hidden = !has; $('#logoback').hidden = !(S.logoOff || S.logoData) || !fl;
+    $('#msw').style.background = S.cp; $('#mhex').textContent = S.cp; $('#cp2').value = S.cp;
+    var cols = (S.siteCols || []).filter(function (c, i, a) { return a.indexOf(c) === i; }).slice(0, 5);
+    $('#msws').innerHTML = cols.length > 1 ? cols.map(function (c) { var u = lum(c) > .55 ? mix(c, '#000000', .38) : c; return '<button type="button" data-c="' + u + '" style="background:' + c + '" aria-label="Kleur ' + c + '" aria-pressed="' + (u.toLowerCase() === String(S.cp).toLowerCase()) + '"></button>'; }).join('') : '';
+    $('#n-col').textContent = got ? (brandChanged ? 'Je accentkleur kiezen wij zelf, passend bij deze kleur.' : 'Dit is de hoofdkleur van je website. De accentkleur kiezen wij zelf, passend bij deze kleur.') : 'Kies de hoofdkleur van je bedrijf. De accentkleur kiezen wij zelf.';
+    $('#go-merk-t').textContent = (brandChanged || S.logoData || S.logoOff) ? 'Doorgaan' : (got || has ? 'Ja, dit klopt' : 'Doorgaan');
+    refresh();
+  }
+  $('#cp2').addEventListener('input', function (e) { brandChanged = true; setBrand(e.target.value); $('#msw').style.background = S.cp; $('#mhex').textContent = S.cp; $$('#msws button').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); }); $('#mlogo').setAttribute('style', vars()); later(); });
+  $('#msws').addEventListener('click', function (e) { var b = e.target.closest('[data-c]'); if (!b) return; brandChanged = true; setBrand(b.getAttribute('data-c')); renderMerk(); });
+  $('#logooff').addEventListener('click', function () { S.logoOff = true; S.logoData = ''; renderMerk(); });
+  $('#logoback').addEventListener('click', function () { S.logoOff = false; S.logoData = ''; $('#logofile').value = ''; renderMerk(); });
+  $('#logofile').addEventListener('change', function (e) {
+    var f = e.target.files && e.target.files[0]; if (!f) return; var note = $('#n-logo');
+    var okType = /^image\/(png|jpeg|webp|svg\+xml)$/.test(f.type);
+    if (!okType) { note.textContent = 'Dit bestand kan ik niet gebruiken. Kies een PNG, JPG, WEBP of SVG.'; e.target.value = ''; return; }
+    if (f.size > 5 * 1024 * 1024) { note.textContent = 'Dit bestand is te groot (maximaal 5 MB).'; e.target.value = ''; return; }
+    var rd = new FileReader();
+    rd.onerror = function () { note.textContent = 'Het lezen van dit bestand lukte niet. Probeer een ander bestand.'; };
+    rd.onload = function () {
+      var url = String(rd.result || '');
+      var done = function (d) { S.logoData = d; S.logoOff = false; brandChanged = true; track('Contact', { step: 'logo-upload' }); renderMerk(); };
+      if (f.type === 'image/svg+xml') { if (f.size > 300 * 1024) { note.textContent = 'Dit SVG-bestand is te groot (maximaal 300 KB).'; return; } done(url); return; }
+      var im = new Image();
+      im.onload = function () {
+        var sc = Math.min(1, 520 / Math.max(im.width, im.height)), cv = document.createElement('canvas');
+        cv.width = Math.max(1, Math.round(im.width * sc)); cv.height = Math.max(1, Math.round(im.height * sc));
+        try { cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height); done(cv.toDataURL('image/png')); } catch (er) { done(url); }
+      };
+      im.onerror = function () { note.textContent = 'Dit plaatje kan ik niet openen. Probeer een ander bestand.'; };
+      im.src = url;
+    };
+    rd.readAsDataURL(f);
+  });
+  $('#go-merk').addEventListener('click', function () { track('Contact', { step: 'merk', changed: brandChanged }); show('look'); });
   $('#go-look').addEventListener('click', function () { track('Contact', { step: 'look', pal: S.pal }); refresh(); startLoad(S.generated); });
 
   var loadTimers = [];
@@ -1297,6 +1393,7 @@ html, body { overflow-x: clip; }
   });
   $('#restart').addEventListener('click', function () {
     factsFor = ""; S = fresh();
+    brandChanged = false; try { $('#logofile').value = ''; } catch (e) {}
     ['#url', '#naam', '#naam2', '#vn', '#tel'].forEach(function (s) { $(s).value = ''; });
     $('#urlchip').hidden = true; $('#f-naam2').hidden = true; $('#nameblock').hidden = false; $('#lbl-br').hidden = false;
     $$('#live .chip, #beslis .chip').forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
