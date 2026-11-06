@@ -608,6 +608,210 @@ html, body { overflow-x: clip; }
 .site.desk.acc .s-foot { margin-top: 44px; }
 .site.desk.acc .a-cols { grid-template-columns: repeat(3, 1fr); }
 @media (prefers-reduced-motion: reduce) { .acc .a-live i::after { animation: none; } }
+/* ---- Bouw & techniek ---- */
+.site.bw { --bn: color-mix(in srgb, var(--p) 12%, #060910); --bn2: color-mix(in srgb, var(--p) 20%, #0a0e16); --bt: #EEF2F6; --bm: #9AA7B8; --bl: rgba(255,255,255,.14); --lamp: var(--a); --onl: var(--ona); --ok: #2f9e5b; font-family: 'Figtree', system-ui, sans-serif; }
+.bw h1, .bw h2, .bw h3, .bw h4 { font-family: var(--hf); font-weight: var(--hw); letter-spacing: -.035em; }
+.bw .s-nav { background: var(--bn); color: var(--bt); border-bottom: 1px solid var(--bl); }
+.bw .s-nav .lg { color: var(--bt); }
+.bw .s-burger i { background: var(--bt); }
+.bw .s-menu { background: var(--bn); box-shadow: 0 24px 30px -12px rgba(0,0,0,.5); }
+.bw .s-menu a { border-color: var(--bl); color: var(--bt); }
+.bw .ph { display: inline-block; font: 700 9.5px/1 'Figtree', sans-serif; letter-spacing: .1em; text-transform: uppercase; padding: 4px 8px; border-radius: 99px; border: 1px dashed currentColor; opacity: .72; vertical-align: middle; margin-left: 6px; white-space: nowrap; }
+.bw .bw-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 24px; border-radius: var(--btnr); font: 700 15.5px/1 'Figtree', sans-serif; cursor: pointer; border: 0; }
+.bw .bw-btn.p { background: var(--lamp); color: var(--onl); }
+.bw .bw-btn.g { border: 1px solid var(--bl); color: var(--bt); background: none; }
+.bw .live { display: inline-flex; align-items: center; gap: 9px; font: 700 13px/1 'Figtree', sans-serif; padding: 9px 13px; border-radius: 99px; border: 1px solid var(--bl); background: rgba(255,255,255,.06); white-space: nowrap; color: var(--bt); }
+.bw .live i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); animation: bwp 2s infinite; }
+.bw .live .ls { color: var(--bm); font-weight: 500; }
+.bw .live[data-s="open"] { --c: #3DDC84; } .bw .live[data-s="pauze"] { --c: #FFA726; } .bw .live[data-s="dicht"] { --c: #FF5C5C; }
+@keyframes bwp { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--c) 70%, transparent); } 70%, 100% { box-shadow: 0 0 0 9px transparent; } }
+.bw .bh { position: relative; background: var(--bn); color: var(--bt); overflow: hidden; }
+.bw .bh-art { position: absolute; left: 0; right: 0; top: 0; height: 404px; }
+.bw .bh-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 100% 45%; display: block; }
+.bw .bh-art .lit { animation: bwlit 2.8s cubic-bezier(.45,0,.25,1) .7s both; }
+.bw.bwd .bh-art .lit { animation: none; }
+@keyframes bwlit { from { opacity: 0; } to { opacity: 1; } }
+.bw .spot { position: absolute; border-radius: 50%; opacity: 0; transition: opacity .5s; pointer-events: none; mix-blend-mode: screen; aspect-ratio: 1; transform: translate(-50%,-50%); background: radial-gradient(circle, rgba(140,180,255,.55), rgba(140,180,255,.18) 45%, transparent 70%); }
+.bw .bh-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, color-mix(in srgb, var(--bn) 55%, transparent) 0, transparent 24%, transparent 52%, var(--bn) 98%); }
+.bw .bh-in { position: relative; z-index: 2; padding: 300px 18px 30px; }
+.bw .bh h1 { font-size: 42px; line-height: .98; max-width: 11ch; margin-bottom: 18px; text-wrap: balance; }
+.bw .bw-sub { font-size: 16.5px; color: #C4CEDA; max-width: 34ch; margin-bottom: 22px; }
+.bw .ask { background: rgba(8,11,17,.68); backdrop-filter: blur(14px); border: 1px solid var(--bl); border-radius: var(--rad); padding: 16px; }
+.bw .lb { font: 700 14px/1.3 'Figtree', sans-serif; margin-bottom: 11px; display: block; }
+.bw .bw-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.bw .bw-chip { min-height: 42px; padding: 0 15px; border-radius: 99px; border: 1px solid var(--bl); background: none; color: inherit; font: 600 14.5px/1 'Figtree', sans-serif; cursor: pointer; }
+.bw .bw-chip[aria-pressed="true"] { background: var(--lamp); color: var(--onl); border-color: var(--lamp); font-weight: 800; }
+.bw .ask-row { display: grid; gap: 10px; margin-top: 13px; }
+.bw .bw-fld { min-height: 50px; padding: 0 15px; border-radius: var(--btnr); border: 1px solid var(--bl); background: rgba(255,255,255,.06); color: inherit; font: 500 16px 'Figtree', sans-serif; min-width: 0; width: 100%; box-sizing: border-box; }
+.bw textarea.bw-fld { padding: 13px 15px; min-height: 90px; resize: vertical; }
+.bw .bw-fld::placeholder { color: #8896A8; }
+.bw .bw-info { margin-top: 11px; font-size: 14px; color: #B8C3D0; min-height: 22px; }
+.bw .bw-info b { color: #fff; } .bw .bw-info em { font-style: normal; color: var(--lamp); font-weight: 700; }
+.bw .bw-call { margin-top: 15px; font-size: 14px; color: #9FACBB; }
+.bw .bw-call a { color: #E6EBF1; font-weight: 700; }
+.bw .bh .live { margin-top: 14px; }
+.bw .bw-trust { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--bl); }
+.bw .bw-trust > div { padding: 15px 10px 15px 0; border-bottom: 1px solid var(--bl); font-size: 13.5px; line-height: 1.35; color: #B8C3D0; }
+.bw .bw-trust > div:nth-child(even) { padding-left: 13px; border-left: 1px solid var(--bl); }
+.bw .bw-trust b { display: block; font: var(--hw) 20px/1.1 var(--hf); color: #fff; letter-spacing: -.02em; margin-bottom: 3px; }
+.bw .bw-trust b s { text-decoration: none; color: var(--lamp); font-size: 14px; letter-spacing: 1px; margin-right: 5px; }
+.bw .bw-sec { padding: 60px 18px; }
+.bw .sl { background: var(--sb); color: var(--si); }
+.bw .sd { background: var(--bn); color: var(--bt); }
+.bw .sd2 { background: var(--bn2); color: var(--bt); }
+.bw .h2 { font-size: 34px; line-height: .98; text-wrap: balance; }
+.bw .bw-lead { font-size: 16px; margin-top: 14px; max-width: 40ch; opacity: .72; }
+.bw .head { margin-bottom: 30px; }
+.bw .cmp { position: relative; border-radius: var(--rad); overflow: hidden; background: #0A0E15; --x: 50%; user-select: none; }
+.bw .cmp .la, .bw .cmp .lb2 { aspect-ratio: 4/3; }
+.bw .cmp img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 100% 50%; }
+.bw .cmp .lb2 { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--x)) 0 0); }
+.bw .cmp .bw-bar { position: absolute; top: 0; bottom: 0; left: var(--x); width: 2px; background: #fff; transform: translateX(-1px); pointer-events: none; }
+.bw .cmp .grip { position: absolute; top: 50%; left: var(--x); width: 46px; height: 46px; border-radius: 50%; background: #fff; color: #0C121B; transform: translate(-50%,-50%); display: grid; place-items: center; font: 700 16px/1 'Figtree', sans-serif; pointer-events: none; box-shadow: 0 6px 24px rgba(0,0,0,.4); }
+.bw .cmp input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+.bw .cmp .bw-tag { position: absolute; bottom: 12px; padding: 7px 12px; border-radius: 99px; background: rgba(10,14,21,.78); color: #fff; font: 700 12.5px/1 'Figtree', sans-serif; }
+.bw .cmp .t1 { left: 12px; } .bw .cmp .t2 { right: 12px; }
+.bw .bw-facts { display: grid; grid-template-columns: 1fr 1fr; margin-top: 20px; border-top: 1px solid var(--line); }
+.bw .bw-facts > div { padding: 13px 10px 13px 0; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+.bw .bw-facts b { display: block; color: var(--si); font-size: 15.5px; }
+.bw .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 40px; }
+.bw .tile { position: relative; aspect-ratio: 3/4; border-radius: var(--rad); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; padding: 12px; color: #fff; isolation: isolate; }
+.bw .tile::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--tx); }
+.bw .tile::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(140deg, rgba(255,255,255,.26), transparent 46%), linear-gradient(0deg, rgba(0,0,0,.62), transparent 48%); }
+.bw .tile .ph { align-self: flex-start; margin: 0; background: rgba(10,14,21,.6); color: #fff; border-style: solid; border-color: rgba(255,255,255,.3); opacity: 1; }
+.bw .tile h3 { font-size: 24px; line-height: 1; } .bw .tile p { font-size: 13px; color: #D4DCE5; margin-top: 3px; }
+.bw .tx1 { --tx: repeating-linear-gradient(90deg, rgba(0,0,0,.4) 0 2px, transparent 2px 36px), linear-gradient(170deg, #7A8591, #2F363F 58%, #161A20); }
+.bw .tx2 { --tx: linear-gradient(rgba(0,0,0,.3) 1.5px, transparent 1.5px) 0 0/58px 58px, linear-gradient(90deg, rgba(0,0,0,.3) 1.5px, transparent 1.5px) 0 0/58px 58px, radial-gradient(120% 80% at 70% 8%, #F4F1EC, #BEC3C3 55%, #6D7573); }
+.bw .tx3 { --tx: repeating-linear-gradient(0deg, #3A1D0E 0 5px, #E0935C 7px, #F6C69E 9px, #B86A3A 12px, #3A1D0E 15px 32px), #17120F; }
+.bw .tx4 { --tx: repeating-linear-gradient(96deg, #6A4829 0 3px, #82603C 3px 10px, #5A3D24 10px 13px, #8F6B45 13px 21px), #5A3D24; }
+.bw .rows { border-top: 1px solid var(--bl); }
+.bw .row { width: 100%; display: grid; grid-template-columns: 1fr auto; gap: 2px 14px; padding: 22px 0; border: 0; border-bottom: 1px solid var(--bl); text-align: left; align-items: baseline; background: none; color: inherit; font: inherit; cursor: pointer; }
+.bw .row .rn { font: var(--hw) 25px/1.04 var(--hf); letter-spacing: -.035em; overflow-wrap: break-word; hyphens: auto; }
+.bw .row .rd { grid-column: 1; color: var(--bm); font-size: 14.5px; }
+.bw .row .rm { grid-column: 2; grid-row: 1/3; text-align: right; display: flex; flex-direction: column; justify-content: center; font-size: 13px; color: var(--bm); }
+.bw .row .rm b { color: #fff; font-weight: 700; } .bw .row .rm i { font-style: normal; color: var(--lamp); }
+.bw .steps { border-top: 1px solid var(--si); list-style: none; padding: 0; margin: 0; }
+.bw .steps li { display: grid; grid-template-columns: 48px 1fr; gap: 0 12px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.bw .steps .n { font: var(--hw) 42px/.9 var(--hf); letter-spacing: -.04em; }
+.bw .steps h3 { font-size: 22px; line-height: 1.1; margin-bottom: 6px; }
+.bw .steps p { color: var(--muted); font-size: 15px; }
+.bw .steps .vv { display: inline-block; margin-top: 9px; font: 700 12px/1 'Figtree', sans-serif; padding: 7px 11px; background: var(--si); color: var(--sb); border-radius: 99px; }
+.bw .promise { margin-top: 24px; display: grid; gap: 9px; font-weight: 700; font-size: 15.5px; }
+.bw .promise div { padding-left: 17px; position: relative; }
+.bw .promise div::before { content: ""; position: absolute; left: 0; top: .55em; width: 8px; height: 8px; border-radius: 50%; background: var(--lamp); }
+.bw .mphone { margin-top: 44px; background: var(--bn); color: var(--bt); border-radius: 26px; padding: 14px; border: 5px solid color-mix(in srgb, var(--bn) 70%, #556); box-shadow: 0 30px 60px -22px rgba(0,0,0,.5); }
+.bw .mphone .pt { display: flex; justify-content: space-between; align-items: center; padding: 4px 6px 12px; font-size: 12.5px; color: var(--bm); }
+.bw .mphone h4 { font-size: 19px; line-height: 1.15; padding: 0 6px 11px; }
+.bw .feed { display: grid; gap: 9px; }
+.bw .fi { background: var(--bn2); border-radius: 14px; padding: 12px 13px; font-size: 14px; line-height: 1.45; border: 1px solid var(--bl); }
+.bw .fi small { display: block; color: var(--lamp); font-weight: 700; margin-bottom: 2px; font-size: 12px; }
+.bw .fi .pp { display: flex; gap: 6px; margin-top: 9px; }
+.bw .fi .pp span { flex: 1; aspect-ratio: 1; border-radius: 8px; }
+.bw .fi .pp span:nth-child(1) { background: linear-gradient(150deg, #8C6B49, #3a2a1b); } .bw .fi .pp span:nth-child(2) { background: linear-gradient(150deg, #C7774A, #4a2512); } .bw .fi .pp span:nth-child(3) { background: linear-gradient(150deg, #6e7782, #262c34); }
+.bw .fi .ak { margin-top: 10px; display: flex; gap: 10px; align-items: center; justify-content: space-between; }
+.bw .ak button { background: var(--lamp); color: var(--onl); font: 700 13.5px/1 'Figtree', sans-serif; border: 0; border-radius: calc(var(--btnr) * .7); padding: 0 13px; min-height: 40px; cursor: pointer; }
+.bw .ak button[disabled] { background: rgba(255,255,255,.08); color: #3DDC84; cursor: default; }
+.bw .team { margin-top: 56px; }
+.bw .team h3 { font-size: 26px; line-height: 1.05; margin-bottom: 18px; }
+.bw .tm { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.bw .pe .pf { position: relative; aspect-ratio: 3/4; border-radius: var(--rad); overflow: hidden; background: radial-gradient(90% 60% at 50% 0, #3a4a66, #141b29 70%); }
+.bw .pe .pf::before { content: ""; position: absolute; left: 50%; top: 28%; width: 34%; aspect-ratio: 1; border-radius: 50%; background: #0B1019; transform: translateX(-50%); }
+.bw .pe .pf::after { content: ""; position: absolute; left: 50%; top: 58%; width: 74%; height: 60%; border-radius: 50% 50% 0 0; background: #0B1019; transform: translateX(-50%); }
+.bw .pe b { display: block; margin-top: 8px; font: var(--hw) 14px/1.15 var(--hf); } .bw .pe span { font-size: 12px; color: var(--muted); }
+.bw .bw-stars { font-size: 24px; letter-spacing: 4px; color: var(--lamp); margin-bottom: 6px; }
+.bw .num { display: block; font: var(--hw) 104px/.8 var(--hf); letter-spacing: -.06em; color: var(--lamp); }
+.bw .q { border-left: 3px solid var(--lamp); padding: 2px 0 2px 16px; margin-top: 22px; font-size: 17.5px; line-height: 1.45; }
+.bw .q small { display: block; color: var(--bm); font-size: 13.5px; margin-top: 6px; }
+.bw .km { list-style: none; padding: 0; border-top: 1px solid var(--bl); margin: 8px 0 0; }
+.bw .km li { padding: 16px 0; border-bottom: 1px solid var(--bl); }
+.bw .km b { display: block; font: var(--hw) 22px/1.1 var(--hf); letter-spacing: -.02em; } .bw .km span { color: var(--bm); font-size: 15px; }
+.bw .garantie { margin-top: 40px; font: var(--hw) 40px/.95 var(--hf); letter-spacing: -.045em; }
+.bw .garantie small { display: block; font: 400 15.5px/1.5 'Figtree', sans-serif; letter-spacing: 0; color: var(--bm); margin-top: 12px; }
+.bw .two { display: grid; gap: 56px; }
+.bw .res { margin-top: 12px; font-size: 17px; font-weight: 700; min-height: 28px; }
+.bw .res[data-y="1"] { color: #1f8a4c; } .bw .res[data-y="0"] { color: #c2410c; }
+.bw .dk .res[data-y="1"], .site.bw.dk .res[data-y="1"] { color: #3DDC84; } .site.bw.dk .res[data-y="0"] { color: #FF9A6B; }
+.bw .sl .bw-fld { background: color-mix(in srgb, var(--si) 6%, var(--sb)); border-color: var(--line); color: var(--si); }
+.bw .sl .bw-fld::placeholder { color: var(--muted); }
+.bw .plaatsen { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 18px; }
+.bw .plaatsen span:not(.ph) { padding: 8px 14px; border: 1px solid var(--line); border-radius: 99px; font-weight: 600; font-size: 14px; }
+.bw .bw-faq h2 { margin-bottom: 22px; }
+.bw details { border-bottom: 1px solid var(--line); }
+.bw details:first-of-type { border-top: 1px solid var(--si); }
+.bw summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 14px; align-items: center; padding: 19px 0; font: var(--hw) 19px/1.15 var(--hf); letter-spacing: -.02em; }
+.bw summary::-webkit-details-marker { display: none; }
+.bw summary::after { content: "+"; font-size: 28px; line-height: 1; color: var(--kc); font-weight: 500; }
+.bw details[open] summary::after { transform: rotate(45deg); }
+.bw details p { padding: 0 30px 20px 0; color: var(--muted); font-size: 15px; }
+.bw .prices { display: grid; border-top: 1px solid var(--bl); margin-bottom: 64px; }
+.bw .prices > div { padding: 20px 0; border-bottom: 1px solid var(--bl); }
+.bw .prices small { color: var(--bm); font-size: 13.5px; display: block; margin-bottom: 4px; }
+.bw .prices b { display: block; font: var(--hw) 28px/1 var(--hf); letter-spacing: -.035em; margin-bottom: 8px; }
+.bw .prices p { color: var(--bm); font-size: 14.5px; }
+.bw .offer { display: grid; gap: 34px; }
+.bw .offer h2 { font-size: 34px; line-height: .98; max-width: 12ch; }
+.bw .stt { margin-top: 20px; display: flex; flex-direction: column; gap: 11px; align-items: flex-start; }
+.bw .stt p { color: var(--bm); font-size: 14.5px; }
+.bw .dm { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-size: 12px; color: var(--bm); }
+.bw .dm button { padding: 6px 10px; border: 1px solid var(--bl); border-radius: 99px; font: 600 12px/1 'Figtree', sans-serif; background: none; color: inherit; cursor: pointer; }
+.bw .dm button[aria-pressed="true"] { background: #fff; color: #0C121B; }
+.bw .spoed { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--bl); font-size: 14.5px; color: var(--bm); }
+.bw .spoed b { color: var(--lamp); }
+.bw .oform { display: grid; gap: 13px; }
+.bw .oform .lb { margin-bottom: 7px; }
+.bw .done { padding: 20px; border: 1px solid var(--lamp); border-radius: var(--rad); font-size: 16px; line-height: 1.5; }
+.bw .done[hidden] { display: none; }
+.bw .s-foot { background: #05070b; color: var(--bt); border: 0; margin: 0; padding: 60px 18px 70px; display: block; text-align: center; }
+.bw .bw-flogo { display: inline-block; background: #fff; border-radius: calc(var(--rad) * .7); padding: 9px 14px; margin: 0 auto 18px; }
+.bw .bw-flogo img { display: block; max-height: 52px; max-width: 170px; object-fit: contain; }
+.bw .mark { font: var(--hw) var(--fs, 54px)/.84 var(--hf); letter-spacing: -.05em; text-transform: uppercase; overflow-wrap: anywhere; background: linear-gradient(180deg, #F4F6F8 0, rgba(244,246,248,.6) 45%, rgba(244,246,248,.22) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.bw .mk2 { color: var(--bm); margin: 16px 0 0; font-size: 14px; }
+.bw .bw-glow { height: 2px; margin: 30px auto 0; max-width: 360px; background: linear-gradient(90deg, transparent, var(--lamp), transparent); opacity: .75; }
+.bw .fcols { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 16px; margin-top: 48px; text-align: left; }
+.bw .fcols h4 { font: 700 12px/1 'Figtree', sans-serif; letter-spacing: .06em; color: var(--bm); margin-bottom: 12px; text-transform: uppercase; }
+.bw .fcols p, .bw .fcols span { display: block; font-size: 14px; color: #CBD4DE; line-height: 1.7; }
+.bw .fcols a { color: inherit; }
+.bw .legal { margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--bl); display: grid; gap: 6px; font-size: 12px; color: #7E8B9B; }
+.bw .legal .b-ex { opacity: .85; }
+@media (prefers-reduced-motion: reduce) { .bw .bh-art .lit { animation: none; } .bw .live i { animation: none; } }
+/* desktop */
+.site.desk.bw .s-nav { padding: 16px 48px; }
+.site.desk.bw .s-menu { background: none; box-shadow: none; }
+.site.desk.bw .s-menu a { border: 0; color: var(--bt); }
+.site.desk.bw .bh { min-height: 760px; display: flex; flex-direction: column; justify-content: center; }
+.site.desk.bw .bh-art { left: auto; right: 0; width: 58%; height: 716px; }
+.site.desk.bw .bh-art::after { background: linear-gradient(90deg, var(--bn) 0, color-mix(in srgb, var(--bn) 70%, transparent) 14%, transparent 38%), linear-gradient(180deg, color-mix(in srgb, var(--bn) 50%, transparent) 0, transparent 20%, transparent 80%, var(--bn) 100%); }
+.site.desk.bw .bh-in { padding: 80px 48px 56px; }
+.site.desk.bw .bh h1 { font-size: 72px; }
+.site.desk.bw .bw-sub { font-size: 19px; max-width: 38ch; }
+.site.desk.bw .ask { max-width: 520px; }
+.site.desk.bw .ask-row { grid-template-columns: 1fr 1.4fr; }
+.site.desk.bw .bw-trust { grid-template-columns: repeat(4, 1fr); max-width: 940px; border-bottom: 0; }
+.site.desk.bw .bw-trust > div { border-bottom: 0; padding: 15px 16px 0; border-left: 1px solid var(--bl); }
+.site.desk.bw .bw-trust > div:first-child { padding-left: 0; border-left: 0; }
+.site.desk.bw .bw-sec { padding: 110px 48px; }
+.site.desk.bw .h2 { font-size: 64px; }
+.site.desk.bw .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; }
+.site.desk.bw .head .bw-lead { max-width: 36ch; margin: 0; }
+.site.desk.bw .cmp .la, .site.desk.bw .cmp .lb2 { aspect-ratio: 16/9; }
+.site.desk.bw .bw-facts { grid-template-columns: repeat(4, 1fr); }
+.site.desk.bw .tiles { grid-template-columns: repeat(4, 1fr); }
+.site.desk.bw .row { padding: 30px 0; grid-template-columns: 1.3fr 1.2fr auto; align-items: center; }
+.site.desk.bw .row .rn { font-size: 48px; } .site.desk.bw .row .rd { grid-column: 2; font-size: 15.5px; } .site.desk.bw .row .rm { grid-column: 3; grid-row: 1; font-size: 14px; }
+.site.desk.bw .cols { display: grid; grid-template-columns: 1.15fr .85fr; gap: 80px; align-items: start; }
+.site.desk.bw .mphone { margin-top: 0; }
+.site.desk.bw .tm { max-width: 640px; }
+.site.desk.bw .two { grid-template-columns: 1fr 1fr; gap: 80px; }
+.site.desk.bw .num { font-size: 190px; }
+.site.desk.bw .garantie { font-size: 70px; }
+.site.desk.bw .prices { grid-template-columns: repeat(3, 1fr); }
+.site.desk.bw .prices > div { border-bottom: 0; padding: 24px 26px 24px 0; } .site.desk.bw .prices > div + div { padding-left: 26px; border-left: 1px solid var(--bl); }
+.site.desk.bw .offer { grid-template-columns: .9fr 1.1fr; gap: 80px; }
+.site.desk.bw .offer h2 { font-size: 56px; }
+.site.desk.bw .s-foot { display: block; margin-top: 0; text-align: center; padding: 110px 48px 70px; }
+.site.desk.bw .mark { font-size: calc(var(--fs, 54px) * 2.6); }
+.site.desk.bw .fcols { grid-template-columns: repeat(4, 1fr); }
+.site.desk.bw .legal { grid-template-columns: 1fr auto; }
 
 /* ---- Beauty-variant (Daglicht) ---- */
 .site.bty { --bw: max(300, calc(var(--hw) - 450)); --bi: color-mix(in srgb, var(--p) 58%, #000); --bd: color-mix(in srgb, var(--p) 34%, #000); --bt: color-mix(in srgb, var(--p) 30%, var(--sb)); --bm: color-mix(in srgb, var(--p) 14%, var(--sb)); --bb: color-mix(in srgb, var(--p) 6%, var(--sb)); --bp: color-mix(in srgb, var(--a) 70%, var(--sb)); background: var(--bb); color: var(--bi); font-family: 'Figtree', system-ui, sans-serif; }
@@ -1138,7 +1342,106 @@ html, body { overflow-x: clip; }
       '<div class="a-cols"><div><b>Diensten</b>' + G.slice(0, 4).map(function (x) { return '<span>' + esc(x[0]) + '</span>'; }).join('') + '</div><div><b>Contact</b>' + (telTxt ? '<span>' + telTxt + '</span>' : '') + (mail ? '<span>' + mail + '</span>' : '') + '<span>Afspraak maken</span></div><div><b>Adres</b><span>' + (adr || 'Jouw adres') + '</span></div></div>' +
       '<span>© 2026 ' + n + '</span><span class="b-ex">Voorbeeld van een demo-ontwerp. Teksten, prijzen, cijfers, keurmerken en kaart zijn voorbeelden.</span></footer>';
   }
+
+  /* ---- Bouw & techniek ---- */
+  var BW_D = {
+    dak: { n: 'Dakkapel', d: '3 tot 5 werkdagen', p: '€ 7.500', t: 'Extra ruimte onder het dak.' },
+    zon: { n: 'Zonnepanelen', d: '1 dag', p: '€ 4.900', t: 'Opbrengst berekend op jouw dak.' },
+    warm: { n: 'Warmtepomp', d: '2 tot 3 dagen', p: '€ 6.900', t: 'Advies, installatie en hulp bij de subsidie.' },
+    bad: { n: 'Badkamer', d: '2 tot 3 weken', p: '€ 9.500', t: 'Van sloop tot laatste voeg, door één team.' },
+    elek: { n: 'Elektra', d: '1 tot 2 dagen', p: '€ 450', t: 'Groepenkast, laadpaal, verlichting en storing.' },
+    aanb: { n: 'Aanbouw', d: '8 tot 12 weken', p: '€ 45.000', t: 'Eén aanspreekpunt van tekening tot oplevering.' }
+  };
+  var BW_K = ['dak', 'zon', 'warm', 'bad', 'elek', 'aanb'];
+  var BW_PT = { dak: [[933, 448, 70]], zon: [[1165, 395, 150]], warm: [[924, 630, 80], [1280, 630, 80], [815, 725, 70]], bad: [[1040, 630, 85]], elek: [[1160, 610, 110], [921, 770, 50], [1058, 748, 50], [1192, 748, 50]], aanb: [[1480, 640, 170]] };
+  var BWS = { sel: null, force: 'live' };
+  function bwShort(t) { t = String(t).trim(); if (t.length <= 26) return t; var c = t.slice(0, 26), i = c.lastIndexOf(' '); return (i > 10 ? c.slice(0, i) : c).replace(/[,.;:\s]+$/, ''); }
+  function bwList() {
+    var F = S.facts && S.route === 'ja' && S.facts.services;
+    if (!F || F.length < 3) return BW_K.map(function (k) { var v = BW_D[k]; return { k: k, n: v.n, d: v.d, p: v.p, t: v.t }; });
+    var map = [[/dak/i, 'dak'], [/zonne|solar|pv\b/i, 'zon'], [/warmte|cv|ketel|verwarm/i, 'warm'], [/bad|sanit|toilet/i, 'bad'], [/elek|stroom|laadpa|domotica|storing/i, 'elek'], [/aanbouw|uitbouw|verbouw|bouw|renovat/i, 'aanb']], used = {};
+    return F.slice(0, 6).map(function (t, i) {
+      var k = null; map.forEach(function (m) { if (!k && !used[m[1]] && m[0].test(t)) { k = m[1]; used[k] = 1; } });
+      var v = k ? BW_D[k] : null;
+      return { k: k || 'x' + i, n: bwShort(t), d: v ? v.d : 'Duur volgt', p: v ? v.p : '€ XXX', t: v ? v.t : 'Door ons eigen team, met een vaste prijs.' };
+    });
+  }
+  function bwStat() {
+    var s = BWS.force;
+    if (s === 'live') {
+      var o = {}; try { new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Amsterdam', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date()).forEach(function (x) { o[x.type] = x.value; }); } catch (e) { o = { weekday: 'Mon', hour: '10', minute: '00' }; }
+      var d = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }[o.weekday], h = (+o.hour % 24) + (+o.minute) / 60;
+      s = (d >= 1 && d <= 5 && h >= 7.5 && h < 17) ? ((h >= 12 && h < 12.5) ? 'pauze' : 'open') : 'dicht';
+    }
+    return s === 'open' ? ['open', 'Open', 'tot 17:00', 'We zijn open. Je hoort binnen één werkdag van ons.'] : s === 'pauze' ? ['pauze', 'Pauze', 'terug 12:30', 'We zijn even in pauze. Om 12:30 zijn we er weer, of laat je gegevens achter.'] : ['dicht', 'Gesloten', 'ma tot vr 7:30', 'We zijn nu gesloten. Laat je gegevens achter, dan bellen we je terug zodra we open zijn.'];
+  }
+  function bwPaint(site) {
+    if (!site) return; var r = bwStat();
+    $$('[data-live]', site).forEach(function (e) { e.setAttribute('data-s', r[0]); $('.bw-lv', e).textContent = r[1]; $('.ls', e).textContent = r[2]; });
+    var t = $('.bw-stt', site); if (t) t.textContent = r[3];
+    $$('.dm button', site).forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-bf') === BWS.force ? 'true' : 'false'); });
+  }
+  function bwApply(site) {
+    if (!site || !$('.bh-art', site)) return;
+    var L = bwList(), cur = L.filter(function (x) { return x.k === BWS.sel; })[0];
+    if (BWS.sel && !cur && BWS.sel !== 'anders') BWS.sel = null;
+    $$('.bw-chip', site).forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-bk') === BWS.sel ? 'true' : 'false'); });
+    var i = $('.bw-info', site);
+    if (i) { if (cur) i.innerHTML = '<b>' + esc(cur.n) + '</b> · ' + esc(cur.d) + ' · vanaf <em>' + esc(cur.p) + '</em> <span class="ph">Voorbeeld</span>'; else i.textContent = BWS.sel === 'anders' ? 'Vertel in de offerte wat je wilt. We denken graag mee.' : 'Kies een klus. Je ziet direct duur en prijs vanaf.'; }
+    var lit = $('.lit', site), sp = $('.spot', site), W = 360, H = 404, IW = 1672, IH = 941, pts = BW_PT[BWS.sel];
+    if (!lit) return;
+    if (!pts) { lit.style.webkitMaskImage = ''; lit.style.maskImage = ''; if (sp) sp.style.opacity = 0; }
+    else {
+      var sc = Math.max(W / IW, H / IH), ox = W - IW * sc, oy = (H - IH * sc) * .45;
+      var m = pts.map(function (p) { return 'radial-gradient(ellipse ' + (p[2] * sc / W * 100).toFixed(2) + '% ' + (p[2] * sc / H * 100).toFixed(2) + '% at ' + ((p[0] * sc + ox) / W * 100).toFixed(2) + '% ' + ((p[1] * sc + oy) / H * 100).toFixed(2) + '%,#000 0,#000 40%,transparent 100%)'; }).join(',');
+      lit.style.webkitMaskImage = m; lit.style.maskImage = m;
+      if (sp) { if (BWS.sel === 'zon') { var q = pts[0], R = q[2] * sc; sp.style.width = (R * 2 / W * 100).toFixed(2) + '%'; sp.style.left = ((q[0] * sc + ox) / W * 100).toFixed(2) + '%'; sp.style.top = ((q[1] * sc + oy) / H * 100).toFixed(2) + '%'; sp.style.opacity = 1; } else sp.style.opacity = 0; }
+    }
+    bwPaint(site);
+  }
+  function bwSet(site, k, fromHero) { BWS.sel = (BWS.sel === k && fromHero) ? null : k; bwApply(site); }
+  function bwHTML() {
+    var F = (S.route === 'ja' && S.facts) || {}, tel = (F.phone || '').replace(/[^\d+]/g, ''), telTxt = !tel ? '' : /^06\d{8}$/.test(tel) ? tel.replace(/^(06)(\d{2})(\d{2})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5') : /^0\d{9}$/.test(tel) ? tel.replace(/^(0\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4') : tel, adr = esc(F.address || ''), mail = esc(F.email || ''), tag = (F.tagline || '').trim();
+    var nl = nm(), n = esc(nl), L = bwList(), st = bwStat(), ph = '<span class="ph">Voorbeeld</span>';
+    var chips = L.map(function (x) { return '<button type="button" class="bw-chip" data-bk="' + x.k + '" aria-pressed="false">' + esc(x.n) + '</button>'; }).join('') + '<button type="button" class="bw-chip" data-bk="anders" aria-pressed="false">Iets anders</button>';
+    var rows = L.map(function (x) { return '<button type="button" class="row" data-bk="' + x.k + '" data-go="cta"><span class="rn">' + esc(x.n) + '</span><span class="rd">' + esc(x.t) + '</span><span class="rm"><b>' + esc(x.d) + '</b><i>vanaf ' + esc(x.p) + ' ' + ph + '</i></span></button>'; }).join('');
+    var pill = function (x) { return '<span class="live" data-live data-s="' + st[0] + '" role="status"' + (x ? ' style="' + x + '"' : '') + '><i></i><b class="bw-lv">' + st[1] + '</b><span class="ls">' + st[2] + '</span></span>'; };
+    var telA = telTxt ? '<a href="tel:' + tel + '">' + telTxt + '</a>' : '<a>085 000 00 00</a>' + ph;
+    var W = nl.split(/\s+/).reduce(function (m, w) { return Math.max(m, w.length); }, 4), fs = Math.max(26, Math.min(64, Math.floor(318 / (W * .66))));
+    var key = function (w, b) { return '<li><b>' + w + '</b><span>' + b + '</span></li>'; };
+    return '<nav class="s-nav" data-nav>' + logoHTML() + '<button class="s-burger" data-menu type="button" tabindex="-1" aria-label="Menu"><i></i><i></i><i></i></button><div class="s-menu"><a data-go="wrk">Werk</a><a data-go="svc">Diensten</a><a data-go="way">Werkwijze</a><a data-go="cta">Contact</a></div></nav>' +
+      '<div class="bh"><div class="bh-art"><img class="unlit" src="img/huis-uit.webp" alt=""><img class="lit" src="img/huis-aan.webp" alt=""><i class="spot"></i></div>' +
+      '<div class="bh-in"><h1>Klaar als het licht aan gaat.</h1><p class="bw-sub">' + (tag && tag.length <= 110 ? esc(tag) : 'Verbouw en installatie door eigen vakmensen. Vaste prijs, vaste afspraken, één aanspreekpunt.') + '</p>' +
+      '<div class="ask"><span class="lb">Wat moet er gebeuren?</span><div class="bw-chips">' + chips + '</div><div class="ask-row"><input class="bw-fld" data-bhp inputmode="numeric" maxlength="7" placeholder="Postcode" aria-label="Postcode"><button type="button" class="bw-btn p" data-bsub>Vraag offerte aan</button></div><div class="bw-info" aria-live="polite">Kies een klus. Je ziet direct duur en prijs vanaf.</div></div>' +
+      '<p class="bw-call">Liever praten? Bel ' + telA + ' of app ons.</p>' + pill() +
+      '<div class="bw-trust"><div><b><s>★★★★★</s>4,9</b>13 Google-reviews ' + ph + '</div><div><b>10 jaar</b>garantie op ons werk</div><div><b>VCA</b>gecertificeerd ' + ph + '</div><div><b>Verzekerd</b>voor jouw project</div></div></div></div>' +
+      '<section class="bw-sec sl" data-sec="wrk"><div class="head"><h2 class="h2">Van grauw<br>naar thuis.</h2><p class="bw-lead">Sleep om het verschil te zien. Hier komt een echt project van jullie, met foto’s van voor en na.</p></div>' +
+      '<div class="cmp"><div class="la"><img src="img/verbouw-na.webp" alt="Het huis na de verbouwing" loading="lazy"></div><div class="lb2"><img src="img/verbouw-voor.webp" alt="Hetzelfde huis voor de verbouwing" loading="lazy"></div><div class="bw-bar"></div><div class="grip">⇄</div><span class="bw-tag t1">Voor</span><span class="bw-tag t2">Na</span><input type="range" min="4" max="96" value="50" data-brng aria-label="Schuif om voor en na te vergelijken"></div>' +
+      '<div class="bw-facts"><div>Project<b>Voorbeeldwoning ' + ph + '</b></div><div>Plaats<b>' + (adr ? adr.split(',').pop().replace(/^\s*\d{4}\s?[A-Za-z]{2}\s*/, '').trim() || 'Jouw plaats' : 'Jouw plaats') + '</b></div><div>Duur<b>9 weken</b></div><div>Wat<b>Verbouw en installatie</b></div></div>' +
+      '<div class="tiles"><div class="tile tx1"><span class="ph">Foto volgt</span><div><h3>Dak</h3><p>Zink en leien</p></div></div><div class="tile tx2"><span class="ph">Foto volgt</span><div><h3>Badkamer</h3><p>Tegel en voeg</p></div></div><div class="tile tx3"><span class="ph">Foto volgt</span><div><h3>Installatie</h3><p>Leidingwerk</p></div></div><div class="tile tx4"><span class="ph">Foto volgt</span><div><h3>Aanbouw</h3><p>Hout en glas</p></div></div></div></section>' +
+      '<section class="bw-sec sd" data-sec="svc"><div class="head"><h2 class="h2">Zes klussen,<br>één team.</h2><p class="bw-lead">Duur en prijs vanaf staan erbij. De echte prijs krijg je na de gratis opname.</p></div><div class="rows">' + rows + '</div></section>' +
+      '<section class="bw-sec sl" data-sec="way"><div class="head"><h2 class="h2">Zo gaat het<br>van start tot sleutel.</h2></div><div class="cols"><div><ol class="steps">' +
+      '<li><span class="n">1</span><div><h3>Opname</h3><p>We komen langs, meten op en luisteren naar wat je wilt. Gratis en vrijblijvend.</p><span class="vv">1 dag</span></div></li>' +
+      '<li><span class="n">2</span><div><h3>Tekening en vaste prijs</h3><p>Je krijgt een tekening, een vaste prijs en een opleverdatum. Op papier.</p><span class="vv">Binnen 1 week</span></div></li>' +
+      '<li><span class="n">3</span><div><h3>Bouw</h3><p>Vaste mensen op jouw klus. Elke dag zie je wat er gedaan is.</p><span class="vv">Zoals afgesproken</span></div></li>' +
+      '<li><span class="n">4</span><div><h3>Oplevering</h3><p>Schoon en af. We lopen samen alles na, nawerk doen we binnen 14 dagen.</p><span class="vv">Op de afgesproken dag</span></div></li></ol>' +
+      '<div class="promise"><div>Eén vast aanspreekpunt die ook zelf meewerkt</div><div>Eigen mensen, geen uitzendkrachten</div><div>Geen meerwerk zonder jouw akkoord</div></div></div>' +
+      '<div class="mphone"><div class="pt"><span>Jouw klus</span>' + ph + '</div><h4>Badkamer Voorbeeldstraat 12</h4><div class="feed"><div class="fi"><small>Dag 4 · vandaag</small>Leidingen liggen, wanden zijn dicht. Morgen starten de tegels.<div class="pp"><span></span><span></span><span></span></div></div><div class="fi"><small>Meerwerk, wacht op jou</small>Extra stopcontact naast de spiegel. € 85, geen vertraging.<div class="ak"><span>Akkoord?</span><button type="button" data-bak>Akkoord geven</button></div></div><div class="fi"><small>Dag 3</small>Sloop klaar, puin afgevoerd.</div></div></div></div>' +
+      '<div class="team"><h3>De mensen die bij je komen ' + ph + '</h3><div class="tm"><div class="pe"><div class="pf"></div><b>Naam Achternaam</b><span>Eigenaar</span></div><div class="pe"><div class="pf"></div><b>Naam Achternaam</b><span>Uitvoerder</span></div><div class="pe"><div class="pf"></div><b>Naam Achternaam</b><span>Installateur</span></div></div></div></section>' +
+      '<section class="bw-sec sd2" data-sec="rev"><div class="two"><div><div class="bw-stars" aria-hidden="true">★★★★★</div><span class="num">4,9</span><p style="margin-top:16px;color:var(--bm)">gemiddeld uit 13 Google-reviews ' + ph + '</p><div class="q">“Hier komt een echte beoordeling van een klant, met naam en plaats.”<small>Naam, Plaats</small></div><div class="q">“Op tijd klaar, netjes opgeruimd, prijs klopte.”<small>Naam, Plaats</small></div></div>' +
+      '<div><p class="bw-lead" style="margin:0 0 14px">Keurmerken en verzekeringen, met wat ze voor jou betekenen. ' + ph + '</p><ul class="km">' + key('VCA', 'We werken aantoonbaar veilig, ook op jouw erf.') + key('NEN 1010', 'Elektra aangelegd volgens de norm.') + key('Techniek Nederland', 'Aangesloten installateur met vaste voorwaarden.') + key('CAR-verzekering', 'Schade tijdens de bouw is gedekt.') + '</ul><div class="garantie">10 jaar garantie<small>Op ons werk. Als er iets niet klopt, komen we het herstellen, zonder gedoe. ' + ph + '</small></div></div></div></section>' +
+      '<section class="bw-sec sl"><div class="two"><div><h2 class="h2" style="margin-bottom:18px">Komen we<br>bij jou?</h2><p class="bw-lead" style="margin:0 0 18px">Vul je postcode in en je weet het meteen.</p><input class="bw-fld" data-bpc inputmode="numeric" maxlength="7" placeholder="Postcode, bijv. 7511" aria-label="Postcode controleren"><div class="res" data-bres aria-live="polite"></div><div class="plaatsen"><span>Jouw plaats</span><span>Plaats twee</span><span>Plaats drie</span>' + ph + '</div></div>' +
+      '<div class="bw-faq"><h2 class="h2">Even kort<br>uitgelegd.</h2><details open><summary>Wat kost het?</summary><p>Na de gratis opname krijg je een vaste prijs. Op deze pagina zie je per klus een prijs vanaf. Wat het echt wordt hangt af van je huis en je wensen.</p></details><details><summary>Regelen jullie de vergunning?</summary><p>Ja, als het nodig is. We vertellen je bij de opname of je een vergunning nodig hebt en regelen de aanvraag.</p></details><details><summary>Wat als het meer werk wordt?</summary><p>Dan hoor je dat eerst, met prijs. Zonder jouw akkoord doen we niets extra.</p></details><details><summary>Kan ik thuis blijven wonen?</summary><p>Meestal wel. We bespreken vooraf welke ruimtes je even niet kunt gebruiken en houden de rest schoon en bereikbaar.</p></details></div></div></section>' +
+      '<section class="bw-sec sd" data-sec="cta"><div class="prices"><div><small>Opname</small><b>Gratis</b><p>We komen langs en meten op. Je zit nergens aan vast.</p></div><div><small>Na de opname</small><b>Vaste prijs</b><p>Op papier, met opleverdatum. Dat blijft de prijs.</p></div><div><small>Storing of spoed</small><b>€ 85 per uur</b><p>Plus voorrijkosten. Vooraf duidelijk, nooit achteraf. ' + ph + '</p></div></div>' +
+      '<div class="offer"><div><h2>Vertel wat er moet gebeuren.</h2><div class="stt">' + pill() + '<p class="bw-stt">' + st[3] + '</p><div class="dm">Voorbeeld van de standen:<button type="button" data-bf="open" aria-pressed="false">Open</button><button type="button" data-bf="pauze" aria-pressed="false">Pauze</button><button type="button" data-bf="dicht" aria-pressed="false">Gesloten</button><button type="button" data-bf="live" aria-pressed="true">Nu</button></div></div>' +
+      '<p class="spoed">Storing of lekkage? Stuur direct een bericht via <b>WhatsApp</b> en we komen zo snel mogelijk. ' + ph + '</p></div>' +
+      '<div class="oform"><div><span class="lb">Wat moet er gebeuren?</span><div class="bw-chips">' + chips + '</div></div><div><label class="lb">Naam</label><input class="bw-fld" data-bn></div><div><label class="lb">Telefoon</label><input class="bw-fld" data-bt inputmode="tel"></div><div><label class="lb">Postcode</label><input class="bw-fld" data-bp inputmode="numeric" maxlength="7"></div><div><label class="lb">Wil je er iets bij vertellen? (niet verplicht)</label><textarea class="bw-fld"></textarea></div><button type="button" class="bw-btn p" data-bsend>Vraag offerte aan</button><div class="done" data-bdone hidden></div></div></div></section>' +
+      '<footer class="s-foot">' + (logoOk() ? '<div class="bw-flogo"><img src="' + esc(logoSrc()) + '" alt="' + n + '" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></div>' : '') + '<div class="mark" style="--fs:' + fs + 'px">' + n + '</div><p class="mk2">' + (tag && tag.length <= 80 ? esc(tag) : 'Bouw en installatie') + '</p><div class="bw-glow"></div>' +
+      '<div class="fcols"><div><h4>Diensten</h4>' + L.slice(0, 6).map(function (x) { return '<span>' + esc(x.n) + '</span>'; }).join('') + '</div><div><h4>Contact</h4>' + (telTxt ? '<span>' + telTxt + '</span>' : '<span>085 000 00 00</span>') + (mail ? '<span>' + mail + '</span>' : '') + '<span>WhatsApp</span></div><div><h4>Adres en uren</h4><p>' + (adr || 'Jouw adres') + '<br><br>Ma tot vr 7:30 tot 17:00<br>Pauze 12:00 tot 12:30</p></div><div><h4>Werkgebied</h4><p>Jouw plaats en omgeving.</p></div></div>' +
+      '<div class="legal"><span>KvK 00000000 · BTW NL000000000B01 ' + ph + '</span><span>© 2026 ' + n + '</span><span class="b-ex">Voorbeeld van een demo-ontwerp. Teksten, prijzen, cijfers, keurmerken en foto’s zijn voorbeelden.</span></div></footer>';
+  }
   function siteHTML() {
+    if (S.branche === 'bouw') return bwHTML();
     if (S.branche === 'beauty') return beautyHTML();
     if (S.branche === 'zakelijk') return accHTML();
     var b = BR[S.branche], n = esc(nm());
@@ -1157,15 +1460,29 @@ html, body { overflow-x: clip; }
       '<footer class="s-foot">' + logoHTML() + '<nav><span>Diensten</span><span>Over ons</span><span>Contact</span></nav><span>© 2026 ' + n + '</span></footer>';
   }
 
+  setInterval(function () { if (S.branche === 'bouw') { bwPaint(phone && phone.site); bwPaint(bP && bP.site); } }, 30000);
   var phone = null;
   function makePhone(host, own) {
     host.innerHTML = '<div class="phone"><div class="ph-bz"><div class="ph-scr"><div class="ph-st"><span>9:41</span><i></i><svg viewBox="0 0 18 12" fill="#111" aria-hidden="true"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4.5" width="3" height="7.5" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg></div><div class="ph-url"><div><svg viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 5V4a3 3 0 1 1 6 0v1h.5A1.5 1.5 0 0 1 11 6.5v4A1.5 1.5 0 0 1 9.5 12h-7A1.5 1.5 0 0 1 1 10.5v-4A1.5 1.5 0 0 1 2.5 5zm1.5 0h3V4a1.5 1.5 0 0 0-3 0z"/></svg><span class="u"></span></div></div><div class="ph-vp" tabindex="0" role="region" aria-label="Voorbeeld van jouw website, scroll om alles te bekijken"><div class="site" aria-hidden="true"></div></div><div class="ph-home"></div></div></div></div>' +
       '<span class="ph-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>Scroll in de telefoon</span>';
     var p = { host: host, vp: $('.ph-vp', host), site: $('.site', host), url: $('.u', host), touched: false };
     ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(function (ev) { p.vp.addEventListener(ev, function () { p.touched = true; }, { passive: true }); });
+    p.vp.addEventListener('input', function (e) {
+      var t = e.target;
+      if (t.matches && t.matches('[data-brng]')) { t.parentNode.style.setProperty('--x', t.value + '%'); return; }
+      if (t.matches && t.matches('[data-bpc]')) { var v = t.value.replace(/\s/g, ''), r = $('[data-bres]', p.site); if (v.length < 4) { r.textContent = ''; r.setAttribute('data-y', ''); return; } var ok = /^(74|75|76|77)/.test(v); r.setAttribute('data-y', ok ? '1' : '0'); r.textContent = ok ? 'Ja, wij komen bij je langs. Opname is gratis.' : 'Dit ligt net buiten ons gebied. Bel gerust, soms kunnen we nog.'; }
+    });
     p.vp.addEventListener('click', function (e) {
       var m = e.target.closest('[data-menu]');
       if (m) { $('[data-nav]', p.site).classList.toggle('open'); return; }
+      var bk = e.target.closest('[data-bk]');
+      if (bk) { bwSet(p.site, bk.getAttribute('data-bk'), !!bk.closest('.bh')); if (!bk.hasAttribute('data-go')) return; }
+      var bf = e.target.closest('[data-bf]'); if (bf) { BWS.force = bf.getAttribute('data-bf'); bwPaint(p.site); return; }
+      var ba = e.target.closest('[data-bak]'); if (ba) { ba.textContent = 'Akkoord gegeven'; ba.disabled = true; return; }
+      var bs = e.target.closest('[data-bsub]');
+      if (bs) { var hp = $('[data-bhp]', p.site), op = $('[data-bp]', p.site); if (hp && op) op.value = hp.value; var go = $('[data-sec="cta"]', p.site), kk = parseFloat(p.site.style.getPropertyValue('--k')) || 1; if (go) p.vp.scrollTo({ top: Math.max(0, go.getBoundingClientRect().top - p.vp.getBoundingClientRect().top + p.vp.scrollTop - 54 * kk), behavior: reduce ? 'auto' : 'smooth' }); return; }
+      var be = e.target.closest('[data-bsend]');
+      if (be) { var dn = $('[data-bdone]', p.site), nn = $('[data-bn]', p.site); dn.hidden = false; dn.textContent = 'Bedankt' + (nn && nn.value.trim() ? ' ' + nn.value.trim() : '') + '. We bellen je ' + (bwStat()[0] === 'dicht' ? 'zodra we open zijn.' : 'binnen één werkdag.') + ' Dit is een voorbeeld, er is niets verstuurd.'; return; }
       var wh = e.target.closest('[data-who]');
       if (wh) { var k2 = wh.getAttribute('data-who'); $$('[data-who]', p.site).forEach(function (b) { b.setAttribute('aria-pressed', b === wh ? 'true' : 'false'); }); var rs = $('.a-res', p.site); if (rs) rs.innerHTML = whoHTML(k2); return; }
       var g = e.target.closest('[data-go]');
@@ -1187,7 +1504,8 @@ html, body { overflow-x: clip; }
     var nav = $('[data-nav]', phone.site), open = nav && nav.classList.contains('open');
     var k = phone.site.style.getPropertyValue('--k');
     phone.site.setAttribute('style', vars() + (k ? '--k:' + k + ';' : ''));
-    phone.site.innerHTML = siteHTML(); phone.site.classList.toggle('bty', S.branche === 'beauty'); phone.site.classList.toggle('acc', S.branche === 'zakelijk'); phone.site.classList.toggle('dk', !!sfeerPal(pal()).dark);
+    phone.site.innerHTML = siteHTML(); phone.site.classList.toggle('bty', S.branche === 'beauty'); phone.site.classList.toggle('acc', S.branche === 'zakelijk'); phone.site.classList.toggle('bw', S.branche === 'bouw'); phone.site.classList.toggle('dk', !!sfeerPal(pal()).dark);
+    if (S.branche === 'bouw') { if (phone.site.getAttribute('data-bwr')) phone.site.classList.add('bwd'); phone.site.setAttribute('data-bwr', '1'); bwApply(phone.site); } else { phone.site.classList.remove('bwd'); phone.site.removeAttribute('data-bwr'); }
     if (open) $('[data-nav]', phone.site).classList.add('open');
     phone.url.textContent = slug();
   }
@@ -1218,13 +1536,14 @@ html, body { overflow-x: clip; }
     var host = $('#bHost'); if (!bP) bP = makePhone(host, true);
     var p = bP, site = p.site, scr = $('.ph-scr', host);
     var k = site.style.getPropertyValue('--k');
-    site.setAttribute('style', vars() + (k ? '--k:' + k + ';' : '')); site.innerHTML = siteHTML(); site.classList.toggle('bty', S.branche === 'beauty'); site.classList.toggle('acc', S.branche === 'zakelijk'); site.classList.toggle('dk', !!sfeerPal(pal()).dark); p.url.textContent = slug();
+    site.setAttribute('style', vars() + (k ? '--k:' + k + ';' : '')); site.innerHTML = siteHTML(); site.classList.toggle('bty', S.branche === 'beauty'); site.classList.toggle('acc', S.branche === 'zakelijk'); site.classList.toggle('bw', S.branche === 'bouw'); site.classList.remove('bwd'); site.classList.toggle('dk', !!sfeerPal(pal()).dark); if (S.branche === 'bouw') bwApply(site); p.url.textContent = slug();
     $$('.wand', scr).forEach(function (w) { w.remove(); }); $$('.spk', scr).forEach(function (w) { w.remove(); });
     var bz = $('.ph-bz', host); bz.classList.remove('done'); p.vp.scrollTop = 0; fitP(p);
     var T = [];
     function add(sel, kind) { $$(sel, site).forEach(function (e) { T.push({ e: e, k: kind || 'pop' }); }); }
-    add('.s-nav .lg'); add('.s-burger'); add('.s-kick'); add('.s-hero h1', 'type'); add('.s-hero p'); add('.s-btns'); add('.s-artw');
-    add('.s-usp div'); add('.s-sec h2'); add('.s-card'); add('.s-about'); add('.s-rev'); add('.s-cta'); add('.s-foot');
+    if (S.branche === 'bouw') { add('.s-nav .lg'); add('.s-burger'); add('.bh h1', 'type'); add('.bh .bw-sub'); add('.bh .ask'); add('.bh .bw-trust'); add('.bw .head'); add('.bw .cmp'); add('.bw .row'); add('.bw .steps li'); add('.bw .km li'); add('.bw .oform'); add('.s-foot'); }
+    else { add('.s-nav .lg'); add('.s-burger'); add('.s-kick'); add('.s-hero h1', 'type'); add('.s-hero p'); add('.s-btns'); add('.s-artw');
+    add('.s-usp div'); add('.s-sec h2'); add('.s-card'); add('.s-about'); add('.s-rev'); add('.s-cta'); add('.s-foot'); }
     if (reduce) return;
     T.forEach(function (o) {
       o.e.classList.add('bp');
