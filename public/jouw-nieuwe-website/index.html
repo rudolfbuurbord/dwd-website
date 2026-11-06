@@ -491,6 +491,124 @@ html, body { overflow-x: clip; }
 .msws button { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--line-2); cursor: pointer; padding: 0; }
 .msws button[aria-pressed="true"] { border-color: var(--fg); box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--fg); }
 
+
+/* ---- Accountancy / zakelijk-variant ---- */
+.site.acc { font-family: 'Figtree', system-ui, sans-serif; --ac: var(--kc); }
+.site.acc.dk { --ac: var(--a); }
+.acc h1, .acc h2, .acc h3 { font-family: var(--hf); font-weight: var(--hw); letter-spacing: -.03em; }
+.acc .s-kick::before { display: none; }
+.acc .s-kick { color: var(--ac); }
+.acc .s-hero { padding: 26px 18px 6px; }
+.acc .s-hero h1 { font-size: 40px; line-height: 1.02; margin: 12px 0 14px; }
+.acc .s-hero h1 em { font-style: normal; color: var(--ac); }
+.acc .s-hero p { max-width: none; }
+.acc .a-live { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font: 700 12.5px/1 'Figtree', sans-serif; padding: 8px 12px; border-radius: 99px; background: var(--card); border: 1px solid var(--line); color: var(--si); }
+.acc .a-live i { width: 9px; height: 9px; border-radius: 50%; background: var(--sc, #2f9e5b); position: relative; flex: none; }
+.acc .a-live i::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--sc, #2f9e5b); animation: apls 1.8s ease-out infinite; }
+@keyframes apls { 0% { transform: scale(1); opacity: .65; } 100% { transform: scale(3); opacity: 0; } }
+.acc .a-live[data-s="open"] { --sc: #2f9e5b; } .acc .a-live[data-s="pauze"] { --sc: #e8892b; } .acc .a-live[data-s="dicht"] { --sc: #d9433b; }
+.acc .s-btns { margin: 20px 0 8px; }
+.acc .s-b { border-radius: var(--btnr); }
+.acc .a-who { margin: 18px 18px 0; padding: 20px; border-radius: calc(var(--rad) + 6px); background: var(--p); color: var(--onp); display: grid; gap: 12px; }
+.acc .a-who h2 { font-size: 24px; }
+.acc .a-who .sm { font-size: 13.5px; opacity: .85; margin-top: -6px; }
+.acc .a-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.acc .a-tile { font: 700 14.5px/1.2 'Figtree', sans-serif; text-align: left; padding: 12px; border-radius: calc(var(--rad) * .7); border: 1.5px solid color-mix(in srgb, var(--onp) 32%, transparent); background: color-mix(in srgb, var(--onp) 8%, transparent); color: inherit; cursor: pointer; }
+.acc .a-tile[aria-pressed="true"] { background: var(--onp); color: var(--p); border-color: var(--onp); }
+.acc .a-res { background: var(--sb); color: var(--si); border-radius: calc(var(--rad) * .8); padding: 16px; display: grid; gap: 8px; }
+.acc .a-res h3 { font-size: 18px; }
+.acc .a-res ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 14px; }
+.acc .a-res li::before { content: "\2713"; color: var(--ac); font-weight: 800; margin-right: 8px; }
+.acc .a-res .pr { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid var(--line); padding-top: 8px; font-size: 12.5px; color: var(--muted); }
+.acc .a-res .pr b { font: var(--hw) 19px var(--hf); color: var(--si); }
+.acc .a-stats { display: grid; grid-template-columns: 1fr 1fr; margin: 26px 18px 0; border-radius: var(--rad); background: var(--card); border: 1px solid var(--line); overflow: hidden; }
+.acc .a-stats div { padding: 16px; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.acc .a-stats div:nth-child(-n+2) { border-top: 0; } .acc .a-stats div:nth-child(odd) { border-left: 0; }
+.acc .a-stats b { display: block; font: var(--hw) 26px/1 var(--hf); letter-spacing: -.04em; color: var(--ac); white-space: nowrap; }
+.acc .a-stats span { display: block; font-size: 12.5px; color: var(--muted); margin-top: 5px; }
+.acc .xx { border-bottom: 2px dashed currentColor; padding: 0 1px; }
+.acc .ph { display: inline-block; font: 700 9.5px/1 'Figtree', sans-serif; letter-spacing: .1em; text-transform: uppercase; padding: 4px 8px; border-radius: 99px; border: 1px dashed currentColor; opacity: .7; vertical-align: middle; margin-left: 6px; }
+.acc .s-sec { padding: 44px 18px 4px; }
+.acc .s-sec h2 { font-size: 30px; margin-bottom: 8px; }
+.acc .s-sec .in { color: var(--muted); font-size: 14.5px; margin-bottom: 18px; }
+.acc .a-mk { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.acc .a-mk div { border: 1.5px dashed color-mix(in srgb, var(--si) 25%, transparent); border-radius: calc(var(--rad) * .7); padding: 14px 10px; text-align: center; min-height: 74px; display: grid; place-content: center; }
+.acc .a-mk b { font: var(--hw) 17px var(--hf); display: block; }
+.acc .a-mk small { font-size: 11px; color: var(--muted); display: block; margin-top: 3px; line-height: 1.25; }
+.acc .a-sw { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.acc .a-sw span { font: 700 12.5px/1 'Figtree', sans-serif; padding: 9px 12px; border: 1.5px dashed color-mix(in srgb, var(--si) 25%, transparent); border-radius: 99px; }
+.acc .s-card { margin-bottom: 10px; grid-template-columns: 40px 1fr; }
+.acc .s-card em { border-radius: var(--markr); background: var(--p); color: var(--onp); }
+.acc .a-pk { display: grid; gap: 10px; }
+.acc .a-plan { position: relative; padding: 18px; border-radius: var(--rad); background: var(--card); border: 1px solid var(--line); display: grid; gap: 8px; }
+.acc .a-plan.pop { background: var(--p); color: var(--onp); border-color: var(--p); }
+.acc .a-plan .fl { position: absolute; top: -10px; right: 16px; background: var(--a); color: var(--ona); font: 700 10px/1 'Figtree', sans-serif; letter-spacing: .08em; text-transform: uppercase; padding: 6px 10px; border-radius: 99px; }
+.acc .a-plan h3 { font-size: 21px; }
+.acc .a-plan .pr { font: var(--hw) 28px/1 var(--hf); letter-spacing: -.04em; } .acc .a-plan .pr small { font: 500 12.5px 'Figtree', sans-serif; letter-spacing: 0; opacity: .7; }
+.acc .a-plan ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; font-size: 14px; }
+.acc .a-plan li::before { content: "\2713"; font-weight: 800; margin-right: 8px; color: var(--ac); }
+.acc .a-plan.pop li::before { color: var(--onp); }
+.acc .a-plan .for { font-size: 13px; opacity: .75; }
+.acc .a-steps { display: grid; gap: 10px; }
+.acc .a-step { display: grid; grid-template-columns: 38px 1fr; gap: 12px; padding: 16px; border-radius: var(--rad); background: var(--card); border: 1px solid var(--line); }
+.acc .a-step em { font: var(--hw) 26px/1 var(--hf); font-style: normal; color: var(--ac); }
+.acc .a-step h3 { font-size: 18px; margin-bottom: 3px; } .acc .a-step p { font-size: 14px; color: var(--muted); }
+.acc .a-step span { display: inline-block; margin-top: 6px; font: 700 11.5px 'Figtree', sans-serif; padding: 5px 10px; border-radius: 99px; background: var(--sb); border: 1px solid var(--line); }
+.acc .a-team { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.acc .a-pe .av { aspect-ratio: 4 / 5; border-radius: var(--rad); background: linear-gradient(160deg, color-mix(in srgb, var(--p) 18%, var(--sb)), color-mix(in srgb, var(--p) 38%, var(--sb))); position: relative; overflow: hidden; }
+.acc .a-pe .av::before { content: ""; position: absolute; width: 40%; aspect-ratio: 1; border-radius: 50%; background: rgba(255,255,255,.5); top: 22%; left: 30%; }
+.acc .a-pe .av::after { content: ""; position: absolute; left: 8%; right: 8%; bottom: 0; height: 40%; border-radius: 50% 50% 0 0 / 80% 80% 0 0; background: rgba(255,255,255,.45); }
+.acc .a-pe b { display: block; margin-top: 8px; font: var(--hw) 15px var(--hf); } .acc .a-pe span { font-size: 12.5px; color: var(--muted); }
+.acc .a-pe em { display: block; margin-top: 3px; font: 600 11.5px 'Figtree', sans-serif; font-style: normal; color: var(--ac); }
+.acc .s-rev { margin: 34px 18px 0; display: grid; gap: 10px; }
+.acc .a-score b { font: var(--hw) 52px/.9 var(--hf); letter-spacing: -.05em; color: var(--ac); display: block; }
+.acc .a-score .st { color: #d9a21b; letter-spacing: .15em; }
+.acc .s-rev q { font-size: 18px; }
+.acc .s-about { background: var(--card); color: var(--si); border: 1px solid var(--line); margin: 34px 18px 0; padding: 22px 18px; border-radius: var(--rad); }
+.acc .s-about h2 { font-size: 28px; margin-bottom: 10px; }
+.acc .s-about p { opacity: 1; font-size: 15px; margin-top: 8px; color: var(--muted); }
+.acc .s-about p b { color: var(--si); }
+.acc .a-map { height: 150px; border-radius: calc(var(--rad) * .8); position: relative; overflow: hidden; margin-top: 14px; background: color-mix(in srgb, var(--p) 10%, var(--sb)); }
+.acc .a-map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.acc .a-map .pn { position: absolute; left: 50%; top: 46%; width: 26px; margin: -34px 0 0 -13px; color: var(--p); }
+.acc .a-map span { position: absolute; left: 10px; bottom: 10px; font-size: 10.5px; padding: 4px 9px; border-radius: 99px; background: var(--sb); opacity: .9; }
+.acc .a-faq { padding: 44px 18px 0; }
+.acc .a-faq h2 { font-size: 28px; margin-bottom: 14px; }
+.acc details { border: 1px solid var(--line); border-radius: calc(var(--rad) * .8); background: var(--card); padding: 0 16px; margin-bottom: 8px; }
+.acc summary { list-style: none; cursor: pointer; padding: 15px 0; font: var(--hw) 16px/1.2 var(--hf); display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+.acc summary::-webkit-details-marker { display: none; }
+.acc summary::after { content: "+"; font: 400 22px 'Figtree', sans-serif; color: var(--ac); }
+.acc details[open] summary::after { content: "\2212"; }
+.acc details p { padding-bottom: 14px; font-size: 14.5px; color: var(--muted); }
+.acc .s-cta { background: var(--p); color: var(--onp); border-radius: calc(var(--rad) + 6px); }
+.acc .s-cta .s-b { background: var(--a); color: var(--ona); width: 100%; box-sizing: border-box; }
+.acc .s-cta small { display: block; font: 700 10.5px/1 'Figtree', sans-serif; letter-spacing: .16em; text-transform: uppercase; opacity: .8; margin-bottom: 14px; }
+.acc .s-foot { background: var(--p); color: var(--onp); border: 0; margin: 34px 0 0; text-align: center; padding: 34px 18px 60px; border-radius: calc(var(--rad) + 6px) calc(var(--rad) + 6px) 0 0; }
+.acc .s-foot nav { color: inherit; justify-content: center; }
+.acc .a-fbig { font: var(--hw) 42px/.92 var(--hf); letter-spacing: -.04em; text-transform: uppercase; }
+.acc .a-flogo { display: inline-block; background: #fff; border-radius: calc(var(--rad) * .7); padding: 9px 14px; margin: 0 auto 6px; }
+.acc .a-flogo img { display: block; max-height: 56px; max-width: 170px; object-fit: contain; }
+.acc .a-cols { display: grid; gap: 14px; text-align: left; margin-top: 8px; padding-top: 18px; border-top: 1px solid color-mix(in srgb, var(--onp) 25%, transparent); }
+.acc .a-cols b { display: block; font: 700 10.5px/1 'Figtree', sans-serif; letter-spacing: .14em; text-transform: uppercase; opacity: .75; margin-bottom: 6px; }
+.acc .a-cols span { display: block; font-size: 14px; line-height: 1.5; }
+.acc .b-ex { font-size: 11.5px; opacity: .65; }
+.acc .s-nav .lg:not(.nologo):has(.lgi) .lgi { max-height: 44px; max-width: 150px; }
+.acc.dk .s-nav .lg:not(.nologo):has(.lgi) { background: #fff; padding: 5px 10px; border-radius: calc(var(--rad) * .6); }
+.site.desk.acc .s-hero { padding: 56px 80px 0; max-width: 720px; }
+.site.desk.acc .s-hero h1 { font-size: 64px; }
+.site.desk.acc .a-who { margin: 28px 80px 0; max-width: 560px; }
+.site.desk.acc .a-stats { margin: 40px 80px 0; grid-template-columns: repeat(4, 1fr); }
+.site.desk.acc .a-stats div { border-top: 0; border-left: 1px solid var(--line); } .site.desk.acc .a-stats div:first-child { border-left: 0; }
+.site.desk.acc .s-sec, .site.desk.acc .a-faq { padding-left: 80px; padding-right: 80px; }
+.site.desk.acc .a-mk { grid-template-columns: repeat(4, 1fr); }
+.site.desk.acc .s-sec .cards, .site.desk.acc .a-pk, .site.desk.acc .a-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.site.desk.acc .s-sec .cards { grid-template-columns: repeat(2, 1fr); }
+.site.desk.acc .a-team { grid-template-columns: repeat(4, 1fr); }
+.site.desk.acc .s-rev, .site.desk.acc .s-about, .site.desk.acc .s-cta { margin-left: 80px; margin-right: 80px; }
+.site.desk.acc .s-foot { margin-top: 44px; }
+.site.desk.acc .a-cols { grid-template-columns: repeat(3, 1fr); }
+@media (prefers-reduced-motion: reduce) { .acc .a-live i::after { animation: none; } }
+
 /* ---- Beauty-variant (Daglicht) ---- */
 .site.bty { --bw: max(300, calc(var(--hw) - 450)); --bi: color-mix(in srgb, var(--p) 58%, #000); --bd: color-mix(in srgb, var(--p) 34%, #000); --bt: color-mix(in srgb, var(--p) 30%, var(--sb)); --bm: color-mix(in srgb, var(--p) 14%, var(--sb)); --bb: color-mix(in srgb, var(--p) 6%, var(--sb)); --bp: color-mix(in srgb, var(--a) 70%, var(--sb)); background: var(--bb); color: var(--bi); font-family: 'Figtree', system-ui, sans-serif; }
 .site.bty.dk { --bb: var(--sb); --bi: var(--si); --bd: color-mix(in srgb, var(--p) 40%, #000); }
@@ -976,8 +1094,53 @@ html, body { overflow-x: clip; }
       '<section class="s-cta" data-sec="cta"><small>Afspraak maken</small><h2>Klaar voor jouw moment?</h2><a class="s-b">Maak een afspraak</a>' + (telTxt ? '<p style="margin-top:16px;font-size:15px;opacity:.85">of bel direct: <b>' + telTxt + '</b></p>' : '') + '</section>' +
       '<footer class="s-foot">' + (logoOk() ? '<div class="b-flogo"><img src="' + esc(logoSrc()) + '" alt="' + n + '" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></div>' : '') + '<div class="b-fbig">' + esc(nl) + '</div>' + '<nav><span>Behandelingen</span><span>Kom langs</span><span>Afspraak</span></nav>' + (adr || telTxt ? '<span>' + (adr ? adr + ' · ' : '') + telTxt + '</span>' : '') + '<span>© 2026 ' + n + '</span><span class="b-ex">Voorbeeld van een demo-ontwerp. Teksten, prijzen, reviews en kaart zijn voorbeelden.</span></footer>';
   }
+
+  var WHO = { zzp: ['Voor zzp’ers', ['Btw-aangifte en inkomstenbelasting', 'Boekhouding zonder gedoe', 'Binnen één werkdag antwoord']], mkb: ['Voor het mkb', ['Complete boekhouding en jaarrekening', 'Advies over je bedrijfsstructuur', 'Eén vast aanspreekpunt']], dga: ['Voor dga’s', ['Je salaris en dividend slim geregeld', 'Fiscaal advies voor bv en holding', 'Voorbereid op overname of opvolging']], start: ['Voor starters', ['Eenmanszaak of bv? Wij helpen kiezen', 'Je administratie goed ingericht', 'Aangiftes vanaf dag één geregeld']] };
+  function whoHTML(k) { var d = WHO[k]; return '<h3>' + d[0] + '</h3><ul>' + d[1].map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul><div class="pr"><span>Vanaf <i class="ph" style="margin:0">Voorbeeld</i></span><b>€ XX / mnd</b></div>'; }
+  function openState() {
+    var o = {}; try { new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Amsterdam', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date()).forEach(function (x) { o[x.type] = x.value; }); } catch (e) { return ['open', 'Open · tot 17:30']; }
+    var d = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }[o.weekday], h = (+o.hour % 24) + (+o.minute) / 60;
+    if (d === 0 || d === 6 || h < 9 || h >= 17.5) return ['dicht', 'Gesloten · open ' + (d >= 1 && d <= 4 && h >= 17.5 ? 'morgen' : d >= 1 && d <= 5 && h < 9 ? 'vandaag' : 'ma') + ' 9:00'];
+    if (h >= 12.5 && h < 13) return ['pauze', 'Even pauze · weer open om 13:00'];
+    return ['open', 'Open · tot 17:30'];
+  }
+  function accHTML() {
+    var F = (S.route === 'ja' && S.facts) || {}, tel = (F.phone || '').replace(/[^\d+]/g, ''), telTxt = !tel ? '' : /^06\d{8}$/.test(tel) ? tel.replace(/^(06)(\d{2})(\d{2})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5') : /^0\d{9}$/.test(tel) ? tel.replace(/^(0\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 - $2 $3 $4') : tel, adr = esc(F.address || ''), mail = esc(F.email || ''), tag = esc(F.tagline || '');
+    var n = esc(nm()), nl = nm(), st = openState();
+    var arrow = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-left:8px"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+    var G = [['Boekhouding & administratie', 'Je cijfers netjes bijgehouden, elke maand.'], ['Belasting & aangiften', 'Btw, inkomsten- en vennootschapsbelasting op tijd.'], ['Advies & groei', 'Meedenken over structuur, financiering en groei.'], ['Salaris & HR', 'Loonadministratie en personeelszaken geregeld.']];
+    var ds = ['Persoonlijk advies en een nette uitvoering.', 'Helder uitgelegd, op tijd geregeld.', 'Met aandacht voor jouw situatie.', 'Zonder gedoe, met een vast aanspreekpunt.'];
+    if (S.facts && S.route === 'ja' && S.facts.services && S.facts.services.length >= 3) G = S.facts.services.slice(0, 5).map(function (t, i) { return [t, ds[i % 4]]; });
+    var cards = G.map(function (x, i) { return '<div class="s-card" data-go="cta"><em>0' + (i + 1) + '</em><div><h3>' + esc(x[0]) + '</h3><p>' + esc(x[1]) + '</p></div></div>'; }).join('');
+    var K = [['NBA', 'Beroepsorganisatie van accountants'], ['SRA', 'Samenwerkende accountants'], ['RB', 'Register Belastingadviseurs'], ['NOAB', 'Beroepsorganisatie van adviseurs'], ['Logo', 'Jouw keurmerk'], ['Logo', 'Jouw certificaat']];
+    var mk = K.map(function (x) { return '<div><span><b>' + x[0] + '</b><small>' + x[1] + '</small></span></div>'; }).join('');
+    var sw = ['Exact', 'Twinfield', 'Nmbrs', 'Snelstart', 'AFAS', 'Visionplanner'].map(function (x) { return '<span>' + x + '</span>'; }).join('');
+    var tiles = [['zzp', 'Zzp’er'], ['mkb', 'Mkb'], ['dga', 'Dga'], ['start', 'Starter']].map(function (x, i) { return '<button class="a-tile" type="button" data-who="' + x[0] + '" aria-pressed="' + (i === 0) + '">' + x[1] + '</button>'; }).join('');
+    var plan = function (t, f, items, pop) { return '<div class="a-plan' + (pop ? ' pop' : '') + '">' + (pop ? '<span class="fl">Meest gekozen</span>' : '') + '<h3>' + t + '</h3><p class="for">' + f + '</p><div class="pr"><span class="xx">€ XX</span> <small>per maand</small></div><ul>' + items.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul></div>'; };
+    var steps = [['1', 'Kennismaking', 'We luisteren en vertellen eerlijk wat we voor je kunnen doen.', '30 minuten'], ['2', 'Jouw plan en prijs', 'Je ontvangt een helder voorstel met wat we doen en wat het kost.', 'Binnen 3 dagen'], ['3', 'Wij nemen het over', 'We regelen de overdracht en starten. Jij merkt vooral rust.', 'Binnen 1 week']].map(function (x) { return '<div class="a-step"><em>' + x[0] + '</em><div><h3>' + x[1] + '</h3><p>' + x[2] + '</p><span>' + x[3] + '</span></div></div>'; }).join('');
+    var team = [['Naam Achternaam', 'Directeur'], ['Naam Achternaam', 'Adviseur'], ['Naam Achternaam', 'Boekhouder'], ['Naam Achternaam', 'Office manager']].map(function (x) { return '<div class="a-pe"><div class="av"></div><b>' + x[0] + '</b><span>' + x[1] + '</span><em>Antwoordt binnen 1 werkdag</em></div>'; }).join('');
+    var faq = [['Wat kost het?', 'Dat hangt af van je situatie. Kies een pakket, of vraag een eigen prijs aan: je hoort binnen één werkdag wat het kost en wat erin zit.'], ['Hoe snel krijg ik antwoord?', 'Op elke vraag binnen één werkdag, van je vaste contactpersoon.'], ['Kunnen jullie het van mijn huidige kantoor overnemen?', 'Ja. We regelen de overdracht, zodat jij er niets van merkt.']].map(function (f, i) { return '<details' + (i === 0 ? ' open' : '') + '><summary>' + f[0] + '</summary><p>' + f[1] + '</p></details>'; }).join('');
+    var pin = '<svg class="pn" viewBox="0 0 56 72" aria-hidden="true"><path d="M28 70C28 70 4 44 4 26a24 24 0 1 1 48 0c0 18-24 44-24 44z" fill="currentColor"/><circle cx="28" cy="26" r="10" fill="#fff"/></svg>';
+    var ph = '<i class="ph">Voorbeeld</i>';
+    return '<nav class="s-nav" data-nav>' + logoHTML() + '<button class="s-burger" data-menu type="button" tabindex="-1" aria-label="Menu"><i></i><i></i><i></i></button><div class="s-menu"><a data-go="svc">Diensten</a><a data-go="pk">Pakketten</a><a data-go="wrk">Werkwijze &amp; team</a><a data-go="rev">Ervaringen</a><a data-go="cta">Contact</a></div></nav>' +
+      '<div class="s-hero"><span class="s-kick">Accountancy &amp; advies</span><h1>' + (tag ? tag : 'Boekhouding en belasting, <em>helder</em> geregeld.') + '</h1><p>Binnen één werkdag antwoord en één vast aanspreekpunt.' + ph + '</p><span class="a-live" data-s="' + st[0] + '" role="status"><i></i>' + st[1] + '</span><div class="s-btns"><a class="s-b p" data-go="cta">Plan een kennismaking' + arrow + '</a></div></div>' +
+      '<div class="s-artw"><div class="a-who"><h2>Wie ben jij?</h2><p class="sm">Tik aan wat bij je past.</p><div class="a-tiles" role="group" aria-label="Soort klant">' + tiles + '</div><div class="a-res" id="a-res">' + whoHTML('zzp') + '</div></div></div>' +
+      '<div class="a-stats"><div><b><span class="xx">XX</span></b><span>jaar ervaring</span></div><div><b><span class="xx">XXX</span></b><span>tevreden klanten</span></div><div><b><span class="xx">X,X</span></b><span>van 5, klantbeoordeling</span></div><div><b>1 dag</b><span>reactietijd</span></div></div>' +
+      '<section class="s-sec"><h2>Erkend &amp; aangesloten' + ph + '</h2><p class="in">Alle keurmerken en lidmaatschappen van jouw kantoor, met uitleg.</p><div class="a-mk">' + mk + '</div><div class="a-sw">' + sw + '</div></section>' +
+      '<section class="s-sec" data-sec="svc"><h2>Diensten</h2><p class="in">' + (S.facts && S.route === 'ja' && S.facts.services && S.facts.services.length >= 3 ? 'Diensten van je huidige website.' : 'Voorbeelddiensten. Jouw eigen aanbod komt hier.') + '</p><div class="cards">' + cards + '</div></section>' +
+      '<section class="s-sec" data-sec="pk"><h2>Pakketten' + ph + '</h2><p class="in">Weten waar je aan toe bent. Liever maatwerk? Dan krijg je binnen één werkdag je eigen prijs.</p><div class="a-pk">' + plan('Start', 'Voor zzp’ers en starters', ['Btw-aangifte per kwartaal', 'Inkomstenbelasting', 'Vragen per mail of telefoon']) + plan('Groei', 'Voor mkb', ['Complete boekhouding', 'Jaarrekening en aangiftes', 'Vast aanspreekpunt'], 1) + plan('Compleet', 'Wie ook vooruit wil kijken', ['Alles uit Groei', 'Advies en planning', 'Kwartaalgesprek']) + '</div></section>' +
+      '<section class="s-sec" data-sec="wrk"><h2>Zo werkt het' + ph + '</h2><p class="in">Drie stappen en een vast team.</p><div class="a-steps">' + steps + '</div><div class="a-team">' + team + '</div></section>' +
+      '<section class="s-rev" data-sec="rev"><div class="a-score"><small style="margin:0 0 6px">Ervaringen' + ph + '</small><b><span class="xx">X,X</span></b><span class="st">★★★★★</span></div><q>Hier komt een echte beoordeling van een klant, met naam en bedrijf.</q><small>Naam · Beroep of bedrijf</small></section>' +
+      '<section class="s-about" data-sec="loc"><h2>Kom langs</h2><span class="a-live" data-s="' + st[0] + '" role="status" style="margin:0 0 10px"><i></i>' + st[1] + '</span>' + (adr ? '<p><b>' + adr + '</b></p>' : '<p><b>Jouw adres komt hier</b></p>') + '<p>Ma–vr 9:00–17:30' + ph + '<br>Lunchpauze 12:30–13:00</p>' + (telTxt || mail ? '<p><b>' + telTxt + '</b>' + (telTxt && mail ? '<br>' : '') + mail + '</p>' : '') + '<div class="a-map"><svg viewBox="0 0 320 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M-10 70C80 55 140 90 330 45" stroke="#fff" stroke-width="12" fill="none" opacity=".8"/><path d="M160 -10C170 50 150 100 165 170" stroke="#fff" stroke-width="9" fill="none" opacity=".8"/></svg>' + pin + '<span>Voorbeeldkaart</span></div></section>' +
+      '<div class="a-faq"><h2>Veelgestelde vragen</h2>' + faq + '</div>' +
+      '<section class="s-cta" data-sec="cta"><small>Kennismaken</small><h2>Zullen we kennismaken?</h2><p>Laat je gegevens achter. Je krijgt binnen één werkdag antwoord.</p><a class="s-b">Plan een kennismaking</a>' + (telTxt ? '<p style="margin:16px 0 0;font-size:15px">of bel direct: <b>' + telTxt + '</b></p>' : '') + '</section>' +
+      '<footer class="s-foot">' + (logoOk() ? '<div class="a-flogo"><img src="' + esc(logoSrc()) + '" alt="' + n + '" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></div>' : '') + '<div class="a-fbig">' + esc(nl) + '</div>' +
+      '<div class="a-cols"><div><b>Diensten</b>' + G.slice(0, 4).map(function (x) { return '<span>' + esc(x[0]) + '</span>'; }).join('') + '</div><div><b>Contact</b>' + (telTxt ? '<span>' + telTxt + '</span>' : '') + (mail ? '<span>' + mail + '</span>' : '') + '<span>Afspraak maken</span></div><div><b>Adres</b><span>' + (adr || 'Jouw adres') + '</span></div></div>' +
+      '<span>© 2026 ' + n + '</span><span class="b-ex">Voorbeeld van een demo-ontwerp. Teksten, prijzen, cijfers, keurmerken en kaart zijn voorbeelden.</span></footer>';
+  }
   function siteHTML() {
     if (S.branche === 'beauty') return beautyHTML();
+    if (S.branche === 'zakelijk') return accHTML();
     var b = BR[S.branche], n = esc(nm());
     var h1 = S.branche === 'anders' ? 'Welkom bij ' + (S.naam.trim() ? n : 'jouw bedrijf') + '.' : b.h;
     var svc = b.sv.map(function (x) { return x.slice(); });
@@ -1003,6 +1166,8 @@ html, body { overflow-x: clip; }
     p.vp.addEventListener('click', function (e) {
       var m = e.target.closest('[data-menu]');
       if (m) { $('[data-nav]', p.site).classList.toggle('open'); return; }
+      var wh = e.target.closest('[data-who]');
+      if (wh) { var k2 = wh.getAttribute('data-who'); $$('[data-who]', p.site).forEach(function (b) { b.setAttribute('aria-pressed', b === wh ? 'true' : 'false'); }); var rs = $('.a-res', p.site); if (rs) rs.innerHTML = whoHTML(k2); return; }
       var g = e.target.closest('[data-go]');
       if (g) {
         $('[data-nav]', p.site).classList.remove('open');
@@ -1022,7 +1187,7 @@ html, body { overflow-x: clip; }
     var nav = $('[data-nav]', phone.site), open = nav && nav.classList.contains('open');
     var k = phone.site.style.getPropertyValue('--k');
     phone.site.setAttribute('style', vars() + (k ? '--k:' + k + ';' : ''));
-    phone.site.innerHTML = siteHTML(); phone.site.classList.toggle('bty', S.branche === 'beauty'); phone.site.classList.toggle('dk', !!sfeerPal(pal()).dark);
+    phone.site.innerHTML = siteHTML(); phone.site.classList.toggle('bty', S.branche === 'beauty'); phone.site.classList.toggle('acc', S.branche === 'zakelijk'); phone.site.classList.toggle('dk', !!sfeerPal(pal()).dark);
     if (open) $('[data-nav]', phone.site).classList.add('open');
     phone.url.textContent = slug();
   }
@@ -1053,7 +1218,7 @@ html, body { overflow-x: clip; }
     var host = $('#bHost'); if (!bP) bP = makePhone(host, true);
     var p = bP, site = p.site, scr = $('.ph-scr', host);
     var k = site.style.getPropertyValue('--k');
-    site.setAttribute('style', vars() + (k ? '--k:' + k + ';' : '')); site.innerHTML = siteHTML(); site.classList.toggle('bty', S.branche === 'beauty'); site.classList.toggle('dk', !!sfeerPal(pal()).dark); p.url.textContent = slug();
+    site.setAttribute('style', vars() + (k ? '--k:' + k + ';' : '')); site.innerHTML = siteHTML(); site.classList.toggle('bty', S.branche === 'beauty'); site.classList.toggle('acc', S.branche === 'zakelijk'); site.classList.toggle('dk', !!sfeerPal(pal()).dark); p.url.textContent = slug();
     $$('.wand', scr).forEach(function (w) { w.remove(); }); $$('.spk', scr).forEach(function (w) { w.remove(); });
     var bz = $('.ph-bz', host); bz.classList.remove('done'); p.vp.scrollTop = 0; fitP(p);
     var T = [];
@@ -1197,7 +1362,7 @@ html, body { overflow-x: clip; }
 
   var SB_URL = 'https://skdjbifmtleiogbkqwid.supabase.co', SB_KEY = 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS';
   var factsP = null, factsDone = true, factsFor = '';
-  var BKEY = [['schilder', /schilder|verfwerk|spuitwerk|behang/], ['horeca', /restaurant|caf[eé]|horeca|lunch|diner|bistro|catering|bakkerij|menukaart|reserveer/], ['beauty', /kapper|kapsalon|salon|beauty|nagel|wimper|schoonheid|massage|barber/], ['zorg', /fysio|huisarts|tandarts|praktijk|therap|zorg|coach|psycholog|welzijn/], ['winkel', /webshop|winkel|collectie|bestel|shop\b/], ['bouw', /bouw|verbouw|aannemer|timmer|klus|renovat|dakdek|stukadoor|tegelzetter|installat|loodgiet|elektri|cv-|hovenier|tuin|vloer/], ['zakelijk', /advies|advocaat|accountant|makelaar|administratie|notaris|verzeker|bureau|consult|zakelijk|marketing/]];
+  var BKEY = [['zakelijk', /accountan|boekhoud|belastingadvi|fiscaal|jaarrekening|administratiekantoor|salarisadmin/], ['schilder', /schilder|verfwerk|spuitwerk|behang/], ['horeca', /restaurant|caf[eé]|horeca|lunch|diner|bistro|catering|bakkerij|menukaart|reserveer/], ['beauty', /kapper|kapsalon|salon|beauty|nagel|wimper|schoonheid|massage|barber/], ['zorg', /fysio|huisarts|tandarts|praktijk|therap|zorg|coach|psycholog|welzijn/], ['winkel', /webshop|winkel|collectie|bestel|shop\b/], ['bouw', /bouw|verbouw|aannemer|timmer|klus|renovat|dakdek|stukadoor|tegelzetter|installat|loodgiet|elektri|cv-|hovenier|tuin|vloer/], ['zakelijk', /advies|advocaat|accountant|makelaar|administratie|notaris|verzeker|bureau|consult|zakelijk|marketing/]];
   function guessBranche(t) { t = String(t || ''); for (var i = 0; i < BKEY.length; i++) if (BKEY[i][1].test(t)) return BKEY[i][0]; return ''; }
   function applyFacts() {
     var F = S.facts; if (!F) return;
