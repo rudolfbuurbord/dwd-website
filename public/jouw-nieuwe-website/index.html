@@ -4,7 +4,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500;600;700;800;900&family=Figtree:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400..600&family=Bricolage+Grotesque:wght@600..800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500;600;700;800;900&family=Figtree:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400..600&family=Bricolage+Grotesque:wght@300..800&display=swap">
 <style>
 :root {
   --bg: #050505; --card: #111112; --line: rgba(253,248,243,.12); --line-2: rgba(253,248,243,.22);
@@ -472,6 +472,73 @@ html, body { overflow-x: clip; }
 .lookprev .lp-b .p { background: var(--p); color: var(--onp); }
 .lookprev .lp-b .g { border: 1.5px solid color-mix(in srgb, var(--si) 30%, transparent); }
 .lookprev .lp-a { height: 8px; border-radius: 8px; background: linear-gradient(90deg, var(--p), var(--a)); }
+
+/* ---- Beauty-variant (Daglicht) ---- */
+.site.bty { --bw: max(300, calc(var(--hw) - 450)); --bi: color-mix(in srgb, var(--p) 58%, #000); --bd: color-mix(in srgb, var(--p) 34%, #000); --bt: color-mix(in srgb, var(--p) 30%, #fff); --bm: color-mix(in srgb, var(--p) 14%, #fff); --bb: color-mix(in srgb, var(--p) 6%, #fff); --bp: color-mix(in srgb, var(--p) 45%, #fff); background: var(--bb); color: var(--bi); font-family: 'Figtree', system-ui, sans-serif; }
+.site.bty h1, .site.bty h2, .site.bty h3 { font-family: var(--hf); font-weight: var(--bw); letter-spacing: -.035em; }
+.bty .b-hero { position: relative; height: 640px; overflow: hidden; background: linear-gradient(180deg, var(--bt) 0%, var(--bm) 45%, var(--bb) 80%); }
+.bty .s-nav { position: absolute; z-index: 5; left: 0; right: 0; top: 0; background: none; border: 0; box-shadow: none; padding: 12px 16px; }
+.bty .s-menu { background: var(--bb); }
+.bty .s-kick { position: absolute; left: 0; right: 0; top: 66px; text-align: center; font: 700 10px/1 'Figtree', sans-serif; letter-spacing: .32em; text-transform: uppercase; opacity: .8; padding: 0; background: none; color: inherit; }
+.bty .b-big { position: absolute; left: 0; right: 0; top: 82px; text-align: center; font: var(--bw) 76px/.88 var(--hf); letter-spacing: -.025em; text-transform: uppercase; background: linear-gradient(180deg, color-mix(in srgb, var(--p) 95%, #fff) 0%, color-mix(in srgb, var(--p) 60%, #fff) 55%, var(--bm) 98%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; overflow-wrap: anywhere; padding: 0 8px; }
+.bty .b-ph { position: absolute; left: -20px; top: 110px; width: 400px; height: 600px; object-fit: cover; filter: drop-shadow(0 24px 30px color-mix(in srgb, var(--p) 25%, transparent)); }
+.bty .b-fade { position: absolute; left: 0; right: 0; top: 390px; height: 250px; background: linear-gradient(180deg, rgba(255,255,255,0), var(--bb) 70%); }
+.bty .b-pill { position: absolute; z-index: 4; left: 12px; top: 250px; display: flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 99px; background: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.8); font-size: 11.5px; font-weight: 600; }
+.bty .b-pill i { width: 7px; height: 7px; border-radius: 50%; background: var(--bi); }
+.bty .b-hero .t { position: absolute; z-index: 5; left: 16px; right: 16px; bottom: 22px; display: flex; flex-direction: column; gap: 12px; }
+.bty .b-hero h1 { font-size: 30px; font-weight: calc(var(--bw) + 100); line-height: 1.04; }
+.bty .s-btns { display: block; margin: 0; }
+.bty .s-b.p { width: 100%; justify-content: space-between; height: 52px; padding: 0 8px 0 22px; border-radius: 99px; background: var(--bi); color: #fff; box-sizing: border-box; }
+.bty .s-b.p i { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.2); display: grid; place-items: center; font-style: normal; }
+.bty .b-st { padding: 64px 18px 56px; background: var(--bb); }
+.bty .b-st small, .bty .s-sec small, .bty .s-cta small { display: block; font: 700 10.5px/1 'Figtree', sans-serif; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 20px; opacity: .75; }
+.bty .b-st p.b { font: var(--bw) 32px/1.06 var(--hf); letter-spacing: -.04em; }
+.bty .b-st p.b span { color: var(--bp); }
+.bty .b-st p.sm { margin-top: 20px; font-size: 15px; line-height: 1.55; opacity: .8; }
+.bty .s-sec { background: var(--bm); padding: 56px 16px; }
+.bty .s-sec h2 { font-size: 36px; font-weight: var(--bw); margin-bottom: 8px; }
+.bty .s-sec .nt, .bty .b-note { font-size: 12px; opacity: .65; margin-top: 12px; }
+.bty .s-sec > p.in { font-size: 15px; opacity: .75; margin-bottom: 22px; }
+.bty .s-card { grid-template-columns: 1fr; min-height: 160px; align-content: space-between; border-radius: 24px; background: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.9); box-shadow: 0 22px 36px -30px color-mix(in srgb, var(--p) 60%, transparent); position: relative; overflow: hidden; }
+.bty .s-card::after { content: ""; position: absolute; right: -50px; top: -50px; width: 160px; height: 160px; border-radius: 50%; background: radial-gradient(circle at 40% 40%, var(--bp), transparent 70%); opacity: .8; }
+.bty .s-card em { width: auto; height: auto; background: none; border-radius: 0; place-items: start; font: var(--bw) 34px/1 var(--hf); color: var(--bp); position: relative; z-index: 1; }
+.bty .s-card > div { position: relative; z-index: 1; }
+.bty .s-card h3 { font-size: 21px; font-weight: 600; }
+.bty .s-card p { color: inherit; opacity: .75; }
+.bty .b-map { position: relative; height: 200px; border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,.85); background: linear-gradient(135deg, var(--bb), var(--bm)); margin-top: 14px; }
+.bty .b-map > svg:first-child { position: absolute; inset: 0; width: 100%; height: 100%; }
+.bty .s-kick::before { display: none; }
+.bty .b-pin { height: 39px; color: var(--bi); position: absolute; left: 50%; top: 40%; width: 30px; margin-left: -15px; animation: bobp 1.9s ease-in-out infinite; }
+@keyframes bobp { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+.bty .b-map span { position: absolute; left: 10px; bottom: 10px; font-size: 10.5px; padding: 4px 9px; border-radius: 99px; background: rgba(255,255,255,.75); opacity: .85; }
+.bty .s-rev { background: var(--bb); padding: 52px 18px; }
+.bty .s-rev q { font: var(--bw) 24px/1.18 var(--hf); letter-spacing: -.03em; display: block; }
+.bty .s-rev small { display: block; margin-top: 14px; font-size: 12.5px; opacity: .7; }
+.bty .b-faq { padding: 52px 16px; background: var(--bm); }
+.bty .b-faq h2 { font-size: 32px; font-weight: var(--bw); margin-bottom: 18px; }
+.bty details { border-top: 1px solid color-mix(in srgb, var(--p) 25%, transparent); padding: 16px 0; }
+.bty details:last-of-type { border-bottom: 1px solid color-mix(in srgb, var(--p) 25%, transparent); }
+.bty summary { list-style: none; cursor: pointer; font: calc(var(--bw) + 100) 18px/1.2 var(--hf); letter-spacing: -.025em; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.bty summary::-webkit-details-marker { display: none; }
+.bty summary::after { content: "+"; flex: none; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--bi); display: grid; place-items: center; font: 400 18px/1 'Figtree', sans-serif; transition: transform .3s; }
+.bty details[open] summary::after { transform: rotate(45deg); }
+.bty details p { margin-top: 10px; font-size: 14.5px; line-height: 1.55; opacity: .8; }
+.bty .s-cta { background: var(--bd); color: #fff; text-align: center; padding: 64px 18px; }
+.bty .s-cta h2 { font-size: 40px; font-weight: var(--bw); line-height: .98; margin: 0 0 24px; }
+.bty .s-cta .s-b { width: 100%; box-sizing: border-box; background: var(--bi); color: #fff; border: 1px solid rgba(255,255,255,.28); border-radius: 99px; height: 56px; }
+.bty .s-foot { background: var(--bd); color: #E7EEE9; margin: 0; border-top: 1px solid rgba(255,255,255,.12); text-align: center; padding: 30px 18px 56px; }
+.bty .b-fbig { font: var(--bw) 44px/.9 var(--hf); letter-spacing: -.03em; text-transform: uppercase; background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.25)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; overflow-wrap: anywhere; }
+.bty .s-foot nav { justify-content: center; color: #fff; }
+.bty .b-ex { font-size: 11.5px; opacity: .55; }
+.site.desk.bty .b-hero { height: 700px; }
+.site.desk.bty .b-big { font-size: 150px; top: 90px; }
+.site.desk.bty .b-ph { left: 50%; margin-left: -230px; width: 460px; height: 690px; top: 120px; }
+.site.desk.bty .b-hero .t { left: 50%; right: auto; width: 420px; margin-left: -210px; text-align: center; }
+.site.desk.bty .b-hero h1 { font-size: 40px; }
+.site.desk.bty .b-st, .site.desk.bty .s-sec, .site.desk.bty .b-faq, .site.desk.bty .s-rev { padding-left: 80px; padding-right: 80px; }
+.site.desk.bty .s-sec .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.site.desk.bty .b-st p.b { font-size: 52px; max-width: 800px; }
+.site.desk.bty .s-card { margin-bottom: 0; }
 </style>
 </head><body>
 
@@ -827,7 +894,29 @@ html, body { overflow-x: clip; }
   function chipHTML(tag) { return logoHTML() + (tag ? '<span class="tag">je logo</span>' : ''); }
   function miniHTML(p) { return '<span class="mini" style="' + palVars(p) + '"><i class="m-mk"></i><i class="m-ln"></i><i class="m-h1"></i><i class="m-h2"></i><i class="m-bt"></i><i class="m-ac"></i><i class="m-rg"></i></span>'; }
 
+
+  function beautyHTML() {
+    var n = esc(nm()), nl = nm().toUpperCase(), big = nl.length > 12 ? 40 : nl.length > 9 ? 54 : 76;
+    var arrow = '<i>' + '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' + '</i>';
+    var T = [['Gezichtsbehandeling', 'Afgestemd op jouw huid', '60 min'], ['Manicure & pedicure', 'Netjes afgewerkt', '75 min'], ['Wimpers & wenkbrauwen', 'Natuurlijke look', '45 min'], ['Massage & ontspanning', 'Tijd om los te laten', '60 min']];
+    if (S.facts && S.route === 'ja' && S.facts.services && S.facts.services.length >= 3) { var ds = ['Persoonlijk afgestemd', 'Met aandacht uitgevoerd', 'Rustig en zorgvuldig', 'Op jouw wensen']; T = S.facts.services.slice(0, 4).map(function (t, i) { return [t, ds[i % 4], '']; }); }
+    var cards = T.map(function (x, i) { return '<div class="s-card" data-go="cta"><em>0' + (i + 1) + '</em><div><h3>' + esc(x[0]) + '</h3><p>' + x[1] + (x[2] ? ' · ' + x[2] : '') + '</p></div></div>'; }).join('');
+    var faq = [['Moet ik van tevoren een afspraak maken?', 'Ja, zo houden we tijd voor je vrij. Bel of stuur een bericht, dan zoeken we samen een moment.'], ['Wat als ik moet verzetten?', 'Geen probleem. Laat het zo snel mogelijk weten, dan zoeken we een nieuw moment.'], ['Ik heb een gevoelige huid. Kan dat?', 'Zeker. Vertel het vooraf, dan stemmen we producten en behandeling daarop af.']].map(function (f, i) { return '<details' + (i === 0 ? ' open' : '') + '><summary>' + f[0] + '</summary><p>' + f[1] + '</p></details>'; }).join('');
+    var pin = '<svg class="b-pin" viewBox="0 0 56 72" aria-hidden="true"><path d="M28 70C28 70 4 44 4 26a24 24 0 1 1 48 0c0 18-24 44-24 44z" fill="currentColor"/><circle cx="28" cy="26" r="10" fill="#fff"/></svg>';
+    return '<div class="b-hero"><nav class="s-nav" data-nav>' + logoHTML() + '<button class="s-burger" data-menu type="button" tabindex="-1" aria-label="Menu"><i></i><i></i><i></i></button><div class="s-menu"><a data-go="svc">Behandelingen</a><a data-go="rev">Ervaringen</a><a data-go="loc">Kom langs</a><a data-go="cta">Afspraak</a></div></nav>' +
+      '<span class="s-kick">Beauty bij</span><div class="b-big" aria-hidden="true" style="font-size:' + big + 'px">' + esc(nl) + '</div>' +
+      '<div class="s-artw"><img class="b-ph" src="beauty-hero.webp" alt="Vrouw met gesloten ogen en een stralende huid" loading="lazy"></div><div class="b-fade"></div><span class="b-pill"><i></i>Vandaag open tot 18:00</span>' +
+      '<div class="t"><h1>Even helemaal jezelf.</h1><div class="s-btns"><a class="s-b p" data-go="cta">Maak een afspraak' + arrow + '</a></div></div></div>' +
+      '<div class="b-st"><small>De salon</small><p class="b">Rust. Aandacht. <span>En een behandeling die</span> écht bij jou past.</p><p class="sm">Bij ' + n + ' nemen we de tijd om te luisteren. Je loopt weg met een resultaat waar je je goed bij voelt.</p></div>' +
+      '<section class="s-sec" data-sec="svc"><h2>Behandelingen</h2><p class="in">Duur en prijs vooraf duidelijk.</p><div class="cards">' + cards + '</div><p class="nt">' + (S.facts && S.route === 'ja' && S.facts.services && S.facts.services.length >= 3 ? 'Diensten van je huidige website. Beschrijvingen en prijzen vul je zelf aan.' : 'Voorbeeldbehandelingen. Jouw eigen aanbod en prijslijst komen hier.') + '</p></section>' +
+      '<section class="s-rev" data-sec="rev"><small style="font:700 10.5px/1 Figtree,sans-serif;letter-spacing:.18em;text-transform:uppercase;opacity:.75;margin:0 0 18px">Ervaringen</small><q>Zo rustig en persoonlijk. Mijn huid zat nog nooit zo goed.</q><small>Voorbeeldreview. Hier komen jouw echte Google-reviews.</small></section>' +
+      '<section class="s-about" data-sec="loc" style="background:var(--bm);color:var(--bi);padding:52px 16px"><h2 style="font-size:36px;margin:0;color:inherit">Kom langs</h2><div class="b-map"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M-10 90C80 70 140 110 330 60" stroke="#fff" stroke-width="12" fill="none"/><path d="M160 -10C170 60 150 120 165 210" stroke="#fff" stroke-width="9" fill="none"/><path d="M-10 160L330 140" stroke="#fff" stroke-width="5" fill="none"/><rect x="20" y="20" width="60" height="40" rx="5" fill="color-mix(in srgb, var(--p) 18%, #fff)"/><rect x="200" y="110" width="70" height="46" rx="5" fill="color-mix(in srgb, var(--p) 18%, #fff)"/></svg>' + pin + '<span>Voorbeeldkaart. Hier komt jouw adres.</span></div></section>' +
+      '<div class="b-faq"><h2>Veelgestelde vragen</h2>' + faq + '</div>' +
+      '<section class="s-cta" data-sec="cta"><small>Afspraak maken</small><h2>Klaar voor jouw moment?</h2><a class="s-b">Maak een afspraak</a></section>' +
+      '<footer class="s-foot"><div class="b-fbig">' + esc(nl) + '</div>' + '<nav><span>Behandelingen</span><span>Kom langs</span><span>Afspraak</span></nav><span>© 2026 ' + n + '</span><span class="b-ex">Voorbeeld van een demo-ontwerp. Teksten, prijzen, reviews en kaart zijn voorbeelden.</span></footer>';
+  }
   function siteHTML() {
+    if (S.branche === 'beauty') return beautyHTML();
     var b = BR[S.branche], n = esc(nm());
     var h1 = S.branche === 'anders' ? 'Welkom bij ' + (S.naam.trim() ? n : 'jouw bedrijf') + '.' : b.h;
     var svc = b.sv.map(function (x) { return x.slice(); });
@@ -872,7 +961,7 @@ html, body { overflow-x: clip; }
     var nav = $('[data-nav]', phone.site), open = nav && nav.classList.contains('open');
     var k = phone.site.style.getPropertyValue('--k');
     phone.site.setAttribute('style', vars() + (k ? '--k:' + k + ';' : ''));
-    phone.site.innerHTML = siteHTML();
+    phone.site.innerHTML = siteHTML(); phone.site.classList.toggle('bty', S.branche === 'beauty');
     if (open) $('[data-nav]', phone.site).classList.add('open');
     phone.url.textContent = slug();
   }
@@ -903,7 +992,7 @@ html, body { overflow-x: clip; }
     var host = $('#bHost'); if (!bP) bP = makePhone(host, true);
     var p = bP, site = p.site, scr = $('.ph-scr', host);
     var k = site.style.getPropertyValue('--k');
-    site.setAttribute('style', vars() + (k ? '--k:' + k + ';' : '')); site.innerHTML = siteHTML(); p.url.textContent = slug();
+    site.setAttribute('style', vars() + (k ? '--k:' + k + ';' : '')); site.innerHTML = siteHTML(); site.classList.toggle('bty', S.branche === 'beauty'); p.url.textContent = slug();
     $$('.wand', scr).forEach(function (w) { w.remove(); }); $$('.spk', scr).forEach(function (w) { w.remove(); });
     var bz = $('.ph-bz', host); bz.classList.remove('done'); p.vp.scrollTop = 0; fitP(p);
     var T = [];
