@@ -613,6 +613,7 @@ html, body { overflow-x: clip; }
 .bw h1, .bw h2, .bw h3, .bw h4 { font-family: var(--hf); font-weight: var(--hw); letter-spacing: -.035em; }
 .bw .s-nav { background: var(--bn); color: var(--bt); border-bottom: 1px solid var(--bl); }
 .bw .s-nav .lg { color: var(--bt); }
+.bw .s-nav .lg .lgi { background: #fff; border-radius: calc(var(--rad) * .5); padding: 4px 9px; max-height: 38px; }
 .bw .s-burger i { background: var(--bt); }
 .bw .s-menu { background: var(--bn); box-shadow: 0 24px 30px -12px rgba(0,0,0,.5); }
 .bw .s-menu a { border-color: var(--bl); color: var(--bt); }
@@ -1358,6 +1359,7 @@ html, body { overflow-x: clip; }
   function bwShort(t) { t = String(t).trim(); if (t.length <= 26) return t; var c = t.slice(0, 26), i = c.lastIndexOf(' '); return (i > 10 ? c.slice(0, i) : c).replace(/[,.;:\s]+$/, ''); }
   function bwList() {
     var F = S.facts && S.route === 'ja' && S.facts.services;
+    if (F) F = F.filter(function (t) { return !/[!?]|werkgebied|werken bij|vacature|contact|over ons|nieuws|blog|team|klanten|offerte|home|check/i.test(t); });
     if (!F || F.length < 3) return BW_K.map(function (k) { var v = BW_D[k]; return { k: k, n: v.n, d: v.d, p: v.p, t: v.t }; });
     var map = [[/dak/i, 'dak'], [/zonne|solar|pv\b/i, 'zon'], [/warmte|cv|ketel|verwarm/i, 'warm'], [/bad|sanit|toilet/i, 'bad'], [/elek|stroom|laadpa|domotica|storing/i, 'elek'], [/aanbouw|uitbouw|verbouw|bouw|renovat/i, 'aanb']], used = {};
     return F.slice(0, 6).map(function (t, i) {
@@ -1401,7 +1403,7 @@ html, body { overflow-x: clip; }
   }
   function bwSet(site, k, fromHero) { BWS.sel = (BWS.sel === k && fromHero) ? null : k; bwApply(site); }
   function bwHTML() {
-    var F = (S.route === 'ja' && S.facts) || {}, tel = (F.phone || '').replace(/[^\d+]/g, ''), telTxt = !tel ? '' : /^06\d{8}$/.test(tel) ? tel.replace(/^(06)(\d{2})(\d{2})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5') : /^0\d{9}$/.test(tel) ? tel.replace(/^(0\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4') : tel, adr = esc(F.address || ''), mail = esc(F.email || ''), tag = (F.tagline || '').trim();
+    var F = (S.route === 'ja' && S.facts) || {}, tel = (F.phone || '').replace(/[^\d+]/g, ''), telTxt = !tel ? '' : /^06\d{8}$/.test(tel) ? tel.replace(/^(06)(\d{2})(\d{2})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5') : /^0\d{9}$/.test(tel) ? tel.replace(/^(0\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4') : tel, adr = esc(F.address || ''), mail = esc(F.email || ''), tag = (F.tagline || '').trim(); if (tag.length < 30 || /[!?]$/.test(tag)) tag = ''; if (adr) adr = adr.replace(/^.*[.!?]\s+/, '').replace(/\s+,/g, ',');
     var nl = nm(), n = esc(nl), L = bwList(), st = bwStat(), ph = '<span class="ph">Voorbeeld</span>';
     var chips = L.map(function (x) { return '<button type="button" class="bw-chip" data-bk="' + x.k + '" aria-pressed="false">' + esc(x.n) + '</button>'; }).join('') + '<button type="button" class="bw-chip" data-bk="anders" aria-pressed="false">Iets anders</button>';
     var rows = L.map(function (x) { return '<button type="button" class="row" data-bk="' + x.k + '" data-go="cta"><span class="rn">' + esc(x.n) + '</span><span class="rd">' + esc(x.t) + '</span><span class="rm"><b>' + esc(x.d) + '</b><i>vanaf ' + esc(x.p) + ' ' + ph + '</i></span></button>'; }).join('');
@@ -1686,7 +1688,7 @@ html, body { overflow-x: clip; }
   function applyFacts() {
     var F = S.facts; if (!F) return;
     if (F.name && !S.nTouched) S.naam = F.name;
-    if (F.colors && F.colors[0]) { S.siteCols = F.colors; if (S.route === 'ja') { setBrand(lum(F.colors[0]) > .55 ? mix(F.colors[0], '#000000', .38) : F.colors[0]); if (!S.sfeer) { S.sfeer = 'licht'; $$('#sfeer .sty').forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-sf') === 'licht' ? 'true' : 'false'); }); } } }
+    if (F.colors && F.colors[0]) { S.siteCols = F.colors; if (S.route === 'ja') { setBrand(lum(F.colors[0]) > .55 ? mix(F.colors[0], '#000000', .38) : F.colors[0]); if (F.colors[1] && /^#[0-9a-f]{6}$/i.test(F.colors[1])) { S.ca = F.colors[1]; try { $('#ca').value = S.ca; } catch (e) {} } if (!S.sfeer) { S.sfeer = 'licht'; $$('#sfeer .sty').forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-sf') === 'licht' ? 'true' : 'false'); }); } } }
     if (!S.brPicked) { var g = guessBranche(F.signals); if (g) { S.branche = g; S.brPicked = true; } }
     try { buildBranches(); buildPals(); refresh(); } catch (e) {}
   }
