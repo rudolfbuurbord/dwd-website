@@ -1184,21 +1184,39 @@ html, body { overflow-x: clip; }
   };
   var LIVE = { snel: 'Zo snel mogelijk', maand: 'Binnen een maand', orient: 'Ik oriënteer me nog' };
   var BESLIS = { zelf: 'Ja, ik beslis', samen: 'Samen met iemand anders', info: 'Ik verzamel info voor iemand anders' };
-  var HOURS = { open: 9, close: 17.5, openTxt: '9:00', closeTxt: '17:30', tekst: 'ma t/m vr van 9:00 tot 17:30' }; // kantooruren: pas hier aan
+  var HOURS = { // kantooruren per dag (0 = zondag): [open, dicht] of null. Pas hier aan.
+    w: [null, [9, 21], [9, 21], [9, 21], [9, 21], [9, 21], [10, 14]],
+    tekst: 'ma t/m vr 9:00 tot 21:00, za 10:00 tot 14:00'
+  };
+  var DAGEN = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'];
   function amsNow() {
     var o = {}; try { new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Amsterdam', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date()).forEach(function (x) { o[x.type] = x.value; }); } catch (e) { return { d: 2, h: 12 }; }
     return { d: { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }[o.weekday], h: (+o.hour % 24) + (+o.minute) / 60 };
   }
+  function hTxt(h) { return Math.floor(h) + ':' + (h % 1 ? '30' : '00'); }
+  function nextOpen(n) { // eerstvolgende openingsmoment
+    for (var i = 0; i < 8; i++) {
+      var d = (n.d + i) % 7, w = HOURS.w[d];
+      if (!w) continue;
+      if (i === 0 && n.h >= w[0]) continue;
+      var word = i === 0 ? 'vanochtend' : i === 1 ? 'morgenochtend' : DAGEN[d] + 'ochtend';
+      if (i === 0 && w[0] >= 12) word = 'vanmiddag';
+      return { word: word, day: i === 0 ? 'vandaag' : i === 1 ? 'morgen' : DAGEN[d], at: hTxt(w[0]) };
+    }
+    return { word: 'maandagochtend', day: 'maandag', at: '9:00' };
+  }
   function belTekst(m) {
-    var n = amsNow(), wk = n.d >= 1 && n.d <= 5, open = wk && n.h >= HOURS.open && n.h < HOURS.close;
-    var next = wk && n.h < HOURS.open ? 'vandaag' : (n.d === 5 || n.d === 6) ? 'maandag' : 'morgen';
-    var nextWord = next === 'vandaag' ? 'vanochtend' : next + 'ochtend';
-    var r = { open: open, next: next };
-    if (m === 'avond') { r.when = 'vanavond'; r.sub = 'We bellen je vanavond. Zet je telefoon dan naast je.'; return r; }
-    if (m === 'morgen') { r.when = (n.d === 5 || n.d === 6) ? 'maandagochtend' : 'morgenochtend'; r.sub = 'Je hoort van ons ' + r.when + '.'; return r; }
-    if (m === 'meteen' && open) { r.when = 'zo meteen'; r.sub = 'Zet je telefoon naast je, we bellen over een paar minuten.'; return r; }
-    if (m === 'uur' && open && n.h + 1 < HOURS.close) { r.when = 'over een uur'; r.sub = 'We bellen je over ongeveer een uur.'; return r; }
-    r.when = nextWord; r.sub = 'We zijn nu gesloten (' + HOURS.tekst + '). We bellen je ' + nextWord + ' zodra we open zijn.'; return r;
+    var n = amsNow(), w = HOURS.w[n.d], open = !!w && n.h >= w[0] && n.h < w[1];
+    var nx = nextOpen(n), r = { open: open, next: nx.day, openAt: nx.at, closeTxt: w ? hTxt(w[1]) : '' };
+    var restWord = nx.word;
+    if (open) {
+      if (m === 'avond' && w[1] > 18 && n.h < 20) { r.when = 'vanavond'; r.sub = 'We bellen je vanavond. Zet je telefoon dan naast je.'; return r; }
+      if (m === 'meteen') { r.when = 'zo meteen'; r.sub = 'Zet je telefoon naast je, we bellen over een paar minuten.'; return r; }
+      if (m === 'uur' && n.h + 1 < w[1]) { r.when = 'over een uur'; r.sub = 'We bellen je over ongeveer een uur.'; return r; }
+      if (m === 'morgen') { var t = nextOpen({ d: n.d, h: 24 }); r.when = t.word; r.sub = 'Je hoort van ons ' + t.word + '.'; return r; }
+    }
+    if (m === 'morgen' && !open) { var t2 = nextOpen({ d: (n.d + 1) % 7, h: -1 }); restWord = t2.day === 'vandaag' ? 'morgenochtend' : DAGEN[(n.d + 1) % 7] + 'ochtend'; if (HOURS.w[(n.d + 1) % 7]) restWord = 'morgenochtend'; else restWord = t2.word.replace('vanochtend', 'morgenochtend'); }
+    r.when = restWord; r.sub = 'We zijn nu gesloten (' + HOURS.tekst + '). We bellen je ' + restWord + ' zodra we open zijn.'; return r;
   }
   var MOM = { meteen: ['Meteen', 'zo meteen'], uur: ['Over een uur', 'over een uur'], avond: ['Vanavond', 'vanavond'], morgen: ['Morgenochtend', 'morgenochtend'] };
   var NAMES = ['Bakkerij De Tulp', 'Van Dijk Installatie', 'Studio Linde', 'Tandartspraktijk Oost', 'Kapsalon Mila'];
@@ -1891,8 +1909,8 @@ html, body { overflow-x: clip; }
     var bt = belTekst(S.moment);
     $('#k-vn').textContent = S.vn.trim(); $('#k-mom').textContent = bt.when;
     $('#k-sub').textContent = bt.sub;
-    var kp = $('#k-pill'); kp.setAttribute('data-s', bt.open ? 'open' : 'dicht'); kp.lastChild.nodeValue = bt.open ? 'Nu open · tot ' + HOURS.closeTxt : 'Nu gesloten · open ' + bt.next + ' ' + HOURS.openTxt;
-    $('#k-s2').textContent = 'Een kort gesprek om je ontwerp door te nemen. We bellen ' + bt.when + (/^(zo meteen|over|vanavond)/.test(bt.when) ? '.' : ', vanaf ' + HOURS.openTxt + '.');
+    var kp = $('#k-pill'); kp.setAttribute('data-s', bt.open ? 'open' : 'dicht'); kp.lastChild.nodeValue = bt.open ? 'Nu open · tot ' + bt.closeTxt : 'Nu gesloten · open ' + bt.next + ' ' + bt.openAt;
+    $('#k-s2').textContent = 'Een kort gesprek om je ontwerp door te nemen. We bellen ' + bt.when + (/^(zo meteen|over|vanavond)/.test(bt.when) ? '.' : ', vanaf ' + bt.openAt + '.');
     $('#k-s1').textContent = S.route === 'ja' ? 'We kijken naar je huidige website en maken je ontwerp.' : 'We lezen je antwoorden en zetten je ontwerp klaar.';
     refresh(); show('klaar');
   }
