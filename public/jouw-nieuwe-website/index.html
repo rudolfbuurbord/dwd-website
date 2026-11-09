@@ -2105,6 +2105,7 @@ html, body { overflow-x: clip; }
   $('#demoTag').hidden = !DEMO;
   document.body.style.setProperty('--prog', .1); $('#progi').style.width = '10%'; $('#progbar').setAttribute('aria-valuenow', 10);
   try { var pu = new URLSearchParams(location.search).get('url'); if (pu && /^[\w.-]{3,253}$/.test(pu)) { document.querySelector('[data-route="ja"]').click(); urlI.value = pu; urlI.dispatchEvent(new Event('input', { bubbles: true })); } } catch (e) {}
+  try { var vb = new URLSearchParams(location.search).get('voorbeeld'); if (vb && BR[vb]) { S.route = 'nee'; S.branche = vb; S.naam = 'Van Dijk ' + BR[vb].l; show('onthulling'); } } catch (e) {}
   track('PageView', {});
 })();
 </script>
