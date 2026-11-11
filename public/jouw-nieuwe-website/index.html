@@ -960,6 +960,17 @@ html, body { overflow-x: clip; }
 .site.desk.bty .s-sec .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 .site.desk.bty .b-st p.b { font-size: 52px; max-width: 800px; }
 .site.desk.bty .s-card { margin-bottom: 0; }
+
+.demobox{margin-top:22px;padding:18px;border:1px solid var(--line-2);border-radius:20px;background:rgba(17,17,18,.86);display:grid;gap:14px}
+.db-top{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
+.db-top b{display:block;font:800 1.08rem/1.25 var(--f-d)}
+.db-top small{display:block;color:var(--muted);font-size:.9rem;margin-top:3px}
+.db-spin{width:24px;height:24px;margin-top:2px;border-radius:50%;border:2.5px solid var(--line-2);border-top-color:var(--o);border-right-color:var(--r);animation:spin 1s linear infinite}
+.demobox.ok .db-spin{animation:none;border-color:transparent;background:var(--good)}
+.demobox.ok .db-bar,.demobox.err .db-bar{display:none}
+.demobox.err .db-spin{animation:none;border-color:var(--line-2)}
+.db-bar{height:6px;border-radius:6px;background:var(--line);overflow:hidden}
+.db-bar i{display:block;height:100%;width:4%;background:var(--grad);border-radius:inherit;transition:width 1s linear}
 </style>
 </head><body>
 
@@ -1163,6 +1174,11 @@ html, body { overflow-x: clip; }
         <h2 class="q" id="h-klaar" style="margin-top:20px">we bellen je <span id="k-mom">zo meteen</span>, <span class="grad-t" id="k-vn">naam</span>.</h2>
         <p class="sub" id="k-sub">Je aanvraag is binnen.</p>
         <span class="kpill" id="k-pill" data-s="open" role="status"><i></i>Open</span>
+        <div class="demobox" id="demobox" hidden aria-live="polite">
+          <div class="db-top"><span class="db-spin" aria-hidden="true"></span><div><b id="db-t">Je echte demo wordt nu gebouwd</b><small id="db-s">Met jouw eigen logo, kleuren en foto's. Dit duurt een paar minuten, je mag deze pagina open laten.</small></div></div>
+          <div class="db-bar" aria-hidden="true"><i id="db-bar"></i></div>
+          <a class="btn" id="db-go" href="#" target="_blank" rel="noopener" hidden>Bekijk jouw demo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+        </div>
         <div class="lchip" id="chip6" aria-label="Jouw logo"></div>
         <ol class="done-steps">
           <li><b>We bekijken je antwoorden</b><span id="k-s1">en zetten je ontwerp klaar.</span></li>
@@ -2050,6 +2066,30 @@ html, body { overflow-x: clip; }
     $('#k-s2').textContent = 'Een kort gesprek om je ontwerp door te nemen. We bellen ' + bt.when + (/^(zo meteen|over|vanavond)/.test(bt.when) ? '.' : ', vanaf ' + bt.openAt + '.');
     $('#k-s1').textContent = S.route === 'ja' ? 'We kijken naar je huidige website en maken je ontwerp.' : 'We lezen je antwoorden en zetten je ontwerp klaar.';
     refresh(); show('klaar');
+    if (S.route === 'ja' && S.url.trim()) demoPoll(S.url.trim());
+  }
+  /* echte demo: wordt in de cloud gebouwd (GitHub Actions), status via demo.dewebsitedokters.nl */
+  function demoPoll(site) {
+    var box = $('#demobox'); if (!box) return; box.hidden = false;
+    var t0 = Date.now(), MAX = 15 * 60 * 1000, bar = $('#db-bar');
+    function tick() {
+      var el = Date.now() - t0; bar.style.width = Math.min(92, 4 + el / 4200) + '%';
+      if (el > MAX) { box.classList.add('err'); $('#db-t').textContent = 'Je demo komt eraan'; $('#db-s').textContent = 'Het bouwen duurt wat langer. We sturen je de link en nemen hem samen door aan de telefoon.'; return; }
+      fetch('https://demo.dewebsitedokters.nl/api/demo-status?site=' + encodeURIComponent(site), { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (d.status === 'ready' && d.url) {
+            box.classList.add('ok'); bar.style.width = '100%';
+            $('#db-t').textContent = 'Je demo staat klaar!'; $('#db-s').textContent = 'Bekijk hem gerust op je telefoon. We nemen hem samen door als we bellen.';
+            var go = $('#db-go'); go.href = d.url; go.hidden = false; track('DemoReady', {});
+          } else if (d.status === 'failed') {
+            box.classList.add('err'); $('#db-t').textContent = 'We maken je demo met de hand';
+            $('#db-s').textContent = 'Je website was lastig automatisch uit te lezen. Geen probleem: we zetten hem voor je klaar en bespreken hem als we bellen.';
+          } else { setTimeout(tick, 8000); }
+        })
+        .catch(function () { setTimeout(tick, 10000); });
+    }
+    setTimeout(tick, 6000);
   }
   $('#go-contact').addEventListener('click', submit);
   [$('#vn'), tel].forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); submit(); } }); });
