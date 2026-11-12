@@ -981,6 +981,11 @@ html, body { overflow-x: clip; }
 .realwait small{display:block;color:var(--muted);font-size:.86rem;margin-top:3px}
 .realwait i{width:22px;height:22px;margin-top:2px;border-radius:50%;border:2.5px solid var(--line-2);border-top-color:var(--o);border-right-color:var(--r);animation:spin 1s linear infinite}
 .realopen{display:inline-block;margin-top:8px;color:var(--soft);font-weight:700;text-decoration:none;border-bottom:1px solid var(--line-2)}
+
+.lf { position: relative; z-index: 1; margin: 40px 0 24px; padding-top: 22px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; line-height: 1.7; text-align: center; }
+.lf b { color: var(--soft); font-weight: 600; }
+.lf nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; margin-top: 8px; }
+.lf a { color: var(--soft); text-decoration: underline; text-underline-offset: 3px; }
 </style>
 </head><body>
 
@@ -1007,7 +1012,7 @@ html, body { overflow-x: clip; }
           <button class="opt" type="button" data-route="nee"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 4.6L19 9l-4 3.3L16.2 18 12 15.2 7.8 18 9 12.3 5 9l5.1-1.4z"/></svg></span><span><b>Nee, nog niet</b><span class="d">We bouwen er een met jouw input</span></span><svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
         </div>
         <div class="trust"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Gratis</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Geen verplichtingen</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Binnen 7 dagen live</span></div>
-        <p class="cap">We maken maximaal 2 nieuwe websites per week, zodat elk ontwerp de aandacht krijgt die het verdient.</p>
+        <p class="cap">We maken maximaal 3 nieuwe websites per week, zodat elk ontwerp de aandacht krijgt die het verdient.</p>
       </section>
 
       <section class="step" data-s="url" tabindex="-1" aria-labelledby="h-url">
@@ -1200,6 +1205,12 @@ html, body { overflow-x: clip; }
         <div class="bar"><button class="btn ghost" type="button" id="restart">Opnieuw proberen</button></div>
       </section>
     </main>
+    <footer class="lf">
+      <b>De Website Dokters</b> · Enschede, Nederland<br>
+      KvK 74617079 · BTW-ID NL002426495B04<br>
+      <a href="tel:+31616091507">+31 6 1609 1507</a> · <a href="mailto:info@dewebsitedokters.nl">info@dewebsitedokters.nl</a>
+      <nav aria-label="Juridisch"><a href="/algemene-voorwaarden">Algemene voorwaarden</a><a href="/privacyverklaring">Privacyverklaring</a><a href="/cookiebeleid">Cookiebeleid</a></nav>
+    </footer>
   </div>
 </div>
 
