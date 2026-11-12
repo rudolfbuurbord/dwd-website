@@ -971,6 +971,16 @@ html, body { overflow-x: clip; }
 .demobox.err .db-spin{animation:none;border-color:var(--line-2)}
 .db-bar{height:6px;border-radius:6px;background:var(--line);overflow:hidden}
 .db-bar i{display:block;height:100%;width:4%;background:var(--grad);border-radius:inherit;transition:width 1s linear}
+
+/* ===== echte demo in de telefoon (gebouwd in de cloud vanaf het invullen van de URL) ===== */
+.ph-vp.real{overflow:hidden;position:relative}
+.ph-vp.real .site{display:none}
+.ph-vp .realfr{position:absolute;left:0;top:0;border:0;transform-origin:0 0;background:#111}
+.realwait{display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:start;max-width:520px;margin:0 auto 16px;padding:14px 16px;border:1px solid var(--line-2);border-radius:18px;background:rgba(17,17,18,.86);text-align:left}
+.realwait b{display:block;font:800 1rem/1.25 var(--f-d)}
+.realwait small{display:block;color:var(--muted);font-size:.86rem;margin-top:3px}
+.realwait i{width:22px;height:22px;margin-top:2px;border-radius:50%;border:2.5px solid var(--line-2);border-top-color:var(--o);border-right-color:var(--r);animation:spin 1s linear infinite}
+.realopen{display:inline-block;margin-top:8px;color:var(--soft);font-weight:700;text-decoration:none;border-bottom:1px solid var(--line-2)}
 </style>
 </head><body>
 
@@ -1853,6 +1863,7 @@ html, body { overflow-x: clip; }
     $('#cnt').textContent = id === 'laden' ? 'Even geduld' : counter(id);
     $('#back').style.visibility = (id === 'route' || id === 'klaar' || id === 'laden') ? 'hidden' : 'visible';
     $('#col').classList.toggle('wide', id === 'onthulling');
+    if (id === 'onthulling') realShow();
     window.scrollTo(0, 0);
     var first = id === 'url' ? $('#url') : (id === 'bedrijf' && S.route === 'nee') ? $('#naam') : id === 'contact' ? $('#vn') : null;
     if (first) { try { first.focus({ preventScroll: true }); } catch (e) { first.focus(); } } else { try { $('.step.on').focus({ preventScroll: true }); } catch (e) {} }
@@ -1875,6 +1886,65 @@ html, body { overflow-x: clip; }
   }); });
 
   var SB_URL = 'https://skdjbifmtleiogbkqwid.supabase.co', SB_KEY = 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS';
+  /* ===== echte demo: bouwen in de cloud vanaf het invullen van de URL, tonen in de telefoon ===== */
+  var REAL = { site: '', url: '', status: '', timer: 0 };
+  function realRequest(d) {
+    if (S.route !== 'ja' || !d) return;
+    if (REAL.site === d && (REAL.url || REAL.status === 'queued' || REAL.status === 'building')) return;
+    REAL = { site: d, url: '', status: 'queued', timer: 0 };
+    try {
+      fetch(SB_URL + '/rest/v1/rpc/dwd_demo_request', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB_KEY }, body: JSON.stringify({ p_site: d, p_source: 'funnel' }) })
+        .then(function (r) { return r.json(); })
+        .then(function (rows) { var r = rows && rows[0]; if (!r) return; REAL.status = r.status; if (r.url) { REAL.url = r.url; realPaint(); } })
+        .catch(function () {});
+    } catch (e) {}
+    realPoll();
+  }
+  function realPoll() {
+    clearTimeout(REAL.timer);
+    if (!REAL.site || REAL.url || /^(failed|invalid|limit)$/.test(REAL.status)) { realPaint(); return; }
+    REAL.timer = setTimeout(function () {
+      fetch('https://demo.dewebsitedokters.nl/api/demo-status?site=' + encodeURIComponent(REAL.site), { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (d) { if (d.status && d.status !== 'none') REAL.status = d.status; if (d.status === 'ready' && d.url) { REAL.url = d.url; realPaint(); } else realPoll(); })
+        .catch(realPoll);
+    }, 7000);
+  }
+  function realShow() {
+    if (S.route !== 'ja' || !REAL.site) return;
+    var host = $('#phHost'), w = $('#realwait');
+    if (!REAL.url && !/^(failed|invalid|limit)$/.test(REAL.status) && !w) {
+      w = document.createElement('div'); w.id = 'realwait'; w.className = 'realwait'; w.setAttribute('role', 'status');
+      w.innerHTML = '<i aria-hidden="true"></i><div><b>Je echte website wordt nu afgemaakt</b><small>Met je eigen logo, kleuren, foto\'s en teksten. Hieronder zie je alvast een eerste opzet. Zodra hij klaar is, verschijnt hij hier vanzelf.</small></div>';
+      host.parentNode.insertBefore(w, host);
+    }
+    realPaint();
+  }
+  function realFit() {
+    if (!phone) return; var fr = $('.realfr', phone.vp); if (!fr) return;
+    var desk = $('#phHost').classList.contains('desk'), base = desk ? 1280 : 390;
+    var k = phone.vp.clientWidth / base;
+    fr.style.width = base + 'px'; fr.style.height = Math.ceil(phone.vp.clientHeight / k) + 'px'; fr.style.transform = 'scale(' + k.toFixed(4) + ')';
+  }
+  function realPaint() {
+    var w = $('#realwait');
+    if (w && /^(failed|invalid|limit)$/.test(REAL.status)) w.remove();
+    if (!REAL.url || !phone) return;
+    if (!$('.realfr', phone.vp)) {
+      var fr = document.createElement('iframe'); fr.className = 'realfr'; fr.title = 'Jouw echte website'; fr.loading = 'eager';
+      fr.src = REAL.url.replace(/\/?$/, '/'); phone.vp.appendChild(fr); phone.vp.classList.add('real');
+      var sec = $('.rv-show');
+      if (sec) {
+        var it = $('.intro', sec); if (it) it.textContent = 'Dit is jouw echte website: met je eigen logo, kleuren, foto\'s en teksten. Scroll er zelf doorheen.';
+        var t = $('h3.t', sec); if (t) t.textContent = 'en zo ziet jouw nieuwe website eruit';
+        var c = $('.cap2', sec); if (c) c.innerHTML = 'Demo-ontwerp op basis van je huidige website. <a class="realopen" href="' + esc(REAL.url) + '" target="_blank" rel="noopener">Open op volledig scherm ↗</a>';
+      }
+      track('ViewContent', { page: 'echte-demo' });
+    }
+    if (w) w.remove();
+    realFit(); setTimeout(realFit, 120);
+  }
+  window.addEventListener('resize', function () { realFit(); });
   var factsP = null, factsDone = true, factsFor = '';
   var BKEY = [['zakelijk', /accountan|boekhoud|belastingadvi|fiscaal|jaarrekening|administratiekantoor|salarisadmin/], ['schilder', /schilder|verfwerk|spuitwerk|behang/], ['horeca', /restaurant|caf[eé]|horeca|lunch|diner|bistro|catering|bakkerij|menukaart|reserveer/], ['beauty', /kapper|kapsalon|salon|beauty|nagel|wimper|schoonheid|massage|barber/], ['zorg', /fysio|huisarts|tandarts|praktijk|therap|zorg|coach|psycholog|welzijn/], ['winkel', /webshop|winkel|collectie|bestel|shop\b/], ['bouw', /bouw|verbouw|aannemer|timmer|klus|renovat|dakdek|stukadoor|tegelzetter|installat|loodgiet|elektri|cv-|hovenier|tuin|vloer/], ['zakelijk', /advies|advocaat|accountant|makelaar|administratie|notaris|verzeker|bureau|consult|zakelijk|marketing/]];
   function guessBranche(t) { t = String(t || ''); for (var i = 0; i < BKEY.length; i++) if (BKEY[i][1].test(t)) return BKEY[i][0]; return ''; }
@@ -1908,7 +1978,7 @@ html, body { overflow-x: clip; }
   function nextUrl() {
     if (!S.domain) { $('#f-url').classList.add('err'); $('#e-url').textContent = 'Vul het adres van je website in, bijvoorbeeld www.jouwbedrijf.nl.'; urlI.focus(); shake($('#go-url')); return; }
     if (!S.naam.trim()) S.naam = nameFromDomain(S.domain);
-    startFacts(S.domain);
+    startFacts(S.domain); realRequest(S.domain);
     track('Contact', { step: 'url' }); show('bedrijf');
   }
   $('#go-url').addEventListener('click', nextUrl);
@@ -2098,7 +2168,7 @@ html, body { overflow-x: clip; }
     try { navigator.clipboard.writeText(CALL_NR).then(done, done); } catch (e) { done(); }
   });
   $('#restart').addEventListener('click', function () {
-    factsFor = ""; S = fresh();
+    factsFor = ""; S = fresh(); REAL = { site: '', url: '', status: '', timer: 0 };
     brandChanged = false; try { $('#logofile').value = ''; } catch (e) {}
     ['#url', '#naam', '#naam2', '#vn', '#tel'].forEach(function (s) { $(s).value = ''; });
     $('#urlchip').hidden = true; $('#f-naam2').hidden = true; $('#nameblock').hidden = false; $('#lbl-br').hidden = false;
@@ -2131,6 +2201,7 @@ html, body { overflow-x: clip; }
   })();
 
   makePhone($('#phHost'));
+  $$('[data-dev]').forEach(function (b) { b.addEventListener('click', function () { setTimeout(realFit, 80); }); });
   $$('[data-dev]').forEach(function (b) { b.addEventListener('click', function () {
     var d = b.getAttribute('data-dev') === 'd', h = $('#phHost');
     $$('[data-dev]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
