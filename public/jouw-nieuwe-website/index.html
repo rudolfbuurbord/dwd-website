@@ -986,6 +986,14 @@ html, body { overflow-x: clip; }
 .lf b { color: var(--soft); font-weight: 600; }
 .lf nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; margin-top: 8px; }
 .lf a { color: var(--soft); text-decoration: underline; text-underline-offset: 3px; }
+
+.q4 { margin: 0 auto 26px; max-width: 640px; padding: 22px 22px 20px; border: 1px solid var(--line-2); border-radius: 18px; background: var(--card); text-align: left; }
+.q4 h4 { font: 700 20px/1.2 var(--f-d); margin-bottom: 6px; }
+.q4 .pr { font: 800 40px/1.1 var(--f-d); margin: 8px 0 2px; }
+.q4 .pr small { font: 400 14px/1.4 var(--f-b); color: var(--muted); margin-left: 6px; }
+.q4 ul { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 6px; color: var(--soft); font-size: 15px; }
+.q4 li::before { content: "\2713"; color: var(--good); margin-right: 8px; }
+.q4 .fine { margin-top: 12px; font-size: 13px; color: var(--muted); }
 </style>
 </head><body>
 
@@ -1149,14 +1157,25 @@ html, body { overflow-x: clip; }
         </div>
 
         <div class="sec"><span class="kick">Prijzen</span><h3 class="t">kies wat bij je past</h3>
+          <div class="q4" id="q4">
+            <h4>De 5-minuten Redesign (1 pagina)</h4>
+            <div class="pr">€199<small>eenmalig, excl. btw</small></div>
+            <div class="pr" style="font-size:24px">+ €50<small>per maand, excl. btw, voor hosting, onderhoud en 3 aanpassingen per maand</small></div>
+            <ul>
+              <li>100% tevredenheidsgarantie: niet goed, dan krijg je het eenmalige bedrag terug</li>
+              <li>Je ziet eerst je ontwerp, daarna beslis je. Binnen 7 dagen live</li>
+              <li>Maandelijks opzegbaar, opzegtermijn 1 maand</li>
+            </ul>
+            <p class="fine">Q4-actie, geldig t/m 31 december 2026. We maken maximaal 3 nieuwe websites per week. Garantie: meld binnen 14 dagen na oplevering via info@dewebsitedokters.nl dat je niet tevreden bent; zie artikel 15.3 van de <a href="/algemene-voorwaarden#artikel-16" style="color:inherit;text-decoration:underline">algemene voorwaarden</a>.</p>
+          </div>
           <p class="intro">Alle pakketten bevatten een ontwerp op maat, een mobielvriendelijke website, teksten en beeldkeuze.</p>
           <div class="pk" id="pk"></div>
           <div class="care">
             <h4>Onderhoud, hosting en aanpassingen</h4>
             <div class="pr">€50<small>per maand, excl. btw</small></div>
-            <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Hosting en beveiliging</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Onderhoud en updates</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Kleine aanpassingen via één aanspreekpunt</li></ul>
+            <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Hosting en beveiliging</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Onderhoud en updates</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>3 aanpassingen per maand via één aanspreekpunt</li></ul>
           </div>
-          <p class="note">Prijzen zijn indicatief en exclusief btw. De inhoud van de pakketten stemmen we in het gesprek af. SEO geeft geen garantie op een specifieke Google-positie.</p>
+          <p class="note">Alle prijzen zijn exclusief btw. De prijzen van de pakketten zijn indicatief. De inhoud van de pakketten stemmen we in het gesprek af. SEO geeft geen garantie op een specifieke Google-positie.</p>
         </div>
 
         <div class="sec"><span class="kick">Veelgestelde vragen</span><h3 class="t">alles wat je wilt weten</h3>
@@ -1327,6 +1346,8 @@ html, body { overflow-x: clip; }
     { n: 'Groei', pr: '€1.499', f: ['10 pagina\'s', '4 revisierondes', 'Actieve lokale SEO met maandrapport', 'Foto-upload', 'Automatische opvolging van aanvragen', 'Reviewverzoeken en reviewkaart'] }
   ];
   var FAQ = [
+    ['Wat is de tevredenheidsgarantie?', 'Ben je niet tevreden met je nieuwe website, dan krijg je het eenmalige bedrag terug. Meld dit binnen 14 dagen na oplevering via info@dewebsitedokters.nl. De betaalde maandelijkse onderhoudstermijnen worden niet terugbetaald. De volledige voorwaarden staan in artikel 15.3 van onze algemene voorwaarden.'],
+    ['Kan ik maandelijks opzeggen?', 'Ja. Het onderhoud van \u20ac50 per maand zeg je maandelijks op met een opzegtermijn van 1 maand.'],
     ['Hoe werkt het gratis redesign?', 'Je laat je gegevens achter. Wij maken een ontwerpvoorstel voor jouw bedrijf en nemen dat met je door. Het is gratis en vrijblijvend.'],
     ['Hoe snel kan mijn website online?', 'Binnen 7 dagen live. We werken met een vaste, korte doorlooptijd, zodat je niet maandenlang wacht.'],
     ['Moet ik zelf teksten en foto\'s aanleveren?', 'Nee. Teksten en beeldkeuze verzorgen wij. Heb je eigen foto\'s of wensen, dan nemen we die graag mee.'],
