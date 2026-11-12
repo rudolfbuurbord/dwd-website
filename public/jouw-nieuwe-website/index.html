@@ -1888,17 +1888,26 @@ html, body { overflow-x: clip; }
   var SB_URL = 'https://skdjbifmtleiogbkqwid.supabase.co', SB_KEY = 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS';
   /* ===== echte demo: bouwen in de cloud vanaf het invullen van de URL, tonen in de telefoon ===== */
   var REAL = { site: '', url: '', status: '', timer: 0 };
-  function realRequest(d) {
-    if (S.route !== 'ja' || !d) return;
-    if (REAL.site === d && (REAL.url || REAL.status === 'queued' || REAL.status === 'building')) return;
-    REAL = { site: d, url: '', status: 'queued', timer: 0 };
+  var CLIENT = ''; try { CLIENT = localStorage.getItem('dwd_cid') || ''; if (!CLIENT) { CLIENT = (Date.now().toString(36) + Math.random().toString(36).slice(2, 12)); localStorage.setItem('dwd_cid', CLIENT); } } catch (e) { CLIENT = ''; }
+  var BYPASS = ''; try { BYPASS = new URLSearchParams(location.search).get('test') || sessionStorage.getItem('dwd_test') || ''; if (BYPASS) sessionStorage.setItem('dwd_test', BYPASS); } catch (e) {}
+  function realRequest(d, cb) {
+    cb = cb || function () {};
+    if (S.route !== 'ja' || !d) return cb('skip');
+    if (REAL.site === d && (REAL.url || REAL.status === 'queued' || REAL.status === 'building')) return cb(REAL.status);
+    var done = false, fin = function (st, r) { if (done) return; done = true; cb(st, r); };
+    setTimeout(function () { fin('timeout'); }, 5000);
     try {
-      fetch(SB_URL + '/rest/v1/rpc/dwd_demo_request', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB_KEY }, body: JSON.stringify({ p_site: d, p_source: 'funnel' }) })
+      fetch(SB_URL + '/rest/v1/rpc/dwd_demo_request', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB_KEY }, body: JSON.stringify({ p_site: d, p_source: 'funnel', p_client: CLIENT || null, p_bypass: BYPASS || null }) })
         .then(function (r) { return r.json(); })
-        .then(function (rows) { var r = rows && rows[0]; if (!r) return; REAL.status = r.status; if (r.url) { REAL.url = r.url; realPaint(); } })
-        .catch(function () {});
-    } catch (e) {}
-    realPoll();
+        .then(function (rows) {
+          var r = rows && rows[0]; if (!r) return fin('error');
+          if (r.status === 'used') return fin('used', r);
+          REAL = { site: d, url: r.url || '', status: r.status, timer: 0 };
+          if (r.url) realPaint(); else realPoll();
+          fin(r.status, r);
+        })
+        .catch(function () { fin('error'); });
+    } catch (e) { fin('error'); }
   }
   function realPoll() {
     clearTimeout(REAL.timer);
@@ -1978,8 +1987,18 @@ html, body { overflow-x: clip; }
   function nextUrl() {
     if (!S.domain) { $('#f-url').classList.add('err'); $('#e-url').textContent = 'Vul het adres van je website in, bijvoorbeeld www.jouwbedrijf.nl.'; urlI.focus(); shake($('#go-url')); return; }
     if (!S.naam.trim()) S.naam = nameFromDomain(S.domain);
-    startFacts(S.domain); realRequest(S.domain);
-    track('Contact', { step: 'url' }); show('bedrijf');
+    var go = $('#go-url'); go.disabled = true;
+    realRequest(S.domain, function (st, r) {
+      go.disabled = false;
+      if (st === 'used') {
+        $('#f-url').classList.add('err');
+        $('#e-url').innerHTML = 'Je hebt al een gratis ontwerp aangevraagd voor <b>' + esc(r.used_host || 'een andere website') + '</b>. We maken één gratis ontwerp per bedrijf.' +
+          (r.url ? ' <a href="' + esc(r.url) + '" target="_blank" rel="noopener" style="color:inherit">Bekijk je ontwerp ↗</a>' : '');
+        shake(go); track('DemoBlocked', {}); return;
+      }
+      startFacts(S.domain);
+      track('Contact', { step: 'url' }); show('bedrijf');
+    });
   }
   $('#go-url').addEventListener('click', nextUrl);
   [urlI, $('#naam2')].forEach(function (i) { i.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); nextUrl(); } }); });
