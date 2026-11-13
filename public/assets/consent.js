@@ -28,7 +28,9 @@
 
   var css = '#dwd-cb{position:fixed;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:2147483000;max-width:560px;margin:0 auto;background:#141416;color:#FDF8F3;border:1px solid rgba(253,248,243,.18);border-radius:20px;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.6);font:500 15px/1.5 Figtree,system-ui,sans-serif}' +
     '#dwd-cb h2{margin:0 0 6px;font:800 18px/1.2 Gabarito,system-ui,sans-serif;letter-spacing:-.01em}#dwd-cb p{margin:0 0 14px;color:#D8D2CB}#dwd-cb a{color:#FDF8F3;text-decoration:underline}' +
-    '#dwd-cb .r{display:flex;gap:10px}#dwd-cb button{flex:1;min-height:48px;border-radius:14px;border:1.5px solid #FDF8F3;background:#FDF8F3;color:#0A0A0B;font:700 15px Figtree,system-ui,sans-serif;cursor:pointer}' +
+    '#dwd-cb .r{display:flex;gap:10px;align-items:center}#dwd-cb button{border-radius:14px;font-family:Figtree,system-ui,sans-serif;cursor:pointer}' +
+    '#dwd-cb button[data-c=denied]{flex:0 0 auto;min-height:44px;padding:0 16px;border:1.5px solid rgba(253,248,243,.45);background:#000;color:#fff;font-weight:600;font-size:14px}' +
+    '#dwd-cb button[data-c=granted]{flex:1;min-height:54px;border:1.5px solid #17914F;background:#17914F;color:#fff;font-weight:800;font-size:17px}' +
     '#dwd-cb button:focus-visible{outline:3px solid #FF6E2E;outline-offset:2px}.dwd-cs{background:none;border:0;padding:0;color:inherit;font:inherit;text-decoration:underline;cursor:pointer}';
   var st = d.createElement('style'); st.textContent = css; d.head.appendChild(st);
 
@@ -38,7 +40,7 @@
   function open() {
     if (box) return;
     box = d.createElement('div'); box.id = 'dwd-cb'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-labelledby', 'dwd-cbh');
-    box.innerHTML = '<h2 id="dwd-cbh">Jouw keuze over cookies</h2><p>We gebruiken de Meta Pixel om te meten of onze advertenties werken. Dat doen we alleen met jouw toestemming. Zonder toestemming werkt de website gewoon. Lees meer in ons <a href="/cookiebeleid">cookiebeleid</a>.</p><div class="r"><button type="button" data-c="denied">Weigeren</button><button type="button" data-c="granted">Accepteren</button></div>';
+    box.innerHTML = '<h2 id="dwd-cbh">Mogen we meten of onze advertenties werken?</h2><p>Daarmee kunnen we onze prijzen laag houden. We gebruiken hiervoor de Meta Pixel, alleen met jouw toestemming. Lees meer in ons <a href="/cookiebeleid">cookiebeleid</a>.</p><div class="r"><button type="button" data-c="denied">Liever niet</button><button type="button" data-c="granted">Prima</button></div>';
     box.addEventListener('click', function (e) { var b = e.target.closest('button[data-c]'); if (b) choose(b.getAttribute('data-c')); });
     d.body.appendChild(box);
   }
@@ -52,7 +54,13 @@
   function start() {
     addSettingsLink();
     var c = read();
-    if (c === 'granted') loadPixel(); else if (c === null) open();
+    if (c === 'granted') { loadPixel(); return; }
+    if (c !== null) return;
+    /* Op de funnel: pas vragen na de eerste keuze, zodat de banner de eerste vraag niet bedekt. */
+    var first = d.querySelectorAll('[data-route]');
+    if (!first.length) { open(); return; }
+    var once = function () { for (var i = 0; i < first.length; i++) first[i].removeEventListener('click', once); setTimeout(function () { if (read() === null) open(); }, 600); };
+    for (var i = 0; i < first.length; i++) first[i].addEventListener('click', once);
   }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', start); else start();
 })();
