@@ -1013,13 +1013,14 @@ html, body { overflow-x: clip; }
       <section class="step on" data-s="route" tabindex="-1" aria-labelledby="h-route">
         <span class="slots" id="slots"></span>
         <h1 class="big" id="h-route">jouw website in <span class="grad-t">5 minuten.</span></h1>
-        <p class="lead">Beantwoord een paar korte vragen en zie direct hoe jouw nieuwe website eruit kan zien. Gratis en vrijblijvend.</p>
+        <p class="lead">Beantwoord een paar korte vragen en zie direct hoe jouw nieuwe website eruit kan zien. Het ontwerp is gratis en vrijblijvend.</p>
+        <p class="cap" style="margin-top:10px">Q4-actie t/m 31 december 2026: website van 1 pagina voor €199 eenmalig + €50 per maand, excl. btw.</p>
         <span class="lbl">Heb je al een website?</span>
         <div class="opts">
           <button class="opt" type="button" data-route="ja"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2.5"/><path d="M3 9h18M8 21h8M12 18v3"/></svg></span><span><b>Ja, ik heb er een</b><span class="d">We maken hem opnieuw, met jouw kleuren</span></span><svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
           <button class="opt" type="button" data-route="nee"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 4.6L19 9l-4 3.3L16.2 18 12 15.2 7.8 18 9 12.3 5 9l5.1-1.4z"/></svg></span><span><b>Nee, nog niet</b><span class="d">We bouwen er een met jouw input</span></span><svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
         </div>
-        <div class="trust"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Gratis</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Geen verplichtingen</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Binnen 7 dagen live</span></div>
+        <div class="trust"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Gratis ontwerp</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Geen verplichtingen</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Binnen 7 dagen live</span></div>
         <p class="cap">We maken maximaal 3 nieuwe websites per week, zodat elk ontwerp de aandacht krijgt die het verdient.</p>
       </section>
 
@@ -1244,7 +1245,7 @@ html, body { overflow-x: clip; }
 
   /* ===== instellingen om later te koppelen ===== */
   var DEMO = false;
-  var SLOTS = { total: 2, left: 2 };
+  var SLOTS = { total: 3, left: 3 };
   var CRM_WEBHOOK = '';
   var CALL_NR = '+31 6 1609 1507';
   var LOAD_SCALE = 1; // 1 = echte duur van het laadscherm (ca. 25 sec); lager = sneller (alleen voor tests)
@@ -1829,7 +1830,7 @@ html, body { overflow-x: clip; }
 
   function slotsHTML() {
     var d = ''; for (var i = 0; i < SLOTS.total; i++) d += '<i class="' + (i < SLOTS.left ? '' : 'off') + '"></i>';
-    var t = SLOTS.left <= 0 ? 'Deze week zijn de plekken vol' : 'Nog ' + SLOTS.left + (SLOTS.left === 1 ? ' plek' : ' plekken') + ' deze week';
+    var t = 'Maximaal ' + SLOTS.total + ' nieuwe websites per week';
     return '<span class="dots" aria-hidden="true">' + d + '</span>' + t;
   }
   ['#slots', '#slots2', '#slots3'].forEach(function (s) { $(s).innerHTML = slotsHTML(); });
