@@ -982,10 +982,11 @@ html, body { overflow-x: clip; }
 .realwait i{width:22px;height:22px;margin-top:2px;border-radius:50%;border:2.5px solid var(--line-2);border-top-color:var(--o);border-right-color:var(--r);animation:spin 1s linear infinite}
 .realopen{display:inline-block;margin-top:8px;color:var(--soft);font-weight:700;text-decoration:none;border-bottom:1px solid var(--line-2)}
 
-.lf { position: relative; z-index: 1; margin: 40px 0 24px; padding-top: 22px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; line-height: 1.7; text-align: center; }
-.lf b { color: var(--soft); font-weight: 600; }
-.lf nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; margin-top: 8px; }
-.lf a { color: var(--soft); text-decoration: underline; text-underline-offset: 3px; }
+.app > .grid { flex: 1 0 auto; min-height: calc(100svh - 68px); align-content: start; }
+.lf { position: relative; z-index: 1; margin-top: auto; padding: 14px 0 12px; color: var(--fg); font-size: 11px; line-height: 1.5; text-align: center; opacity: .65; }
+.lf span { display: block; }
+.lf nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 12px; margin-top: 2px; }
+.lf a, .lf .dwd-cs { color: inherit; text-decoration: underline; text-underline-offset: 2px; font-size: 11px; }
 
 .q4 { margin: 0 auto 26px; max-width: 640px; padding: 22px 22px 20px; border: 1px solid var(--line-2); border-radius: 18px; background: var(--card); text-align: left; }
 .q4 h4 { font: 700 20px/1.2 var(--f-d); margin-bottom: 6px; }
@@ -1224,13 +1225,12 @@ html, body { overflow-x: clip; }
         <div class="bar"><button class="btn ghost" type="button" id="restart">Opnieuw proberen</button></div>
       </section>
     </main>
-    <footer class="lf">
-      <b>De Website Dokters</b> · Enschede, Nederland<br>
-      KvK 74617079 · BTW-ID NL002426495B04<br>
-      <a href="tel:+31616091507">+31 6 1609 1507</a> · <a href="mailto:info@dewebsitedokters.nl">info@dewebsitedokters.nl</a>
-      <nav aria-label="Juridisch"><a href="/algemene-voorwaarden">Algemene voorwaarden</a><a href="/privacyverklaring">Privacyverklaring</a><a href="/cookiebeleid">Cookiebeleid</a></nav>
-    </footer>
   </div>
+  <footer class="lf">
+    <span>De Website Dokters · Enschede · KvK 74617079 · BTW-ID NL002426495B04</span>
+    <span><a href="tel:+31616091507">+31 6 1609 1507</a> · <a href="mailto:info@dewebsitedokters.nl">info@dewebsitedokters.nl</a></span>
+    <nav aria-label="Juridisch"><a href="/algemene-voorwaarden">Algemene voorwaarden</a><a href="/privacyverklaring">Privacyverklaring</a><a href="/cookiebeleid">Cookiebeleid</a></nav>
+  </footer>
 </div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><filter id="goo" x="-10%" y="-40%" width="120%" height="180%" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceGraphic" stdDeviation="7" result="b"/><feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8"/></filter></defs></svg>
