@@ -1056,6 +1056,12 @@ html, body { overflow-x: clip; }
         </div>
         <span class="lbl" id="lbl-br">Wat voor bedrijf is het?</span>
         <div class="chips" id="branches" role="group" aria-label="Soort bedrijf"></div>
+        <div id="extra-nee" hidden>
+          <label class="fld" style="display:block;margin-top:18px"><span class="lbl" style="margin-top:0">Wat doe je precies? <i style="font-style:normal;opacity:.6">(mag kort)</i></span>
+            <span class="in"><input id="wat" type="text" maxlength="80" placeholder="Bijv. loodgieter, badkamers en cv-ketels"></span></label>
+          <label class="fld" style="display:block;margin-top:12px"><span class="lbl" style="margin-top:0">Plaats</span>
+            <span class="in"><input id="plaats" type="text" maxlength="40" autocomplete="address-level2" placeholder="Bijv. Enschede"></span></label>
+        </div>
         <div class="bar"><button class="btn" type="button" id="go-bedrijf">Volgende <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button></div>
       </section>
 
@@ -1905,7 +1911,7 @@ html, body { overflow-x: clip; }
     S.route = b.getAttribute('data-route'); track('ViewContent', { route: S.route });
     var ja = S.route === 'ja';
     $('#nameblock').hidden = ja;
-    $('#lbl-br').hidden = ja;
+    $('#lbl-br').hidden = ja; $('#extra-nee').hidden = ja;
     $('#h-bedrijf').textContent = ja ? 'wat voor bedrijf is het?' : 'hoe heet je bedrijf?';
     $('#sub-bedrijf').textContent = ja ? 'Dan kiezen we een indeling die bij je past.' : 'Je bedrijfsnaam gebruiken we als logo in het ontwerp.';
     S.fromSite = ja && !!S.fromSite; S.pal = ja ? (S.fromSite ? 'eigen' : 'site') : 'koning';
@@ -1921,7 +1927,7 @@ html, body { overflow-x: clip; }
   function realRequest(d, cb) {
     cb = cb || function () {};
     if (S.route !== 'ja' || !d) return cb('skip');
-    if (REAL.site === d && (REAL.url || REAL.status === 'queued' || REAL.status === 'building')) return cb(REAL.status);
+    if (REAL.site === d && (REAL.url || REAL.status === 'queued' || REAL.status === 'building')) return cb(REAL.status, REAL);
     var done = false, fin = function (st, r) { if (done) return; done = true; cb(st, r); };
     setTimeout(function () { fin('timeout'); }, 5000);
     try {
@@ -1937,6 +1943,37 @@ html, body { overflow-x: clip; }
         .catch(function () { fin('error'); });
     } catch (e) { fin('error'); }
   }
+  function realRequestNosite() {
+    if (S.route !== 'nee' || S.naam.trim().length < 2) return;
+    var sig = [S.naam.trim(), S.branche, ($('#wat').value || '').trim(), ($('#plaats').value || '').trim()].join('|');
+    if (REAL.sig === sig && REAL.site) return;
+    try {
+      fetch(SB_URL + '/rest/v1/rpc/dwd_demo_request_nosite', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB_KEY },
+        body: JSON.stringify({ p_name: S.naam.trim(), p_branche: S.branche, p_sub: ($('#wat').value || '').trim() || null, p_plaats: ($('#plaats').value || '').trim() || null, p_colors: null, p_client: CLIENT || null, p_bypass: BYPASS || null }) })
+        .then(function (r) { return r.json(); })
+        .then(function (rows) {
+          var r = rows && rows[0]; if (!r || !r.used_host || r.status === 'used' || r.status === 'invalid' || r.status === 'limit') return;
+          REAL = { site: r.used_host, url: r.url || '', status: r.status, timer: 0, sig: sig };
+          if (r.url) realPaint(); else realPoll();
+          track('DemoStart', { route: 'nee' });
+        }).catch(function () {});
+    } catch (e) {}
+  }
+  var earlyT = 0;
+  function earlyUrl() {
+    clearTimeout(earlyT);
+    var d = S.domain;
+    if (!d || !/\.[a-z]{2,24}$/.test(d) || d.length < 5) return;
+    earlyT = setTimeout(function () {
+      if (S.domain !== d) return;
+      realRequest(d, function (st, r) {
+        if (st === 'used' && S.domain === d) {
+          $('#f-url').classList.add('err');
+          $('#e-url').innerHTML = 'Je hebt al een gratis ontwerp aangevraagd voor <b>' + esc(r.used_host || 'een andere website') + '</b>. We maken één gratis ontwerp per bedrijf.' + (r.url ? ' <a href="' + esc(r.url) + '" target="_blank" rel="noopener" style="color:inherit">Bekijk je ontwerp ↗</a>' : '');
+        } else if (st === 'queued' || st === 'building' || st === 'ready') { startFacts(d); track('DemoStart', { route: 'ja' }); }
+      });
+    }, 1300);
+  }
   function realPoll() {
     clearTimeout(REAL.timer);
     if (!REAL.site || REAL.url || /^(failed|invalid|limit)$/.test(REAL.status)) { realPaint(); return; }
@@ -1948,11 +1985,11 @@ html, body { overflow-x: clip; }
     }, 7000);
   }
   function realShow() {
-    if (S.route !== 'ja' || !REAL.site) return;
+    if (!REAL.site) return;
     var host = $('#phHost'), w = $('#realwait');
     if (!REAL.url && !/^(failed|invalid|limit)$/.test(REAL.status) && !w) {
       w = document.createElement('div'); w.id = 'realwait'; w.className = 'realwait'; w.setAttribute('role', 'status');
-      w.innerHTML = '<i aria-hidden="true"></i><div><b>Je echte website wordt nu afgemaakt</b><small>Met je eigen logo, kleuren, foto\'s en teksten. Hieronder zie je alvast een eerste opzet. Zodra hij klaar is, verschijnt hij hier vanzelf.</small></div>';
+      w.innerHTML = '<i aria-hidden="true"></i><div><b>Je echte website wordt nu afgemaakt</b><small>' + (S.route === 'ja' ? 'Met je eigen logo, kleuren, foto\'s en teksten.' : 'Speciaal voor ' + esc(S.naam || 'jouw bedrijf') + ', met teksten en beelden voor jouw vak.') + ' Hieronder zie je alvast een eerste opzet. Zodra hij klaar is, verschijnt hij hier vanzelf.</small></div>';
       host.parentNode.insertBefore(w, host);
     }
     realPaint();
@@ -1972,9 +2009,9 @@ html, body { overflow-x: clip; }
       fr.src = REAL.url.replace(/\/?$/, '/'); phone.vp.appendChild(fr); phone.vp.classList.add('real');
       var sec = $('.rv-show');
       if (sec) {
-        var it = $('.intro', sec); if (it) it.textContent = 'Dit is jouw echte website: met je eigen logo, kleuren, foto\'s en teksten. Scroll er zelf doorheen.';
+        var it = $('.intro', sec); if (it) it.textContent = S.route === 'ja' ? 'Dit is jouw echte website: met je eigen logo, kleuren, foto\'s en teksten. Scroll er zelf doorheen.' : 'Dit is jouw website, speciaal ontworpen voor ' + (S.naam || 'jouw bedrijf') + '. Scroll er zelf doorheen.';
         var t = $('h3.t', sec); if (t) t.textContent = 'en zo ziet jouw nieuwe website eruit';
-        var c = $('.cap2', sec); if (c) c.innerHTML = 'Demo-ontwerp op basis van je huidige website. <a class="realopen" href="' + esc(REAL.url) + '" target="_blank" rel="noopener">Open op volledig scherm ↗</a>';
+        var c = $('.cap2', sec); if (c) c.innerHTML = (S.route === 'ja' ? 'Demo-ontwerp op basis van je huidige website.' : 'Demo-ontwerp voor jouw bedrijf.') + ' <a class="realopen" href="' + esc(REAL.url) + '" target="_blank" rel="noopener">Open op volledig scherm ↗</a>';
       }
       track('ViewContent', { page: 'echte-demo' });
     }
@@ -2007,9 +2044,10 @@ html, body { overflow-x: clip; }
     if (d && !S.nTouched) S.naam = nameFromDomain(d);
     $('#urlchip').hidden = !d;
     if (S.route === 'ja') buildPals();
-    later();
+    later(); earlyUrl();
   }
   urlI.addEventListener('input', onUrl);
+  urlI.addEventListener('blur', function () { if (S.domain && /\.[a-z]{2,24}$/.test(S.domain)) { clearTimeout(earlyT); realRequest(S.domain, function () {}); } });
   $('#editname').addEventListener('click', function () { var f = $('#f-naam2'); f.hidden = false; $('#naam2').value = S.naam; $('#naam2').focus(); });
   $('#naam2').addEventListener('input', function (e) { S.naam = e.target.value; S.nTouched = true; later(); });
   function nextUrl() {
@@ -2039,7 +2077,7 @@ html, body { overflow-x: clip; }
     later(); });
   function nextName() {
     if (S.route === 'nee' && S.naam.trim().length < 2) { $('#f-naam').classList.add('err'); $('#e-naam').textContent = 'Vul je bedrijfsnaam in, dan maken we je logo.'; naam.focus(); shake($('#go-bedrijf')); return; }
-    track('Contact', { step: 'bedrijf' }); show('doel');
+    track('Contact', { step: 'bedrijf' }); realRequestNosite(); show('doel');
   }
   $('#go-bedrijf').addEventListener('click', nextName);
   naam.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); nextName(); } });
@@ -2171,7 +2209,7 @@ html, body { overflow-x: clip; }
     var lead = { id: Date.now().toString(36), tijd: new Date().toISOString(), voornaam: S.vn.trim(), telefoon: S.tel, belmoment: S.moment,
       heeft_website: S.route === 'ja', website_url: S.route === 'ja' ? S.url.trim() : '', bedrijfsnaam: S.naam.trim(), branche: S.branche,
       doelen: S.goals.map(function (k) { return GOALS[k].l; }), wanneer_live: LIVE[S.live], beslisser: BESLIS[S.beslis],
-      palet: p.n, hoofdkleur: p.p, accentkleur: p.a, stijl: S.stijl, lettertype: S.font, sfeer: S.sfeer || 'auto', bron: q };
+      palet: p.n, hoofdkleur: p.p, accentkleur: p.a, stijl: S.stijl, lettertype: S.font, sfeer: S.sfeer || 'auto', bron: q, demo_key: (S.route === 'nee' && REAL.site) ? REAL.site : undefined, demo_url: REAL.url || undefined, wat: S.route === 'nee' ? (($('#wat') || {}).value || '') : undefined, plaats: S.route === 'nee' ? (($('#plaats') || {}).value || '') : undefined };
     track('Lead', { route: S.route, branche: S.branche });
     try { fetch('https://skdjbifmtleiogbkqwid.supabase.co/rest/v1/dwd_funnel_leads', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'apikey': 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS', 'Prefer': 'return=minimal' }, body: JSON.stringify({ voornaam: lead.voornaam, telefoon: lead.telefoon, belmoment: String(lead.belmoment || '').slice(0, 40), website: lead.website_url ? lead.website_url.slice(0, 253) : null, bedrijfsnaam: lead.bedrijfsnaam ? lead.bedrijfsnaam.slice(0, 120) : null, branche: lead.branche ? String(lead.branche).slice(0, 80) : null, antwoorden: lead, source: 'funnel' }) }); } catch (e) {}
     if (CRM_WEBHOOK) { try { fetch(CRM_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead) }); } catch (e) {} }
