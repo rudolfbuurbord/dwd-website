@@ -1140,6 +1140,8 @@ html, body { overflow-x: clip; }
             <span class="in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V7l8-4 8 4v14M9 21v-5h6v5M9 10h.01M15 10h.01"/></svg><input id="naam" type="text" autocomplete="organization" maxlength="40" placeholder="Typ je bedrijfsnaam" aria-describedby="e-naam"></span>
             <p class="msg" id="e-naam" role="alert"></p></label>
           <div class="lchip" id="chip2" aria-label="Zo ziet je logo eruit"></div>
+          <div class="mbtns" id="logo-nee" hidden><label class="mbtn"><input type="file" id="logofile2" accept="image/png,image/jpeg,image/webp,image/svg+xml" style="position:absolute;inset:0;opacity:0;cursor:pointer"><span id="lf2t">Heb je een logo? Upload het</span></label><button class="mbtn" type="button" id="logooff2" hidden>Logo weghalen</button></div>
+          <p class="msg" id="n-logo2" style="color:var(--muted)"></p>
         </div>
         <span class="lbl" id="lbl-br">Wat voor bedrijf is het?</span>
         <div class="chips" id="branches" role="group" aria-label="Soort bedrijf"></div>
@@ -1150,8 +1152,6 @@ html, body { overflow-x: clip; }
             <span class="in"><input id="voor" type="text" maxlength="80" placeholder="Bijv. jonge gezinnen, studenten, bedrijven"></span></label>
           <label class="fld" style="display:block;margin-top:12px"><span class="lbl" style="margin-top:0">Wat maakt jou anders? <i style="font-style:normal;opacity:.6">(niet verplicht)</i></span>
             <span class="in"><input id="anders" type="text" maxlength="120" placeholder="Bijv. altijd binnen 24 uur een voorstel, eigen stijl, familiebedrijf"></span></label>
-          <label class="fld" style="display:block;margin-top:12px"><span class="lbl" style="margin-top:0">Instagram of Facebook <i style="font-style:normal;opacity:.6">(niet verplicht)</i></span>
-            <span class="in"><input id="social" type="text" maxlength="100" inputmode="url" placeholder="Bijv. instagram.com/jouwbedrijf"></span></label>
           <label class="fld" style="display:block;margin-top:12px"><span class="lbl" style="margin-top:0">Plaats</span>
             <span class="in"><input id="plaats" type="text" maxlength="40" autocomplete="address-level2" placeholder="Bijv. Enschede"></span></label>
         </div>
@@ -1551,7 +1551,7 @@ html, body { overflow-x: clip; }
   function nm() { return S.naam.trim() || 'Jouw bedrijf'; }
   function ini() { return nm().charAt(0).toUpperCase(); }
   function slug() { if (S.route === 'ja' && S.domain) return S.domain; var s = nm().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ''); return (s || 'jouwbedrijf') + '.nl'; }
-  function logoSrc() { if (S.route !== 'ja' || S.logoOff) return ''; if (S.logoData) return S.logoData; var l = S.facts && S.facts.logo; return (l && /^https:\/\//.test(l) && !/white|wit[_-]|negatief|inverse|light/i.test(l) && /\.(png|jpe?g|svg|webp)(\?|$)/i.test(l)) ? l : ''; }
+  function logoSrc() { if (S.logoOff) return ''; if (S.logoData) return S.logoData; if (S.route !== 'ja') return ''; var l = S.facts && S.facts.logo; return (l && /^https:\/\//.test(l) && !/white|wit[_-]|negatief|inverse|light/i.test(l) && /\.(png|jpe?g|svg|webp)(\?|$)/i.test(l)) ? l : ''; }
   function logoOk() { return !!logoSrc(); }
   function logoHTML() { return '<span class="lg">' + (logoOk() ? '<img class="lgi" src="' + esc(logoSrc()) + '" alt="' + esc(nm()) + '" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add(\'nologo\')">' : '') + '<span class="mk">' + esc(ini()) + '</span><span class="nm">' + esc(nm()) + '</span></span>'; }
   function chipHTML(tag) { return logoHTML() + (tag ? '<span class="tag">je logo</span>' : ''); }
@@ -2037,7 +2037,7 @@ html, body { overflow-x: clip; }
     S.route = nr; track('ViewContent', { route: S.route });
     var ja = S.route === 'ja';
     $('#nameblock').hidden = ja;
-    $('#lbl-br').hidden = ja; $('#extra-nee').hidden = ja;
+    $('#lbl-br').hidden = ja; $('#extra-nee').hidden = ja; $('#logo-nee').hidden = ja;
     $('#h-bedrijf').textContent = ja ? 'wat voor bedrijf is het?' : 'hoe heet je bedrijf?';
     $('#sub-bedrijf').textContent = ja ? 'Dan kiezen we een indeling die bij je past.' : 'Je bedrijfsnaam gebruiken we als logo in het ontwerp.';
     S.fromSite = ja && !!S.fromSite; S.pal = ja ? (S.fromSite ? 'eigen' : 'site') : 'koning';
@@ -2080,10 +2080,35 @@ html, body { overflow-x: clip; }
       try { fetch(SB_URL + '/rest/v1/rpc/dwd_demo_set_style', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB_KEY }, body: JSON.stringify({ p_host: REAL.site, p_client: CLIENT || null, p_style: st }) }); } catch (e) {}
     }, now ? 0 : 900);
   }
+  function realLogo() {
+    if (!REAL.site || !S.logoData || S.route !== 'nee') return;
+    try { fetch(SB_URL + '/rest/v1/rpc/dwd_demo_set_logo', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB_KEY }, body: JSON.stringify({ p_host: REAL.site, p_client: CLIENT || null, p_logo: S.logoData }) }).catch(function () {}); } catch (e) {}
+  }
+  (function () {
+    var inp = $('#logofile2'); if (!inp) return;
+    var note = $('#n-logo2');
+    function paint() { $$('.lchip').forEach(function (c) { c.innerHTML = chipHTML(c.id !== 'chip4' && c.id !== 'chip6'); }); $('#logooff2').hidden = !S.logoData; $('#lf2t').textContent = S.logoData ? 'Ander logo kiezen' : 'Heb je een logo? Upload het'; }
+    inp.addEventListener('change', function (e) {
+      var f = e.target.files && e.target.files[0]; note.textContent = ''; if (!f) return;
+      if (!/^image\/(png|jpeg|webp|svg\+xml)$/.test(f.type)) { note.textContent = 'Kies een PNG, JPG, WEBP of SVG.'; inp.value = ''; return; }
+      if (f.size > 5 * 1024 * 1024) { note.textContent = 'Dit bestand is te groot (maximaal 5 MB).'; inp.value = ''; return; }
+      var rd = new FileReader();
+      rd.onload = function () {
+        var url = String(rd.result || ''), done = function (d) { S.logoData = d; S.logoOff = false; paint(); note.textContent = 'Top, dit logo komt in je ontwerp.'; track('Contact', { step: 'logo-upload-nee' }); realLogo(); };
+        if (f.type === 'image/svg+xml') { if (f.size > 300 * 1024) { note.textContent = 'Dit SVG-bestand is te groot (maximaal 300 KB).'; return; } done(url); return; }
+        var im = new Image();
+        im.onload = function () { var sc = Math.min(1, 520 / Math.max(im.width, im.height)), cv = document.createElement('canvas'); cv.width = Math.max(1, Math.round(im.width * sc)); cv.height = Math.max(1, Math.round(im.height * sc)); try { cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height); done(cv.toDataURL('image/png')); } catch (er) { done(url); } };
+        im.onerror = function () { note.textContent = 'Dit plaatje kan ik niet openen. Probeer een ander bestand.'; };
+        im.src = url;
+      };
+      rd.readAsDataURL(f);
+    });
+    $('#logooff2').addEventListener('click', function () { S.logoData = ''; inp.value = ''; note.textContent = ''; paint(); });
+  })();
   function nosubText() {
     var g = function (id) { var e = $('#' + id); return e ? (e.value || '').replace(/\s+/g, ' ').trim() : ''; };
     var t = g('wat'); if (g('voor')) t += (t ? '. ' : '') + 'Voor: ' + g('voor'); if (g('anders')) t += (t ? '. ' : '') + 'Anders: ' + g('anders');
-    if (g('social')) t += (t ? '. ' : '') + 'Social: ' + g('social'); return t.slice(0, 590);
+    return t.slice(0, 590);
   }
   function realRequestNosite() {
     if (S.route !== 'nee' || S.naam.trim().length < 2) return;
@@ -2094,10 +2119,12 @@ html, body { overflow-x: clip; }
         body: JSON.stringify({ p_name: S.naam.trim(), p_branche: S.branche, p_sub: nosubText() || null, p_plaats: ($('#plaats').value || '').trim() || null, p_colors: null, p_client: CLIENT || null, p_bypass: BYPASS || null }) })
         .then(function (r) { return r.json(); })
         .then(function (rows) {
-          var r = rows && rows[0]; if (!r || !r.used_host || r.status === 'used' || r.status === 'invalid' || r.status === 'limit') return;
+          var r = rows && rows[0]; if (!r || !r.used_host || r.status === 'invalid' || r.status === 'limit') return;
+          if (r.status === 'used') { if (r.url) { REAL = { site: r.used_host, url: r.url, status: 'ready', timer: 0, sig: sig, t0: 0 }; realPaint(); } return; }
           if (REAL.site && REAL.site !== r.used_host) realCancel(REAL.site);
           REAL = { site: r.used_host, url: r.url || '', status: r.status, timer: 0, sig: sig, t0: r.url ? 0 : Date.now() };
           if (r.url) realPaint(); else realPoll();
+          realLogo();
           track('DemoStart', { route: 'nee' });
         }).catch(function () {});
     } catch (e) {}
@@ -2613,7 +2640,7 @@ html, body { overflow-x: clip; }
       var v = function (q) { var e = $(q); return e ? e.value : ''; };
       localStorage.setItem(SKEY, JSON.stringify({ t: Date.now(), S: s, cur: cur, hist: hist, y: Math.round(window.scrollY || 0),
         REAL: { site: REAL.site, url: REAL.url, status: REAL.status, sig: REAL.sig, t0: REAL.t0, prev: !!REAL.prev },
-        inp: { url: v('#url'), naam: v('#naam'), wat: v('#wat'), voor: v('#voor'), anders: v('#anders'), social: v('#social'), plaats: v('#plaats'), vn: v('#vn'), tel: v('#tel') } }));
+        inp: { url: v('#url'), naam: v('#naam'), wat: v('#wat'), voor: v('#voor'), anders: v('#anders'), plaats: v('#plaats'), vn: v('#vn'), tel: v('#tel') } }));
     } catch (e) {}
   }
   function clearState() { try { localStorage.removeItem(SKEY); } catch (e) {} }
@@ -2624,9 +2651,9 @@ html, body { overflow-x: clip; }
       for (var k in d.S) S[k] = d.S[k];
       if (!FNT[S.font]) S.font = ({ strak: 'karakter', elegant: 'sierlijk', helder: 'modern' })[S.font] || 'modern';
       hist = (d.hist || []).filter(function (x) { return x !== 'laden'; });
-      var inp = d.inp || {}; ['url', 'naam', 'wat', 'voor', 'anders', 'social', 'plaats', 'vn', 'tel'].forEach(function (k) { var e = $('#' + k); if (e && inp[k]) e.value = inp[k]; });
+      var inp = d.inp || {}; ['url', 'naam', 'wat', 'voor', 'anders', 'plaats', 'vn', 'tel'].forEach(function (k) { var e = $('#' + k); if (e && inp[k]) e.value = inp[k]; });
       var ja = S.route === 'ja';
-      $('#nameblock').hidden = ja; $('#lbl-br').hidden = ja; $('#extra-nee').hidden = ja;
+      $('#nameblock').hidden = ja; $('#lbl-br').hidden = ja; $('#extra-nee').hidden = ja; $('#logo-nee').hidden = ja;
       $('#h-bedrijf').textContent = ja ? 'wat voor bedrijf is het?' : 'hoe heet je bedrijf?';
       $('#sub-bedrijf').textContent = ja ? 'Dan kiezen we een indeling die bij je past.' : 'Je bedrijfsnaam gebruiken we als logo in het ontwerp.';
       var sync = function (sel, attr, val) { $$(sel).forEach(function (c) { c.setAttribute('aria-pressed', String(c.getAttribute(attr) === val)); }); };
