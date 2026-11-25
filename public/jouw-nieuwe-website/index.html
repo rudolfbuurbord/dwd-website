@@ -4,7 +4,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500;600;700;800;900&family=Figtree:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400..600&family=Bricolage+Grotesque:wght@300..800&family=Anton&family=Syne:wght@600..800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500;600;700;800;900&family=Figtree:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400&family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Anton&display=swap">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap">
 <style>
 :root {
   --bg: #050505; --card: #111112; --line: rgba(253,248,243,.12); --line-2: rgba(253,248,243,.22);
@@ -1402,14 +1403,14 @@ html, body { overflow-x: clip; }
     { id: 'salie',  n: 'Salie & klei', s: 'Zacht en natuurlijk', bg: '#F3F1EA', ink: '#1C211B', p: '#5C7155', a: '#B5643C' }
   ];
   var FNT = {
-    strak:    { n: 'Strak', d: 'Modern en zakelijk', hf: "'Bricolage Grotesque', 'Figtree', sans-serif", hw: 800 },
-    elegant:  { n: 'Elegant', d: 'Klassieke schreefletter', hf: "'Fraunces', Georgia, serif", hw: 500 },
-    krachtig: { n: 'Krachtig', d: 'Smal, stoer, hoofdletters', hf: "'Anton', 'Impact', sans-serif", hw: 400, up: true },
-    karakter: { n: 'Karakter', d: 'Breed en eigenzinnig', hf: "'Syne', 'Figtree', sans-serif", hw: 800 }
+    modern:   { n: 'Modern', d: 'Rustig en strak', hf: "'Satoshi', 'Figtree', sans-serif", hw: 700 },
+    karakter: { n: 'Karakter', d: 'Groot en eigenwijs', hf: "'Bricolage Grotesque', 'Figtree', sans-serif", hw: 800 },
+    sierlijk: { n: 'Sierlijk', d: 'Luxe schreefletter', hf: "'Fraunces', Georgia, serif", hw: 400 },
+    krachtig: { n: 'Krachtig', d: 'Smal, stoer, hoofdletters', hf: "'Anton', 'Impact', sans-serif", hw: 400, up: true }
   };
   var STY = {
     rustig: { n: 'Klassiek', d: 'Scherpe hoeken', hf: "'Fraunces', Georgia, serif", hw: 500, btnr: '4px', rad: '6px', artr: '140px 140px 10px 10px', markr: '4px' },
-    strak:  { n: 'Modern',  d: 'Zacht afgerond', hf: "'Bricolage Grotesque', 'Figtree', sans-serif", hw: 800, btnr: '12px', rad: '16px', artr: '24px', markr: '10px' },
+    strak:  { n: 'Zacht',  d: 'Afgeronde hoeken', hf: "'Bricolage Grotesque', 'Figtree', sans-serif", hw: 800, btnr: '12px', rad: '16px', artr: '24px', markr: '10px' },
     warm:   { n: 'Rond',   d: 'Volledig rond', hf: "'Figtree', system-ui, sans-serif", hw: 800, btnr: '999px', rad: '26px', artr: '46% 54% 30% 70% / 52% 38% 62% 48%', markr: '50%' }
   };
   var GOALS = {
@@ -1471,7 +1472,7 @@ html, body { overflow-x: clip; }
     ['Zijn de prijzen inclusief btw?', 'Nee. De website kost €399 exclusief btw, dat is €482,79 inclusief 21% btw. Hosting en onderhoud kost €30 per maand exclusief btw.']
   ];
 
-  function fresh() { return { route: null, url: '', domain: '', naam: '', nTouched: false, branche: 'anders', brPicked: false, goals: [], live: '', beslis: '', logoData: '', logoOff: false, pal: 'koning', cp: '#E8572A', ca: '#1C2B4A', stijl: 'strak', font: 'strak', sfeer: '', vn: '', tel: '', moment: 'meteen', generated: false }; }
+  function fresh() { return { route: null, url: '', domain: '', naam: '', nTouched: false, branche: 'anders', brPicked: false, goals: [], live: '', beslis: '', logoData: '', logoOff: false, pal: 'koning', cp: '#E8572A', ca: '#1C2B4A', stijl: 'strak', font: 'modern', sfeer: '', vn: '', tel: '', moment: 'meteen', generated: false }; }
   var S = fresh();
   var hist = [], cur = 'route';
 
@@ -1509,7 +1510,7 @@ html, body { overflow-x: clip; }
     var r = rgb(p.ink);
     return '--sb:' + p.bg + ';--si:' + p.ink + ';--p:' + p.p + ';--a:' + p.a + ';--ag:' + (rb ? RAIN : p.a) + ';--c1:' + (rb ? '#ffffff' : p.a) + ';--art:' + (rb ? RAIN : 'linear-gradient(150deg,' + p.p + ',' + mix(p.p, p.a, .5) + ')') + ';--onp:' + on(p.p) + ';--ona:' + (rb ? '#111111' : on(p.a)) + ';--card:' + card + ';--muted:' + mix(p.ink, p.bg, .38) + ';--line:rgba(' + r[0] + ',' + r[1] + ',' + r[2] + ',.12);--kc:' + p.p + ';';
   }
-  function styVars() { var st = STY[S.stijl], fo = FNT[S.font] || FNT.strak; return '--hf:' + fo.hf + ';--hw:' + fo.hw + ';--hup:' + (fo.up ? 'uppercase' : 'none') + ';--btnr:' + st.btnr + ';--rad:' + st.rad + ';--artr:' + st.artr + ';--markr:' + st.markr + ';'; }
+  function styVars() { var st = STY[S.stijl], fo = FNT[S.font] || FNT.modern; return '--hf:' + fo.hf + ';--hw:' + fo.hw + ';--hup:' + (fo.up ? 'uppercase' : 'none') + ';--btnr:' + st.btnr + ';--rad:' + st.rad + ';--artr:' + st.artr + ';--markr:' + st.markr + ';'; }
   var SFR = {
     licht:  { n: 'Licht', d: 'Luchtig en fris', bg: '#FFFFFF', ink: '#1c1b22', dark: false },
     warm:   { n: 'Warm', d: 'Zacht en natuurlijk', bg: '#F5ECDF', ink: '#2b2118', dark: false },
@@ -2463,7 +2464,7 @@ html, body { overflow-x: clip; }
     $$('#moments .chip').forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-m') === 'meteen' ? 'true' : 'false'); });
     $$('#styles .sty').forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-st') === 'strak' ? 'true' : 'false'); });
     $$('#sfeer .sty').forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
-    $$('#fonts .sty').forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-f') === 'strak' ? 'true' : 'false'); });
+    $$('#fonts .sty').forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-f') === 'modern' ? 'true' : 'false'); });
     buildBranches(); buildGoals(); buildPals(); hist = []; refresh(); show('route');
   });
 
@@ -2608,6 +2609,7 @@ html, body { overflow-x: clip; }
       var d = JSON.parse(localStorage.getItem(SKEY) || 'null');
       if (!d || !d.S || !d.S.route || Date.now() - d.t > 2 * 864e5 || d.cur === 'klaar' || d.cur === 'route') return false;
       for (var k in d.S) S[k] = d.S[k];
+      if (!FNT[S.font]) S.font = ({ strak: 'karakter', elegant: 'sierlijk', helder: 'modern' })[S.font] || 'modern';
       hist = (d.hist || []).filter(function (x) { return x !== 'laden'; });
       var inp = d.inp || {}; ['url', 'naam', 'wat', 'plaats', 'vn', 'tel'].forEach(function (k) { var e = $('#' + k); if (e && inp[k]) e.value = inp[k]; });
       var ja = S.route === 'ja';
