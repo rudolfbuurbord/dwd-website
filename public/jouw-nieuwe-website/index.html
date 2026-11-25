@@ -1925,6 +1925,7 @@ html, body { overflow-x: clip; }
     if (first) { try { first.focus({ preventScroll: true }); } catch (e) { first.focus(); } } else { try { $('.step.on').focus({ preventScroll: true }); } catch (e) {} }
     if (id === 'merk') renderMerk();
     if (id === 'onthulling') { refresh(); planHTML(); fit(); setTimeout(function () { fit(); hint(); }, 150); }
+    try { saveState(); } catch (e) {}
   }
   $('#back').addEventListener('click', function () { var p = hist.pop(); if (p === 'laden') p = hist.pop(); if (p === 'onthulling' && cur === 'contact') { show('onthulling', true); return; } if (p) show(p, true); });
   function shake(b) { b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); }
@@ -2301,7 +2302,7 @@ html, body { overflow-x: clip; }
     try { navigator.clipboard.writeText(CALL_NR).then(done, done); } catch (e) { done(); }
   });
   $('#restart').addEventListener('click', function () {
-    factsFor = ""; S = fresh(); REAL = { site: '', url: '', status: '', timer: 0 };
+    factsFor = ""; S = fresh(); REAL = { site: '', url: '', status: '', timer: 0 }; clearState();
     brandChanged = false; try { $('#logofile').value = ''; } catch (e) {}
     ['#url', '#naam', '#naam2', '#vn', '#tel'].forEach(function (s) { $(s).value = ''; });
     $('#urlchip').hidden = true; $('#f-naam2').hidden = true; $('#nameblock').hidden = false; $('#lbl-br').hidden = false;
@@ -2350,8 +2351,50 @@ html, body { overflow-x: clip; }
   document.body.style.setProperty('--prog', .1); $('#progi').style.width = '10%'; $('#progbar').setAttribute('aria-valuenow', 10);
   try { var pu = new URLSearchParams(location.search).get('url'); if (pu && /^[\w.-]{3,253}$/.test(pu)) { document.querySelector('[data-route="ja"]').click(); urlI.value = pu; urlI.dispatchEvent(new Event('input', { bubbles: true })); } } catch (e) {}
   try { var vb = new URLSearchParams(location.search).get('voorbeeld'); if (vb && BR[vb]) { S.route = 'nee'; S.branche = vb; S.naam = 'Van Dijk ' + BR[vb].l; show('onthulling'); } } catch (e) {}
-  try { var pay = $('#pay'); if (pay) pay.addEventListener('click', function () { track('InitiateCheckout', { value: 399, currency: 'EUR', step: 'pay' }); }); } catch (e) {}
+  try { var pay = $('#pay'); if (pay) pay.addEventListener('click', function () { saveState(); track('InitiateCheckout', { value: 399, currency: 'EUR', step: 'pay' }); }); } catch (e) {}
   try { if (new URLSearchParams(location.search).get('betaald') === '1') { $('#h-contact').textContent = 'bedankt! waar kunnen we je bellen?'; var sc = document.querySelector('[data-s="contact"] .sub'); if (sc) sc.textContent = 'Laat je nummer achter, dan nemen we contact met je op om je website helemaal naar wens te maken.'; show('contact'); } } catch (e) {}
+
+  /* ===== voortgang onthouden: na Mollie/iDEAL of een herlaad kom je terug waar je was, met je eigen demo ===== */
+  var SKEY = 'dwd_funnel_v1';
+  function saveState() {
+    try {
+      if (!S.route || cur === 'route') return;
+      var s = {}; for (var k in S) { if (k === 'logoData' && S[k] && S[k].length > 400000) continue; s[k] = S[k]; }
+      var v = function (q) { var e = $(q); return e ? e.value : ''; };
+      localStorage.setItem(SKEY, JSON.stringify({ t: Date.now(), S: s, cur: cur, hist: hist, y: Math.round(window.scrollY || 0),
+        REAL: { site: REAL.site, url: REAL.url, status: REAL.status, sig: REAL.sig },
+        inp: { url: v('#url'), naam: v('#naam'), wat: v('#wat'), plaats: v('#plaats'), vn: v('#vn'), tel: v('#tel') } }));
+    } catch (e) {}
+  }
+  function clearState() { try { localStorage.removeItem(SKEY); } catch (e) {} }
+  function restoreState() {
+    try {
+      var d = JSON.parse(localStorage.getItem(SKEY) || 'null');
+      if (!d || !d.S || !d.S.route || Date.now() - d.t > 2 * 864e5 || d.cur === 'klaar' || d.cur === 'route') return false;
+      for (var k in d.S) S[k] = d.S[k];
+      hist = (d.hist || []).filter(function (x) { return x !== 'laden'; });
+      var inp = d.inp || {}; ['url', 'naam', 'wat', 'plaats', 'vn', 'tel'].forEach(function (k) { var e = $('#' + k); if (e && inp[k]) e.value = inp[k]; });
+      var ja = S.route === 'ja';
+      $('#nameblock').hidden = ja; $('#lbl-br').hidden = ja; $('#extra-nee').hidden = ja;
+      $('#h-bedrijf').textContent = ja ? 'wat voor bedrijf is het?' : 'hoe heet je bedrijf?';
+      $('#sub-bedrijf').textContent = ja ? 'Dan kiezen we een indeling die bij je past.' : 'Je bedrijfsnaam gebruiken we als logo in het ontwerp.';
+      var sync = function (sel, attr, val) { $$(sel).forEach(function (c) { c.setAttribute('aria-pressed', String(c.getAttribute(attr) === val)); }); };
+      sync('#live .chip', 'data-l', S.live); sync('#beslis .chip', 'data-d', S.beslis); sync('#moments .chip', 'data-m', S.moment);
+      sync('#styles .sty', 'data-st', S.stijl); sync('#sfeer .sty', 'data-sf', S.sfeer); sync('#fonts .sty', 'data-f', S.font);
+      buildBranches(); buildGoals(); buildPals(); refresh();
+      if (d.REAL && d.REAL.site) { REAL.site = d.REAL.site; REAL.url = d.REAL.url || ''; REAL.status = d.REAL.status || ''; REAL.sig = d.REAL.sig; }
+      var target = d.cur === 'laden' ? 'onthulling' : d.cur;
+      show(target, true);
+      if (REAL.url) realPaint(); else if (REAL.site && /^(queued|building)$/.test(REAL.status)) realPoll();
+      if (d.y && target === d.cur) setTimeout(function () { window.scrollTo(0, d.y); }, 350);
+      track('ViewContent', { page: 'hervat', step: target });
+      return true;
+    } catch (e) { return false; }
+  }
+  var saveT = 0; document.addEventListener('input', function () { clearTimeout(saveT); saveT = setTimeout(saveState, 600); }, true);
+  window.addEventListener('pagehide', saveState);
+  var scrT = 0; window.addEventListener('scroll', function () { clearTimeout(scrT); scrT = setTimeout(saveState, 800); }, { passive: true });
+  try { if (!/[?&](url|voorbeeld)=/.test(location.search)) restoreState(); } catch (e) {}
   track('PageView', {});
 })();
 </script>
