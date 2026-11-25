@@ -734,6 +734,8 @@ html, body { overflow-x: clip; }
 .bw .bw-chip[aria-pressed="true"] { background: var(--lamp); color: var(--onl); border-color: var(--lamp); font-weight: 800; }
 .bw .ask-row { display: grid; gap: 10px; margin-top: 13px; }
 .bw .bw-fld { min-height: 50px; padding: 0 15px; border-radius: var(--btnr); border: 1px solid var(--bl); background: rgba(255,255,255,.06); color: inherit; font: 500 16px 'Figtree', sans-serif; min-width: 0; width: 100%; box-sizing: border-box; }
+.fld .in.in-ta { height: auto; border-radius: 22px; padding: 0 4px; align-items: stretch; }
+.in textarea { width: 100%; font: inherit; color: inherit; background: transparent; border: 0; outline: 0; resize: vertical; min-height: 78px; padding: 14px 16px; line-height: 1.45; }
 .bw textarea.bw-fld { padding: 13px 15px; min-height: 90px; resize: vertical; }
 .bw .bw-fld::placeholder { color: #8896A8; }
 .bw .bw-info { margin-top: 11px; font-size: 14px; color: #B8C3D0; min-height: 22px; }
@@ -1142,8 +1144,14 @@ html, body { overflow-x: clip; }
         <span class="lbl" id="lbl-br">Wat voor bedrijf is het?</span>
         <div class="chips" id="branches" role="group" aria-label="Soort bedrijf"></div>
         <div id="extra-nee" hidden>
-          <label class="fld" style="display:block;margin-top:18px"><span class="lbl" style="margin-top:0">Wat doe je precies? <i style="font-style:normal;opacity:.6">(mag kort)</i></span>
-            <span class="in"><input id="wat" type="text" maxlength="80" placeholder="Bijv. loodgieter, badkamers en cv-ketels"></span></label>
+          <label class="fld" style="display:block;margin-top:18px"><span class="lbl" style="margin-top:0">Wat doe of verkoop je precies?</span>
+            <span class="in in-ta"><textarea id="wat" maxlength="220" rows="3" placeholder="Bijv. binnenhuisarchitect: ik ontwerp warme, rustige interieurs voor woningen en kantoren, van moodboard tot oplevering"></textarea></span></label>
+          <label class="fld" style="display:block;margin-top:12px"><span class="lbl" style="margin-top:0">Voor wie? <i style="font-style:normal;opacity:.6">(niet verplicht)</i></span>
+            <span class="in"><input id="voor" type="text" maxlength="80" placeholder="Bijv. jonge gezinnen, studenten, bedrijven"></span></label>
+          <label class="fld" style="display:block;margin-top:12px"><span class="lbl" style="margin-top:0">Wat maakt jou anders? <i style="font-style:normal;opacity:.6">(niet verplicht)</i></span>
+            <span class="in"><input id="anders" type="text" maxlength="120" placeholder="Bijv. altijd binnen 24 uur een voorstel, eigen stijl, familiebedrijf"></span></label>
+          <label class="fld" style="display:block;margin-top:12px"><span class="lbl" style="margin-top:0">Instagram of Facebook <i style="font-style:normal;opacity:.6">(niet verplicht)</i></span>
+            <span class="in"><input id="social" type="text" maxlength="100" inputmode="url" placeholder="Bijv. instagram.com/jouwbedrijf"></span></label>
           <label class="fld" style="display:block;margin-top:12px"><span class="lbl" style="margin-top:0">Plaats</span>
             <span class="in"><input id="plaats" type="text" maxlength="40" autocomplete="address-level2" placeholder="Bijv. Enschede"></span></label>
         </div>
@@ -2072,13 +2080,18 @@ html, body { overflow-x: clip; }
       try { fetch(SB_URL + '/rest/v1/rpc/dwd_demo_set_style', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB_KEY }, body: JSON.stringify({ p_host: REAL.site, p_client: CLIENT || null, p_style: st }) }); } catch (e) {}
     }, now ? 0 : 900);
   }
+  function nosubText() {
+    var g = function (id) { var e = $('#' + id); return e ? (e.value || '').replace(/\s+/g, ' ').trim() : ''; };
+    var t = g('wat'); if (g('voor')) t += (t ? '. ' : '') + 'Voor: ' + g('voor'); if (g('anders')) t += (t ? '. ' : '') + 'Anders: ' + g('anders');
+    if (g('social')) t += (t ? '. ' : '') + 'Social: ' + g('social'); return t.slice(0, 590);
+  }
   function realRequestNosite() {
     if (S.route !== 'nee' || S.naam.trim().length < 2) return;
-    var sig = [S.naam.trim(), S.branche, ($('#wat').value || '').trim(), ($('#plaats').value || '').trim()].join('|');
+    var sig = [S.naam.trim(), S.branche, nosubText(), ($('#plaats').value || '').trim()].join('|');
     if (REAL.sig === sig && REAL.site) return;
     try {
       fetch(SB_URL + '/rest/v1/rpc/dwd_demo_request_nosite', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB_KEY },
-        body: JSON.stringify({ p_name: S.naam.trim(), p_branche: S.branche, p_sub: ($('#wat').value || '').trim() || null, p_plaats: ($('#plaats').value || '').trim() || null, p_colors: null, p_client: CLIENT || null, p_bypass: BYPASS || null }) })
+        body: JSON.stringify({ p_name: S.naam.trim(), p_branche: S.branche, p_sub: nosubText() || null, p_plaats: ($('#plaats').value || '').trim() || null, p_colors: null, p_client: CLIENT || null, p_bypass: BYPASS || null }) })
         .then(function (r) { return r.json(); })
         .then(function (rows) {
           var r = rows && rows[0]; if (!r || !r.used_host || r.status === 'used' || r.status === 'invalid' || r.status === 'limit') return;
@@ -2411,7 +2424,7 @@ html, body { overflow-x: clip; }
     var lead = { id: Date.now().toString(36), tijd: new Date().toISOString(), voornaam: S.vn.trim(), telefoon: S.tel, belmoment: S.moment,
       heeft_website: S.route === 'ja', website_url: S.route === 'ja' ? S.url.trim() : '', bedrijfsnaam: S.naam.trim(), branche: S.branche,
       doelen: S.goals.map(function (k) { return GOALS[k].l; }), wanneer_live: LIVE[S.live], beslisser: BESLIS[S.beslis],
-      palet: p.n, hoofdkleur: p.p, accentkleur: p.a, stijl: S.stijl, lettertype: S.font, sfeer: S.sfeer || 'auto', bron: q, demo_key: (S.route === 'nee' && REAL.site) ? REAL.site : undefined, demo_url: REAL.url || undefined, wat: S.route === 'nee' ? (($('#wat') || {}).value || '') : undefined, plaats: S.route === 'nee' ? (($('#plaats') || {}).value || '') : undefined };
+      palet: p.n, hoofdkleur: p.p, accentkleur: p.a, stijl: S.stijl, lettertype: S.font, sfeer: S.sfeer || 'auto', bron: q, demo_key: (S.route === 'nee' && REAL.site) ? REAL.site : undefined, demo_url: REAL.url || undefined, wat: S.route === 'nee' ? nosubText() : undefined, plaats: S.route === 'nee' ? (($('#plaats') || {}).value || '') : undefined };
     track('Lead', { route: S.route, branche: S.branche });
     try { fetch('https://skdjbifmtleiogbkqwid.supabase.co/rest/v1/dwd_funnel_leads', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'apikey': 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS', 'Prefer': 'return=minimal' }, body: JSON.stringify({ voornaam: lead.voornaam, telefoon: lead.telefoon, belmoment: String(lead.belmoment || '').slice(0, 40), website: lead.website_url ? lead.website_url.slice(0, 253) : null, bedrijfsnaam: lead.bedrijfsnaam ? lead.bedrijfsnaam.slice(0, 120) : null, branche: lead.branche ? String(lead.branche).slice(0, 80) : null, antwoorden: lead, source: 'funnel' }) }); } catch (e) {}
     if (CRM_WEBHOOK) { try { fetch(CRM_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead) }); } catch (e) {} }
@@ -2600,7 +2613,7 @@ html, body { overflow-x: clip; }
       var v = function (q) { var e = $(q); return e ? e.value : ''; };
       localStorage.setItem(SKEY, JSON.stringify({ t: Date.now(), S: s, cur: cur, hist: hist, y: Math.round(window.scrollY || 0),
         REAL: { site: REAL.site, url: REAL.url, status: REAL.status, sig: REAL.sig, t0: REAL.t0, prev: !!REAL.prev },
-        inp: { url: v('#url'), naam: v('#naam'), wat: v('#wat'), plaats: v('#plaats'), vn: v('#vn'), tel: v('#tel') } }));
+        inp: { url: v('#url'), naam: v('#naam'), wat: v('#wat'), voor: v('#voor'), anders: v('#anders'), social: v('#social'), plaats: v('#plaats'), vn: v('#vn'), tel: v('#tel') } }));
     } catch (e) {}
   }
   function clearState() { try { localStorage.removeItem(SKEY); } catch (e) {} }
@@ -2611,7 +2624,7 @@ html, body { overflow-x: clip; }
       for (var k in d.S) S[k] = d.S[k];
       if (!FNT[S.font]) S.font = ({ strak: 'karakter', elegant: 'sierlijk', helder: 'modern' })[S.font] || 'modern';
       hist = (d.hist || []).filter(function (x) { return x !== 'laden'; });
-      var inp = d.inp || {}; ['url', 'naam', 'wat', 'plaats', 'vn', 'tel'].forEach(function (k) { var e = $('#' + k); if (e && inp[k]) e.value = inp[k]; });
+      var inp = d.inp || {}; ['url', 'naam', 'wat', 'voor', 'anders', 'social', 'plaats', 'vn', 'tel'].forEach(function (k) { var e = $('#' + k); if (e && inp[k]) e.value = inp[k]; });
       var ja = S.route === 'ja';
       $('#nameblock').hidden = ja; $('#lbl-br').hidden = ja; $('#extra-nee').hidden = ja;
       $('#h-bedrijf').textContent = ja ? 'wat voor bedrijf is het?' : 'hoe heet je bedrijf?';
