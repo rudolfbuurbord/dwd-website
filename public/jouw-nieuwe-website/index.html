@@ -1131,6 +1131,19 @@ html, body { overflow-x: clip; }
 .q4 ul { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 6px; color: var(--soft); font-size: 15px; }
 .q4 li::before { content: "\2713"; color: var(--good); margin-right: 8px; }
 .q4 .fine { margin-top: 12px; font-size: 13px; color: var(--muted); }
+@supports not (height: 1svh) {
+  .rv-phone .phone { --ph-h: max(500px, min(640px, calc(100vh - 200px))); }
+  .bld .phone { --ph-h: min(430px, 46vh); }
+}
+/* oudere iPhones (iOS 14 en ouder) kennen geen aspect-ratio/svh: vaste maten, anders wordt de telefoon een dun streepje */
+@supports not (aspect-ratio: 1) {
+  .phone { width: 260px; height: 538px; }
+  .bld .phone { width: 210px; height: 434px; }
+  .rv-phone .phone { width: min(290px, 86vw); height: 600px; }
+  .rv-phone.desk .phone { width: min(94vw, 1000px); height: calc(min(94vw, 1000px) * .65); }
+  .lv i, .hv-heart, .bw .spot, .bw .fi .pp span, .sc-room .so { height: auto; padding-bottom: 0; }
+  .hv-heart { height: min(64vw, 260px); }
+}
 </style>
 </head><body>
 
@@ -2477,7 +2490,7 @@ html, body { overflow-x: clip; }
   var loadTimers = [];
   function startLoad(quick) {
     var ja = S.route === 'ja'; quickBuild = !!quick;
-    $('#ldtimer').hidden = !!quick || !REAL.site;
+    $('#ldtimer').hidden = !!quick || !REAL.site || !!REAL.url || REAL.status === 'ready';
     var st = quick ? [['We passen je ontwerp aan', 2200], ['We zetten je kleuren en stijl door', 2200]] :
       ja ? [['We lezen ' + (S.domain || 'je website'), 4800], ['We halen je logo en kleuren eruit', 5400], ['We kiezen een indeling voor jouw branche', 5000], ['We schrijven nieuwe teksten', 5600], ['We bouwen je ontwerp', 6200]] :
       [['We kiezen een indeling voor jouw branche', 5000], ['We zetten je kleuren en logo klaar', 5200], ['We schrijven voorbeeldteksten', 5600], ['We bouwen je ontwerp', 6200]];
