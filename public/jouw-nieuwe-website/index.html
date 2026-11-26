@@ -2034,7 +2034,7 @@ html, body { overflow-x: clip; }
     var ja = S.route === 'ja'; $('#pals').hidden = ja; $('#lblpal').hidden = ja; $('#pickers').hidden = ja ? true : S.pal !== 'eigen';
     $('#h-look').textContent = ja ? 'kies je stijl' : 'kies je kleuren'; $('#lblpal').textContent = 'Kleurenpalet';
     $('#sub-look').textContent = ja ? 'Je logo en kleuren staan vast. Kies de sfeer, de vorm en het lettertype.' : 'Je kunt ze later altijd nog aanpassen.';
-    $('#rv-naam').textContent = nm();
+    $('#rv-naam').textContent = String(nm()).replace(/[!.\s]+$/, '');
     $('#dn').textContent = nm();
     renderPhone();
   }
