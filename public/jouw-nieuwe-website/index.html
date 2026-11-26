@@ -2394,6 +2394,7 @@ html, body { overflow-x: clip; }
     track('Contact', { step: 'bedrijf' }); realRequestNosite(); show('doel');
   }
   $('#go-bedrijf').addEventListener('click', nextName);
+  $('#wat').addEventListener('input', function () { var ew = $('#e-wat'); if (ew && this.value.trim().length >= 12) ew.textContent = ''; });
   naam.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); nextName(); } });
 
   $('#goals').addEventListener('click', function (e) { var b = e.target.closest('[data-g]'); if (!b) return; var k = b.getAttribute('data-g'), i = S.goals.indexOf(k);
