@@ -1189,12 +1189,12 @@ html, body { overflow-x: clip; }
         <div class="chips" id="branches" role="group" aria-label="Soort bedrijf"></div>
         <div id="extra-nee" hidden>
           <label class="fld" style="display:block;margin-top:18px"><span class="lbl" style="margin-top:0">Wat doe of verkoop je precies?</span>
-            <span class="in in-ta"><textarea id="wat" maxlength="220" rows="3" placeholder="Bijv. binnenhuisarchitect: ik ontwerp warme, rustige interieurs voor woningen en kantoren, van moodboard tot oplevering"></textarea></span></label>
+            <span class="in in-ta"><textarea id="wat" maxlength="220" rows="3" placeholder="Bijv. binnenhuisarchitect: ik ontwerp warme, rustige interieurs voor woningen en kantoren, van moodboard tot oplevering"></textarea></span><p class="msg" id="e-wat" role="alert"></p></label>
           <label class="fld" style="display:block;margin-top:12px"><span class="lbl" style="margin-top:0">Voor wie? <i style="font-style:normal;opacity:.6">(niet verplicht)</i></span>
             <span class="in"><input id="voor" type="text" maxlength="80" placeholder="Bijv. jonge gezinnen, studenten, bedrijven"></span></label>
           <label class="fld" style="display:block;margin-top:12px"><span class="lbl" style="margin-top:0">Wat maakt jou anders? <i style="font-style:normal;opacity:.6">(niet verplicht)</i></span>
             <span class="in"><input id="anders" type="text" maxlength="120" placeholder="Bijv. altijd binnen 24 uur een voorstel, eigen stijl, familiebedrijf"></span></label>
-          <label class="fld" style="display:block;margin-top:12px"><span class="lbl" style="margin-top:0">Plaats</span>
+          <label class="fld" id="f-plaats" style="display:block;margin-top:12px"><span class="lbl" style="margin-top:0">Plaats</span>
             <span class="in"><input id="plaats" type="text" maxlength="40" autocomplete="address-level2" placeholder="Bijv. Enschede"></span></label>
         </div>
         <div class="bar"><button class="btn" type="button" id="go-bedrijf">Volgende <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button></div>
@@ -2079,7 +2079,7 @@ html, body { overflow-x: clip; }
     S.route = nr; track('ViewContent', { route: S.route });
     var ja = S.route === 'ja';
     $('#nameblock').hidden = ja;
-    $('#lbl-br').hidden = ja; $('#extra-nee').hidden = ja; $('#logo-nee').hidden = ja;
+    $('#lbl-br').hidden = ja; $('#extra-nee').hidden = ja; $('#logo-nee').hidden = ja; syncExtra();
     $('#h-bedrijf').textContent = ja ? 'wat voor bedrijf is het?' : 'hoe heet je bedrijf?';
     $('#sub-bedrijf').textContent = ja ? 'Dan kiezen we een indeling die bij je past.' : 'Je bedrijfsnaam gebruiken we als logo in het ontwerp.';
     S.fromSite = ja && !!S.fromSite; S.pal = ja ? (S.fromSite ? 'eigen' : 'site') : 'koning';
@@ -2119,6 +2119,7 @@ html, body { overflow-x: clip; }
     styleT = setTimeout(function () {
       var p = sfeerPal(pal()), st = { sfeer: S.sfeer || null, hoofdkleur: p.p, accentkleur: p.a, lettertype: S.font, stijl: S.stijl, palet: p.n };
       if (klaar || S.styleKlaar) { st.klaar = true; S.styleKlaar = true; }
+      if (S.route === 'ja') { st.branche = S.brPicked ? S.branche : 'anders'; if (S.brPicked && S.branche === 'anders') st.omschrijving = nosubText(); }
       var sig = JSON.stringify(st); if (sig === styleSig) return; styleSig = sig;
       try { fetch(SB_URL + '/rest/v1/rpc/dwd_demo_set_style', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB_KEY }, body: JSON.stringify({ p_host: REAL.site, p_client: CLIENT || null, p_style: st }) }); } catch (e) {}
     }, now ? 0 : 900);
@@ -2148,6 +2149,13 @@ html, body { overflow-x: clip; }
     });
     $('#logooff2').addEventListener('click', function () { S.logoData = ''; inp.value = ''; note.textContent = ''; paint(); });
   })();
+  // Met website en sector "Anders": vraag door wat het bedrijf precies doet, anders kunnen we geen goede website maken
+  function syncExtra() {
+    var ja = S.route === 'ja', ander = ja && S.brPicked && S.branche === 'anders';
+    $('#extra-nee').hidden = ja ? !ander : false;
+    var fp = $('#f-plaats'); if (fp) fp.hidden = ja;
+    var e = $('#e-wat'); if (e) e.textContent = '';
+  }
   function nosubText() {
     var g = function (id) { var e = $('#' + id); return e ? (e.value || '').replace(/\s+/g, ' ').trim() : ''; };
     var t = g('wat'); if (g('voor')) t += (t ? '. ' : '') + 'Voor: ' + g('voor'); if (g('anders')) t += (t ? '. ' : '') + 'Anders: ' + g('anders');
@@ -2376,9 +2384,13 @@ html, body { overflow-x: clip; }
   $('#branches').addEventListener('click', function (e) { var b = e.target.closest('[data-b]'); if (!b) return; var k = b.getAttribute('data-b');
     if (S.brPicked && S.branche === k) { S.brPicked = false; S.branche = 'anders'; } else { S.brPicked = true; S.branche = k; }
     $$('#branches .chip').forEach(function (c) { c.setAttribute('aria-pressed', S.brPicked && c.getAttribute('data-b') === S.branche ? 'true' : 'false'); });
+    syncExtra(); if (S.route === 'ja' && S.brPicked && S.branche === 'anders') setTimeout(function () { var w = $('#wat'); if (w) { w.scrollIntoView({ behavior: 'smooth', block: 'center' }); w.focus({ preventScroll: true }); } }, 250);
     later(); });
   function nextName() {
     if (S.route === 'nee' && S.naam.trim().length < 2) { $('#f-naam').classList.add('err'); $('#e-naam').textContent = 'Vul je bedrijfsnaam in, dan maken we je logo.'; naam.focus(); shake($('#go-bedrijf')); return; }
+    if (S.route === 'ja' && S.brPicked && S.branche === 'anders' && ($('#wat').value || '').trim().length < 12) {
+      var ew = $('#e-wat'); if (ew) ew.textContent = 'Vertel kort wat je bedrijf doet of verkoopt, dan maken we een ontwerp dat echt bij je past.';
+      $('#wat').focus(); shake($('#go-bedrijf')); return; }
     track('Contact', { step: 'bedrijf' }); realRequestNosite(); show('doel');
   }
   $('#go-bedrijf').addEventListener('click', nextName);
@@ -2718,7 +2730,7 @@ html, body { overflow-x: clip; }
       hist = (d.hist || []).filter(function (x) { return x !== 'laden'; });
       var inp = d.inp || {}; ['url', 'naam', 'wat', 'voor', 'anders', 'plaats', 'vn', 'tel'].forEach(function (k) { var e = $('#' + k); if (e && inp[k]) e.value = inp[k]; });
       var ja = S.route === 'ja';
-      $('#nameblock').hidden = ja; $('#lbl-br').hidden = ja; $('#extra-nee').hidden = ja; $('#logo-nee').hidden = ja;
+      $('#nameblock').hidden = ja; $('#lbl-br').hidden = ja; $('#extra-nee').hidden = ja; $('#logo-nee').hidden = ja; syncExtra();
       $('#h-bedrijf').textContent = ja ? 'wat voor bedrijf is het?' : 'hoe heet je bedrijf?';
       $('#sub-bedrijf').textContent = ja ? 'Dan kiezen we een indeling die bij je past.' : 'Je bedrijfsnaam gebruiken we als logo in het ontwerp.';
       var sync = function (sel, attr, val) { $$(sel).forEach(function (c) { c.setAttribute('aria-pressed', String(c.getAttribute(attr) === val)); }); };
