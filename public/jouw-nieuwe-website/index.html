@@ -2247,6 +2247,11 @@ html, body { overflow-x: clip; }
     var k = phone.vp.clientWidth / base;
     fr.style.width = base + 'px'; fr.style.height = Math.ceil(phone.vp.clientHeight / k) + 'px'; fr.style.transform = 'scale(' + k.toFixed(4) + ')';
   }
+  // leren: wat deed de bezoeker met zijn demo? (getoond, reserveren, betaald, contact) -> de demo-machine leert ervan
+  function demoEv(ev) {
+    if (!REAL.site) return;
+    try { fetch(SB_URL + '/rest/v1/rpc/dwd_demo_event', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', apikey: SB_KEY }, body: JSON.stringify({ p_host: REAL.site, p_client: CLIENT || null, p_event: ev }) }).catch(function () {}); } catch (e) {}
+  }
   function realPaint() {
     var w = $('#realwait');
     if (w && /^(failed|invalid|limit)$/.test(REAL.status)) w.remove();
@@ -2254,7 +2259,7 @@ html, body { overflow-x: clip; }
     if (!$('.realfr', phone.vp)) {
       var fr = document.createElement('iframe'); fr.className = 'realfr'; fr.title = 'Jouw echte website'; fr.loading = 'eager';
       ['.heroprev', '.prevchip', '.vpwait'].forEach(function (q) { var e = $(q, phone.vp); if (e) e.remove(); });
-      fr.src = REAL.url.replace(/\/?$/, '/'); phone.vp.appendChild(fr); phone.vp.classList.add('real');
+      fr.src = REAL.url.replace(/\/?$/, '/'); phone.vp.appendChild(fr); phone.vp.classList.add('real'); demoEv('getoond');
       var cue = document.createElement('div'); cue.className = 'scrollcue'; cue.setAttribute('aria-hidden', 'true');
       cue.innerHTML = '<div class="sc"><span class="mouse"></span>Scroll door je website</div><div class="chev"><i></i><i></i><i></i></div>';
       phone.vp.appendChild(cue);
@@ -2490,7 +2495,7 @@ html, body { overflow-x: clip; }
       heeft_website: S.route === 'ja', website_url: S.route === 'ja' ? S.url.trim() : '', bedrijfsnaam: S.naam.trim(), branche: S.branche,
       doelen: S.goals.map(function (k) { return GOALS[k].l; }), wanneer_live: LIVE[S.live], beslisser: BESLIS[S.beslis],
       palet: p.n, hoofdkleur: p.p, accentkleur: p.a, stijl: S.stijl, lettertype: S.font, sfeer: S.sfeer || 'auto', bron: q, demo_key: (S.route === 'nee' && REAL.site) ? REAL.site : undefined, demo_url: REAL.url || undefined, wat: S.route === 'nee' ? nosubText() : undefined, plaats: S.route === 'nee' ? (($('#plaats') || {}).value || '') : undefined };
-    track('Lead', { route: S.route, branche: S.branche });
+    track('Lead', { route: S.route, branche: S.branche }); demoEv('contact');
     try { fetch('https://skdjbifmtleiogbkqwid.supabase.co/rest/v1/dwd_funnel_leads', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'apikey': 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS', 'Prefer': 'return=minimal' }, body: JSON.stringify({ voornaam: lead.voornaam, telefoon: lead.telefoon, belmoment: String(lead.belmoment || '').slice(0, 40), website: lead.website_url ? lead.website_url.slice(0, 253) : null, bedrijfsnaam: lead.bedrijfsnaam ? lead.bedrijfsnaam.slice(0, 120) : null, branche: lead.branche ? String(lead.branche).slice(0, 80) : null, antwoorden: lead, source: 'funnel' }) }); } catch (e) {}
     if (CRM_WEBHOOK) { try { fetch(CRM_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead) }); } catch (e) {} }
     
@@ -2583,7 +2588,7 @@ html, body { overflow-x: clip; }
   document.body.style.setProperty('--prog', .1); $('#progi').style.width = '10%'; $('#progbar').setAttribute('aria-valuenow', 10);
   try { var pu = new URLSearchParams(location.search).get('url'); if (pu && /^[\w.-]{3,253}$/.test(pu)) { document.querySelector('[data-route="ja"]').click(); urlI.value = pu; urlI.dispatchEvent(new Event('input', { bubbles: true })); } } catch (e) {}
   try { var vb = new URLSearchParams(location.search).get('voorbeeld'); if (vb && BR[vb]) { S.route = 'nee'; S.branche = vb; S.naam = 'Van Dijk ' + BR[vb].l; show('onthulling'); } } catch (e) {}
-  try { var pay = $('#pay'); var rsv = $('#reserveBtn'); if (rsv) rsv.addEventListener('click', function () { saveState(); track('InitiateCheckout', { value: 5.99, currency: 'EUR', step: 'reserveren' }); });
+  try { var pay = $('#pay'); var rsv = $('#reserveBtn'); if (rsv) rsv.addEventListener('click', function () { saveState(); demoEv('reserveer_klik'); track('InitiateCheckout', { value: 5.99, currency: 'EUR', step: 'reserveren' }); });
   if (pay) pay.addEventListener('click', function () { saveState(); track('InitiateCheckout', { value: 399, currency: 'EUR', step: 'pay' }); }); } catch (e) {}
 
   /* ===== hartslag → 50% korting: één keer per bezoeker, echte timer (5 min actie + 15 min om af te rekenen) ===== */
@@ -2666,6 +2671,7 @@ html, body { overflow-x: clip; }
     if (e.isIntersecting && e.intersectionRatio > .55 && cur === 'onthulling' && !dealGet().t) setTimeout(function () { if (cur === 'onthulling') hvOpen(); }, 1600); }); }, { threshold: [0, .55, .8] });
     hio.observe($('#phHost')); }
   applyDeal();
+  try { var qsR = new URLSearchParams(location.search); if (qsR.get('gereserveerd') === '1' || qsR.get('betaald') === '1') setTimeout(function () { demoEv(qsR.get('betaald') === '1' ? 'betaald' : 'gereserveerd'); }, 1800); } catch (e) {}
   try { if (new URLSearchParams(location.search).get('gereserveerd') === '1') { $('#h-contact').textContent = 'je ontwerp is gereserveerd! waar kunnen we je bellen?'; var sc2 = document.querySelector('[data-s="contact"] .sub'); if (sc2) sc2.textContent = 'Laat je nummer achter, dan bellen we je om de details te bespreken en je website helemaal naar wens te maken.'; show('contact'); } } catch (e) {}
   try { if (new URLSearchParams(location.search).get('betaald') === '1') { $('#h-contact').textContent = 'bedankt! waar kunnen we je bellen?'; var sc = document.querySelector('[data-s="contact"] .sub'); if (sc) sc.textContent = 'Laat je nummer achter, dan nemen we contact met je op om je website helemaal naar wens te maken.'; show('contact'); } } catch (e) {}
 
