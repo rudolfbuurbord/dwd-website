@@ -332,7 +332,7 @@ body.hasbar { padding-top: 56px; }
 .rv-btns { display: grid; gap: 10px; width: 100%; max-width: 420px; margin: 24px auto 0; }
 .stars { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; color: var(--soft); font-weight: 700; font-size: .94rem; }
 .stars b { color: #FFC15A; letter-spacing: .1em; font-weight: 400; }
-.phone { height: var(--ph-h, 540px); aspect-ratio: 9 / 18.6; max-width: 100%; position: relative; }
+.phone { height: var(--ph-h, 540px); width: calc(var(--ph-h, 540px) * 9 / 18.6); aspect-ratio: 9 / 18.6; max-width: 100%; flex: none; position: relative; }
 .rv-phone { display: grid; justify-items: center; gap: 12px; }
 .rv-phone .phone { --ph-h: max(500px, min(640px, calc(100svh - 200px))); }
 .ph-bz { height: 100%; width: 100%; padding: 9px; border-radius: 46px; background: #0b0b0d; border: 1px solid rgba(255,255,255,.2); box-shadow: 0 0 0 2px #1b1b1e, 0 50px 90px -34px rgba(244,27,54,.65); }
@@ -2237,7 +2237,12 @@ html, body { overflow-x: clip; }
     return Math.max(3, Math.round(40 * Math.pow(.5, (40 - rem) / 50)));   // uitloop: zakt langzaam, nooit 0 voordat het echt klaar is
   }
   function fmt(t) { return Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2); }
-  setInterval(function () { var t = REAL.url ? 0 : etaLeft(); $$('[data-eta]').forEach(function (e) { e.textContent = fmt(t); }); }, 1000);
+  setInterval(function () {
+    var known = !!(REAL.t1 || REAL.t0) && !REAL.url, t = known ? etaLeft() : 0;
+    var lt = $('#ldtimer'); if (lt && !known && !lt.hidden) lt.hidden = true;   // geen starttijd of al klaar: geen 0:00 tonen
+    $$('[data-eta]').forEach(function (e) { e.textContent = known ? fmt(t) : 'zo klaar'; });
+  }, 1000);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden && REAL.site && !REAL.url) { try { realPoll(); } catch (e) {} } });
   function heroReady() { return !REAL.site || !!REAL.url || !!REAL.prev || /^(failed|invalid|limit|used)$/.test(REAL.status || ''); }
   function waitHero(go) {
     if (heroReady()) return go();
