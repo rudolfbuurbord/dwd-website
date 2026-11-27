@@ -1541,6 +1541,31 @@ html, body { overflow-x: clip; }
   } catch (e) { OWNER = ''; }
   function leadSent() { try { return localStorage.getItem('dwd_lead_sent') === '1'; } catch (e) { return false; } }
   function leadMark() { try { localStorage.setItem('dwd_lead_sent', '1'); } catch (e) {} }
+  /* ===== eigen funnelmeting (anoniem): per bezoek een willekeurige sessie-id, per stap één melding naar onze eigen database.
+     Geen naam, nummer of e-mail; geen derde partijen. De eigenaar wordt nooit gemeten. 'betaald' zet de database zelf (Mollie). ===== */
+  var FS = { id: '', sent: {} };
+  try {
+    FS.id = sessionStorage.getItem('dwd_fs') || '';
+    if (!/^[a-z0-9]{12,40}$/.test(FS.id)) { FS.id = (Date.now().toString(36) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2)).replace(/[^a-z0-9]/g, '').slice(0, 28); sessionStorage.setItem('dwd_fs', FS.id); FS.sent = {}; sessionStorage.removeItem('dwd_fs_sent'); }
+    else FS.sent = JSON.parse(sessionStorage.getItem('dwd_fs_sent') || '{}') || {};
+  } catch (e) { FS.id = FS.id || (Date.now().toString(36) + Math.random().toString(36).slice(2)).replace(/[^a-z0-9]/g, '').slice(0, 24); }
+  function fstep(step, meta) {
+    if (OWNER || !FS.id || FS.sent[step]) return;
+    FS.sent[step] = 1; try { sessionStorage.setItem('dwd_fs_sent', JSON.stringify(FS.sent)); } catch (e) {}
+    var cid = ''; try { cid = localStorage.getItem('dwd_cid') || ''; } catch (e) {}
+    try {
+      fetch('https://skdjbifmtleiogbkqwid.supabase.co/rest/v1/rpc/dwd_funnel_step', { method: 'POST', keepalive: true,
+        headers: { 'Content-Type': 'application/json', apikey: 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS' },
+        body: JSON.stringify({ p_session: FS.id, p_client: cid, p_step: step, p_meta: meta || {} }) }).catch(function () {});
+    } catch (e) {}
+  }
+  function fLanding() {
+    var m = {}; try { new URLSearchParams(location.search).forEach(function (v, k) { if (/^utm_(source|medium|campaign|content|term|id)$/.test(k)) m[k] = String(v).slice(0, 120); }); } catch (e) {}
+    var w = Math.min(window.innerWidth || 0, (screen && screen.width) || 9999), touch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    m.device = w < 768 ? 'mobiel' : (touch && w < 1180 ? 'tablet' : 'desktop');
+    try { if (document.referrer) m.ref = new URL(document.referrer).hostname.toLowerCase(); } catch (e) {}
+    fstep('landing', m);
+  }
   function track(ev, d) {
     if (OWNER) return;   // eigen tests niet meetellen in Meta/analytics
     // standaard Meta-events via dwdTrack (alleen met toestemming), de rest als custom event
@@ -2090,6 +2115,11 @@ html, body { overflow-x: clip; }
   function show(id, back) {
     if (!back && cur !== id) hist.push(cur);
     cur = id;
+    try {
+      var fsMap = { url: 'url', bedrijf: 'bedrijf', doel: 'doel', tempo: 'tempo', merk: 'merk', look: 'look', laden: 'laden', onthulling: 'demo', contact: 'contact', klaar: 'klaar' };
+      if (fsMap[id]) fstep(fsMap[id], id === 'doel' || id === 'tempo' ? { route: S.route, branche: S.branche } : { route: S.route });
+      if (id === 'onthulling') setTimeout(function () { if (cur === 'onthulling') fstep('demo_30s'); }, 30000);
+    } catch (e) {}
     $$('.step').forEach(function (s) { s.classList.toggle('on', s.getAttribute('data-s') === id); });
     var o = order(), i = o.indexOf(id), frac = (i + 1) / o.length;
     document.body.style.setProperty('--prog', frac.toFixed(3));
@@ -2111,7 +2141,7 @@ html, body { overflow-x: clip; }
   $$('[data-route]').forEach(function (b) { b.addEventListener('click', function () {
     var nr = b.getAttribute('data-route');
     if (REAL.site && S.route && nr !== S.route) { if (!REAL.url) realCancel(REAL.site); REAL = { site: '', url: '', status: '', timer: 0 }; }
-    S.route = nr; track('ViewContent', { route: S.route });
+    S.route = nr; track('ViewContent', { route: S.route }); fstep('route', { route: nr });
     var ja = S.route === 'ja';
     $('#nameblock').hidden = ja;
     $('#lbl-br').hidden = ja; $('#extra-nee').hidden = ja; $('#logo-nee').hidden = ja; syncExtra();
@@ -2752,7 +2782,7 @@ html, body { overflow-x: clip; }
       if (first) { shake(btn); first.focus(); return; }
       busy = true; btn.disabled = true; gErr.textContent = ''; setLabel('Even geduld…');
       try { S.vn = v.vn; S.tel = v.tel; var cv = $('#vn'), ct = $('#tel'); if (cv) cv.value = v.vn; if (ct) ct.value = pretty(v.tel); } catch (e) {}
-      saveState(); demoEv('reserveer_klik'); if (!leadSent()) { leadMark(); track('Lead', { content_name: 'reservering', value: 4.99, currency: 'EUR', route: S.route, branche: S.branche }); } track('InitiateCheckout', { value: 4.99, currency: 'EUR', step: 'reserveren' });
+      saveState(); demoEv('reserveer_klik'); fstep('reserveer', { route: S.route, branche: S.branche }); if (!leadSent()) { leadMark(); track('Lead', { content_name: 'reservering', value: 4.99, currency: 'EUR', route: S.route, branche: S.branche }); } track('InitiateCheckout', { value: 4.99, currency: 'EUR', step: 'reserveren' });
       var ans = leadAnswers(); ans.client_id = CLIENT || null;
       var ctl = ('AbortController' in window) ? new AbortController() : null, tm = ctl ? setTimeout(function () { ctl.abort(); }, 20000) : 0;
       fetch('https://skdjbifmtleiogbkqwid.supabase.co/functions/v1/dwd-reserve', {
@@ -2828,6 +2858,12 @@ html, body { overflow-x: clip; }
   window.addEventListener('pagehide', saveState);
   var scrT = 0; window.addEventListener('scroll', function () { clearTimeout(scrT); scrT = setTimeout(saveState, 800); }, { passive: true });
   try { if (!/[?&](url|voorbeeld)=/.test(location.search)) restoreState(); } catch (e) {}
+  try { fLanding(); } catch (e) {}
+  try {
+    var q4el = document.getElementById('q4');
+    if (q4el && 'IntersectionObserver' in window) { var q4io = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting && cur === 'onthulling') { fstep('prijs', { route: S.route, branche: S.branche }); q4io.disconnect(); } }); }, { threshold: 0.4 }); q4io.observe(q4el); }
+    var rsvF = document.getElementById('rsvForm'); if (rsvF) rsvF.addEventListener('focusin', function () { fstep('formulier', { route: S.route, branche: S.branche }); });
+  } catch (e) {}
   function ownerRestart() {
     window.__dwdNoSave = true;
     try { if (REAL.site && !REAL.url) realCancel(REAL.site); } catch (e) {}
