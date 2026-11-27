@@ -610,6 +610,10 @@ html, body { overflow-x: clip; }
 .mlogo { margin-top: 10px; min-height: 110px; display: grid; place-items: center; padding: 20px; border-radius: 22px; background: #fff; color: #1c1b22; border: 1px solid var(--line-2); }
 .mlogo .lg { justify-content: center; }
 .mlogo .lg .lgi { max-height: 78px; max-width: 100%; }
+.otherurl { display: inline-flex; align-items: center; gap: 6px; margin: -6px 0 18px; padding: 8px 0; min-height: 44px; background: none; border: 0; color: var(--muted); font: inherit; font-size: .9rem; cursor: pointer; }
+.otherurl svg { width: 16px; height: 16px; flex: none; }
+.otherurl u { color: var(--fg); text-underline-offset: 3px; }
+.otherurl:hover u { color: var(--fg); text-decoration-thickness: 2px; }
 .mnote { margin-top: 10px; font-size: .86rem; line-height: 1.45; color: var(--muted); min-height: 1.2em; }
 .mbtns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .mbtn { position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 99px; border: 1px solid var(--line-2); background: transparent; color: var(--fg); font: 700 .88rem/1 var(--f-b); cursor: pointer; }
@@ -1246,6 +1250,7 @@ html, body { overflow-x: clip; }
       <section class="step" data-s="merk" tabindex="-1" aria-labelledby="h-merk">
         <h2 class="q" id="h-merk">klopt dit?</h2>
         <p class="sub" id="sub-merk">Dit lazen we van je website.</p>
+        <button type="button" class="otherurl" id="otherurl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Verkeerde website? <u>Andere website invullen</u></button>
         <span class="lbl">Je logo</span>
         <div class="mlogo" id="mlogo"></div>
         <p class="mnote" id="n-logo" role="status"></p>
@@ -2511,6 +2516,18 @@ html, body { overflow-x: clip; }
     $$('#fonts .sty').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); }); later(); });
 
   var brandChanged = false;
+  // Verkeerde website ingevuld: in één tik terug naar de URL-stap. Alles wat bij de vorige site hoorde gaat weg
+  // (uitgelezen gegevens, kleuren, logo) en een nog wachtende bouw voor die site wordt geannuleerd.
+  $('#otherurl').addEventListener('click', function () {
+    try { if (REAL.site && !REAL.url) realCancel(REAL.site); } catch (e) {}
+    REAL = { site: '', url: '', status: '', timer: 0 };
+    factsFor = ''; S.facts = null; factsDone = true; S.siteCols = []; S.logoData = ''; S.logoOff = false; brandChanged = false;
+    if (!S.nTouched) S.naam = '';
+    hist = ['route'];
+    show('url', true);
+    try { urlI.select(); } catch (e) {}
+    track('ChangeUrl', {});
+  });
   function renderMerk() {
     var F = S.facts, got = !!(F && F.colors && F.colors[0]), wait = !factsDone;
     if (wait && factsP) factsP.then(function () { if (cur === 'merk') renderMerk(); });
