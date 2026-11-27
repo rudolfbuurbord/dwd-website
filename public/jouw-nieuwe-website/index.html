@@ -1315,14 +1315,14 @@ html, body { overflow-x: clip; }
           <div class="lbar" aria-hidden="true"><i id="lbi"></i></div>
           <form class="ldnot" id="ldnot" hidden novalidate>
             <b>Liever niet wachten?</b>
-            <span>Laat je nummer achter. Zodra je website klaar is, sturen we je de link via WhatsApp.</span>
+            <span>Laat je e-mailadres achter. Zodra je website klaar is, mailen we je de link.</span>
             <div class="ldrow">
               <input id="ln-vn" type="text" autocomplete="given-name" placeholder="Voornaam" maxlength="40" aria-label="Voornaam">
-              <input id="ln-tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 12 34 56 78" maxlength="16" aria-label="Mobiel nummer">
-              <button class="btn" type="submit" id="ln-go">Stuur me de link</button>
+              <input id="ln-em" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="jij@bedrijf.nl" maxlength="160" aria-label="E-mailadres">
+              <button class="btn" type="submit" id="ln-go">Mail me de link</button>
             </div>
             <small id="ln-err" role="alert"></small>
-            <small class="ln-fine">Alleen voor de link en één belletje over je ontwerp. <a href="/privacyverklaring" target="_blank" rel="noopener">Privacy</a>.</small>
+            <small class="ln-fine">We mailen je alleen de link naar je ontwerp, één keer. <a href="/privacyverklaring" target="_blank" rel="noopener">Privacy</a>.</small>
           </form>
           <p class="ldnot-ok" id="ldnot-ok" hidden role="status"></p>
         </div>
@@ -2182,7 +2182,7 @@ html, body { overflow-x: clip; }
   var SB_URL = 'https://skdjbifmtleiogbkqwid.supabase.co', SB_KEY = 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS';
   /* ===== echte demo: bouwen in de cloud vanaf het invullen van de URL, tonen in de telefoon ===== */
   var REAL = { site: '', url: '', status: '', timer: 0 };
-  var CLIENT = ''; try { CLIENT = localStorage.getItem('dwd_cid') || ''; if (!CLIENT) { CLIENT = (Date.now().toString(36) + Math.random().toString(36).slice(2, 12)); localStorage.setItem('dwd_cid', CLIENT); } } catch (e) { CLIENT = ''; }
+  var CLIENT = ''; try { CLIENT = localStorage.getItem('dwd_cid') || ''; if (!CLIENT) { CLIENT = (Date.now().toString(36) + Math.random().toString(36).slice(2, 12)); localStorage.setItem('dwd_cid', CLIENT); } } catch (e) { CLIENT = CLIENT || (Date.now().toString(36) + Math.random().toString(36).slice(2, 12)); }
   var BYPASS = ''; try { BYPASS = new URLSearchParams(location.search).get('test') || sessionStorage.getItem('dwd_test') || ''; if (BYPASS) sessionStorage.setItem('dwd_test', BYPASS); } catch (e) {}
   if (OWNER) BYPASS = OWNER;
   /* Botcheck (Cloudflare Turnstile, onzichtbaar): bewijs ophalen voordat een demo wordt aangevraagd. Mislukt het
@@ -2679,19 +2679,28 @@ html, body { overflow-x: clip; }
   $('#vn').addEventListener('input', function (e) { S.vn = e.target.value; $('#f-vn').classList.remove('err'); $('#e-vn').textContent = ''; });
   $('#moments').addEventListener('click', function (e) { var b = e.target.closest('[data-m]'); if (!b) return; S.moment = b.getAttribute('data-m'); $$('#moments .chip').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); }); });
   /* alles wat we over de bezoeker en zijn ontwerp weten (zonder naam en nummer); gebruikt door de contactstap en de reserveerknop */
-  /* tijdens het wachten: nummer achterlaten, dan sturen we de link (komt als lead met belmoment 'link sturen' in de cockpit + melding) */
+  /* tijdens het wachten: voornaam + e-mail achterlaten; de database mailt de link automatisch zodra de demo klaar is (dwd_demo_mail_request -> dwd-demo-mail) */
   $('#ldnot').addEventListener('submit', function (e) {
     e.preventDefault();
-    var vn = $('#ln-vn').value.trim(), d = digits($('#ln-tel').value).slice(0, 10), err = '';
-    $('#ln-vn').classList.toggle('err', vn.length < 2); $('#ln-tel').classList.toggle('err', !/^0[1-9]\d{8}$/.test(d));
-    if (vn.length < 2) err = 'Vul je voornaam in.'; else if (!/^06\d{8}$/.test(d)) err = 'Vul je mobiele nummer in, bijvoorbeeld 06 12 34 56 78.';
+    var vn = $('#ln-vn').value.trim(), em = $('#ln-em').value.trim().toLowerCase(), err = '';
+    var emOk = em.length <= 160 && /^[^@\s<>]+@[^@\s<>]+\.[a-z]{2,24}$/.test(em);
+    $('#ln-vn').classList.toggle('err', vn.length < 2); $('#ln-em').classList.toggle('err', !emOk);
+    if (vn.length < 2) err = 'Vul je voornaam in.'; else if (!emOk) err = 'Vul je e-mailadres in, bijvoorbeeld jij@bedrijf.nl.';
     $('#ln-err').textContent = err; if (err) { shake($('#ln-go')); return; }
-    S.vn = vn; S.tel = d; S.moment = 'link';
-    var lead = Object.assign({ id: Date.now().toString(36), tijd: new Date().toISOString(), voornaam: vn, telefoon: d, belmoment: 'link sturen', via: 'wachtscherm' }, leadAnswers());
-    if (!leadSent()) { leadMark(); track('Lead', { content_name: 'wachtscherm', route: S.route, branche: S.branche }); }
-    try { fetch('https://skdjbifmtleiogbkqwid.supabase.co/rest/v1/dwd_funnel_leads', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'apikey': 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS', 'Prefer': 'return=minimal' }, body: JSON.stringify({ voornaam: vn, telefoon: d, belmoment: 'link sturen', website: lead.website_url ? lead.website_url.slice(0, 253) : null, bedrijfsnaam: lead.bedrijfsnaam ? lead.bedrijfsnaam.slice(0, 120) : null, branche: lead.branche ? String(lead.branche).slice(0, 80) : null, antwoorden: Object.assign({ client_id: CLIENT || null }, lead), source: 'funnel' }) }); } catch (e2) {}
-    $('#ldnot').hidden = true; var ok = $('#ldnot-ok'); ok.hidden = false;
-    ok.textContent = 'Top ' + vn + '! Je krijgt de link via WhatsApp op ' + pretty(d) + ' zodra je website klaar is. Je mag deze pagina gewoon openlaten.';
+    if (!CLIENT) { $('#ln-err').textContent = 'Dit lukt niet in deze browser. Laat de pagina open, je website is zo klaar.'; return; }
+    var go = $('#ln-go'); go.disabled = true;
+    function done(ok) {
+      go.disabled = false;
+      if (!ok) { $('#ln-err').textContent = 'Dat lukte niet. Probeer het nog een keer, of laat de pagina open.'; return; }
+      S.vn = vn; S.em = em;
+      if (!leadSent()) { leadMark(); track('Lead', { content_name: 'wachtscherm', route: S.route, branche: S.branche }); }
+      $('#ldnot').hidden = true; var okel = $('#ldnot-ok'); okel.hidden = false;
+      okel.textContent = 'Top ' + vn + '! We mailen de link naar ' + em + ' zodra je website klaar is. Je mag deze pagina gewoon openlaten.';
+    }
+    fetch(SB_URL + '/rest/v1/rpc/dwd_demo_mail_request', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB_KEY }, body: JSON.stringify({ p_client: CLIENT, p_email: em, p_name: vn }) })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (r) { if (r === 'limit') { $('#ln-err').textContent = 'Je hebt al een mail aangevraagd. Die komt eraan zodra je website klaar is.'; go.disabled = false; return; } done(r === 'ok'); })
+      .catch(function () { done(false); });
   });
   function leadAnswers() {
     var q = {}; try { new URLSearchParams(location.search).forEach(function (v, k) { if (/^utm_|^fbclid$/.test(k)) q[k] = v; }); } catch (e) {}
