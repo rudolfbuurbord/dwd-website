@@ -2227,6 +2227,7 @@ html, body { overflow-x: clip; }
         .then(function (rows) {
           var r = rows && rows[0]; if (!r) return fin('error');
           if (r.status === 'used') return fin('used', r);
+          if (r.status === 'blocked') return fin('blocked', r);
           if (r.status === 'verify') r.status = 'limit';   // botcheck niet gehaald terwijl het druk is: zelfde melding als de daglimiet
           REAL = { site: d, url: r.url || '', status: r.status, timer: 0, t0: r.status === 'ready' ? 0 : Date.now() };
           if (r.url) realPaint(); else realPoll();
@@ -2298,7 +2299,13 @@ html, body { overflow-x: clip; }
         body: JSON.stringify({ p_name: S.naam.trim(), p_branche: S.branche, p_sub: nosubText() || null, p_plaats: ($('#plaats').value || '').trim() || null, p_colors: null, p_client: CLIENT || null, p_bypass: BYPASS || null }) })
         .then(function (r) { return r.json(); })
         .then(function (rows) {
-          var r = rows && rows[0]; if (!r || !r.used_host || r.status === 'invalid' || r.status === 'limit') return;
+          var r = rows && rows[0];
+          if (r && r.status === 'blocked') {   // klojo-filter (scheldwoord, onzin of groot merk als naam)
+            REAL.sig = ''; track('DemoBlocked', { reden: 'naam' });
+            if (cur !== 'bedrijf') show('bedrijf', true);
+            $('#f-naam').classList.add('err'); $('#e-naam').textContent = 'Voor deze naam kunnen we geen ontwerp maken. Vul de echte naam van je bedrijf in.'; return;
+          }
+          if (!r || !r.used_host || r.status === 'invalid' || r.status === 'limit') return;
           if (r.status === 'used') { if (r.url) { REAL = { site: r.used_host, url: r.url, status: 'ready', timer: 0, sig: sig, t0: 0 }; realPaint(); } return; }
           if (REAL.site && REAL.site !== r.used_host) realCancel(REAL.site);
           REAL = { site: r.used_host, url: r.url || '', status: r.status, timer: 0, sig: sig, t0: r.url ? 0 : Date.now() };
@@ -2486,6 +2493,11 @@ html, body { overflow-x: clip; }
     if (REAL.site && REAL.site !== S.domain) realCancel(REAL.site);
     realRequest(S.domain, function (st, r) {
       go.disabled = false;
+      if (st === 'blocked') {   // klojo-filter: adult, gokken of een groot merk
+        $('#f-url').classList.add('err');
+        $('#e-url').innerHTML = 'We maken ontwerpen voor lokale ondernemers en het mkb. Voor <b>' + esc(S.domain) + '</b> kunnen we geen ontwerp maken. Klopt dit niet? <a class="wa" href="https://wa.me/31616091507" target="_blank" rel="noopener" style="color:inherit">App ons</a>.';
+        REAL = { site: '', url: '', status: '' }; shake(go); track('DemoBlocked', { reden: 'domein' }); return;
+      }
       if (st === 'used') {
         $('#f-url').classList.add('err');
         $('#e-url').innerHTML = 'Je hebt al een gratis ontwerp aangevraagd voor <b>' + esc(r.used_host || 'een andere website') + '</b>. We maken één gratis ontwerp per bedrijf.' +
