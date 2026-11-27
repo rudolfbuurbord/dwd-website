@@ -1131,6 +1131,17 @@ html, body { overflow-x: clip; }
 .q4 ul { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 6px; color: var(--soft); font-size: 15px; }
 .q4 li::before { content: "\2713"; color: var(--good); margin-right: 8px; }
 .q4 .fine { margin-top: 12px; font-size: 13px; color: var(--muted); }
+.rsv { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line-2); display: grid; gap: 4px; }
+.rsv .rsv-h { font: 800 1.1rem/1.2 var(--f-b); }
+.rsv .rsv-s { margin: 2px 0 8px; font-size: .95rem; color: var(--muted); }
+.rsv .lbl { margin: 12px 0 8px 6px; }
+.rsv .fld .in { height: 56px; }
+.rsv .msg { margin: 6px 0 0 18px; }
+.rsv .hint { display: block; margin: 6px 0 0 18px; font-size: .85rem; line-height: 1.4; color: var(--muted); }
+.rsv .btn { width: 100%; justify-content: center; margin-top: 16px; border: 0; cursor: pointer; font-family: inherit; }
+.rsv .btn.off { opacity: .55; }
+.rsv .btn[disabled] { opacity: .7; cursor: progress; }
+.rsv-note { margin: 10px 0 0; padding: 12px 14px; border-radius: 14px; background: rgba(255,255,255,.06); font-size: .95rem; }
 @supports not (height: 1svh) {
   .rv-phone .phone { --ph-h: max(500px, min(640px, calc(100vh - 200px))); }
   .bld .phone { --ph-h: min(430px, 46vh); }
@@ -1324,8 +1335,17 @@ html, body { overflow-x: clip; }
               <button class="unlock" type="button" id="unlockBtn"><span class="hb"><svg viewBox="6 7 64 57" aria-hidden="true"><defs><linearGradient id="hg2" x1=".3" y1="0" x2=".55" y2="1"><stop offset="0" stop-color="#FF7A2E"/><stop offset=".52" stop-color="#FB3D32"/><stop offset="1" stop-color="#F41B36"/></linearGradient></defs><path fill="url(#hg2)" d="M38.50 62.53L37.17 62.47 35.83 61.90 31.90 58.33 10.83 36.69 8.83 34.13 7.54 31.17 7.13 28.83 7.25 26.67 7.98 24.00 9.23 21.67 18.83 10.83 20.67 9.39 22.83 8.39 24.50 8.08 26.00 8.18 27.67 8.69 29.14 9.50 31.33 11.50 36.83 18.00 38.17 18.69 39.50 18.05 45.00 11.62 47.50 9.38 49.17 8.52 50.83 8.13 52.67 8.18 53.83 8.47 56.50 9.92 59.50 12.90 66.48 20.83 67.89 23.00 68.63 24.83 69.12 27.50 68.95 30.00 68.12 32.67 66.85 34.83 63.69 38.33 42.50 59.92 40.33 61.79Z"/></svg></span>Ontgrendel je korting</button>
               <p class="pm">+ €30 per maand, excl. btw, voor hosting en onderhoud. Maandelijks opzegbaar.</p>
               <ul><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Ontwerp op maat, in jouw stijl</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Teksten en beeldkeuze verzorgen wij</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Basis-SEO voor Google</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Reviews van je klanten op je website</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Offertekaart, zodat bezoekers direct een offerte aanvragen</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>WhatsApp-knop op je website</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Animaties die je website levendig maken</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Geoptimaliseerd voor mobiel, iPad, laptop en desktop</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Binnen 48 uur live</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>100% tevredenheidsgarantie: niet goed, dan krijg je het eenmalige bedrag terug</li></ul>
-              <div class="q4b"><a class="btn" id="reserveBtn" href="https://payment-links.mollie.com/payment/rbCK3BoGBgHtKmv9NQYdE" rel="noopener">Reserveer voor €4,99 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></a></div>
-              <p class="fine">Je reserveert veilig via Mollie voor €4,99 (incl. btw). Daarmee bewaren we je ontwerp en nemen we binnen 24 uur contact met je op. Reserveer je niet, dan verwijderen we je ontwerp na 7 dagen.</p>
+              <form class="rsv" id="rsvForm" novalidate>
+                <b class="rsv-h">Reserveer je ontwerp voor €4,99</b>
+                <p class="rsv-s">Vul je gegevens in, daarna betaal je veilig via Mollie.</p>
+                <p class="rsv-note" id="rsvNote" role="status" hidden></p>
+                <label class="fld" id="rf-vn"><span class="lbl">Voornaam</span><span class="in"><input id="rvn" type="text" autocomplete="given-name" maxlength="30" placeholder="Bijvoorbeeld Mark"></span><p class="msg" id="re-vn" role="alert"></p></label>
+                <label class="fld" id="rf-tel"><span class="lbl">Mobiel nummer</span><span class="in"><input id="rtel" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" placeholder="06 12 34 56 78"></span><span class="hint">We bellen je op dit nummer om je ontwerp door te nemen.</span><p class="msg" id="re-tel" role="alert"></p></label>
+                <label class="fld" id="rf-mail"><span class="lbl">E-mailadres</span><span class="in"><input id="rmail" type="email" inputmode="email" autocomplete="email" maxlength="120" placeholder="naam@bedrijf.nl"></span><span class="hint">Hier sturen we je bevestiging en de link naar je ontwerp heen.</span><p class="msg" id="re-mail" role="alert"></p></label>
+                <button class="btn off" id="reserveBtn" type="submit" aria-disabled="true"><span id="rsvLbl">Vul eerst je gegevens in</span> <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12.5 12.5 3.5M5 3.5h7.5V11"/></svg></button>
+                <p class="msg" id="rsvErr" role="alert" style="margin-left:0"></p>
+              </form>
+              <p class="fine">Je reserveert veilig via Mollie voor €4,99 (incl. btw). Daarmee bewaren we je ontwerp en nemen we binnen 24 uur contact met je op. Reserveer je niet, dan verwijderen we je ontwerp na 7 dagen. We gebruiken je gegevens alleen om je te bellen en je bevestiging te sturen, zie onze <a href="/privacyverklaring" target="_blank" rel="noopener">privacyverklaring</a>.</p>
               <p class="fine" id="dealterms" hidden>Reserveer je binnen de actietijd, dan geldt voor jou de lanceerkorting van 50%: €399 in plaats van €799 (excl. btw) voor je website.</p>
               <span id="q4end" aria-hidden="true" style="display:block;height:1px"></span>
             </div>
@@ -2571,21 +2591,27 @@ html, body { overflow-x: clip; }
   tel.addEventListener('input', function () { var d = digits(tel.value).slice(0, 10); S.tel = d; $('#f-tel').classList.remove('err'); $('#e-tel').textContent = ''; if (tel.value.charAt(0) !== '+') tel.value = pretty(d); });
   $('#vn').addEventListener('input', function (e) { S.vn = e.target.value; $('#f-vn').classList.remove('err'); $('#e-vn').textContent = ''; });
   $('#moments').addEventListener('click', function (e) { var b = e.target.closest('[data-m]'); if (!b) return; S.moment = b.getAttribute('data-m'); $$('#moments .chip').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); }); });
+  /* alles wat we over de bezoeker en zijn ontwerp weten (zonder naam en nummer); gebruikt door de contactstap en de reserveerknop */
+  function leadAnswers() {
+    var q = {}; try { new URLSearchParams(location.search).forEach(function (v, k) { if (/^utm_|^fbclid$/.test(k)) q[k] = v; }); } catch (e) {}
+    var p = pal();
+    return { heeft_website: S.route === 'ja', website_url: S.route === 'ja' ? (S.url || '').trim() : '', bedrijfsnaam: (S.naam || '').trim(), branche: S.branche,
+      doelen: (S.goals || []).map(function (k) { return GOALS[k].l; }), wanneer_live: LIVE[S.live], beslisser: BESLIS[S.beslis],
+      palet: p.n, hoofdkleur: p.p, accentkleur: p.a, stijl: S.stijl, lettertype: S.font, sfeer: S.sfeer || 'auto', bron: q, demo_key: (S.route === 'nee' && REAL.site) ? REAL.site : undefined, demo_url: REAL.url || undefined, wat: S.route === 'nee' ? nosubText() : undefined, plaats: S.route === 'nee' ? (($('#plaats') || {}).value || '') : undefined };
+  }
   function submit() {
     var ok = true;
     if (S.vn.trim().length < 2) { $('#f-vn').classList.add('err'); $('#e-vn').textContent = 'Vul je voornaam in.'; ok = false; $('#vn').focus(); }
     if (!/^0[1-9]\d{8}$/.test(S.tel)) { $('#f-tel').classList.add('err'); $('#e-tel').textContent = 'Vul een geldig nummer in van 10 cijfers, bijvoorbeeld 06 12 34 56 78.'; if (ok) tel.focus(); ok = false; }
     if (!ok) { shake($('#go-contact')); return; }
-    var q = {}; try { new URLSearchParams(location.search).forEach(function (v, k) { if (/^utm_|^fbclid$/.test(k)) q[k] = v; }); } catch (e) {}
-    var p = pal();
-    var lead = { id: Date.now().toString(36), tijd: new Date().toISOString(), voornaam: S.vn.trim(), telefoon: S.tel, belmoment: S.moment,
-      heeft_website: S.route === 'ja', website_url: S.route === 'ja' ? S.url.trim() : '', bedrijfsnaam: S.naam.trim(), branche: S.branche,
-      doelen: S.goals.map(function (k) { return GOALS[k].l; }), wanneer_live: LIVE[S.live], beslisser: BESLIS[S.beslis],
-      palet: p.n, hoofdkleur: p.p, accentkleur: p.a, stijl: S.stijl, lettertype: S.font, sfeer: S.sfeer || 'auto', bron: q, demo_key: (S.route === 'nee' && REAL.site) ? REAL.site : undefined, demo_url: REAL.url || undefined, wat: S.route === 'nee' ? nosubText() : undefined, plaats: S.route === 'nee' ? (($('#plaats') || {}).value || '') : undefined };
+    var lead = Object.assign({ id: Date.now().toString(36), tijd: new Date().toISOString(), voornaam: S.vn.trim(), telefoon: S.tel, belmoment: S.moment }, leadAnswers());
     track('Lead', { route: S.route, branche: S.branche }); demoEv('contact');
     try { fetch('https://skdjbifmtleiogbkqwid.supabase.co/rest/v1/dwd_funnel_leads', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'apikey': 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS', 'Prefer': 'return=minimal' }, body: JSON.stringify({ voornaam: lead.voornaam, telefoon: lead.telefoon, belmoment: String(lead.belmoment || '').slice(0, 40), website: lead.website_url ? lead.website_url.slice(0, 253) : null, bedrijfsnaam: lead.bedrijfsnaam ? lead.bedrijfsnaam.slice(0, 120) : null, branche: lead.branche ? String(lead.branche).slice(0, 80) : null, antwoorden: Object.assign({ client_id: CLIENT || null }, lead), source: 'funnel' }) }); } catch (e) {}
     if (CRM_WEBHOOK) { try { fetch(CRM_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead) }); } catch (e) {} }
     
+    finishKlaar();
+  }
+  function finishKlaar() {
     var bt = belTekst(S.moment);
     $('#k-vn').textContent = S.vn.trim(); $('#k-mom').textContent = bt.when;
     $('#k-sub').textContent = bt.sub;
@@ -2675,11 +2701,64 @@ html, body { overflow-x: clip; }
   document.body.style.setProperty('--prog', .1); $('#progi').style.width = '10%'; $('#progbar').setAttribute('aria-valuenow', 10);
   try { var pu = new URLSearchParams(location.search).get('url'); if (pu && /^[\w.-]{3,253}$/.test(pu)) { document.querySelector('[data-route="ja"]').click(); urlI.value = pu; urlI.dispatchEvent(new Event('input', { bubbles: true })); } } catch (e) {}
   try { var vb = new URLSearchParams(location.search).get('voorbeeld'); if (vb && BR[vb]) { S.route = 'nee'; S.branche = vb; S.naam = 'Van Dijk ' + BR[vb].l; show('onthulling'); } } catch (e) {}
-  try { var pay = $('#pay'); var rsv = $('#reserveBtn'); if (rsv) rsv.addEventListener('click', function () { saveState(); demoEv('reserveer_klik'); track('InitiateCheckout', { value: 4.99, currency: 'EUR', step: 'reserveren' }); });
-  if (pay) pay.addEventListener('click', function () { saveState(); track('InitiateCheckout', { value: 399, currency: 'EUR', step: 'pay' }); }); } catch (e) {}
+  /* ===== reserveren: eerst voornaam, mobiel en e-mail, dan pas naar de betaling van €4,99 (Mollie) ===== */
+  (function () {
+    var form = $('#rsvForm'); if (!form) return;
+    var btn = $('#reserveBtn'), note = $('#rsvNote'), gErr = $('#rsvErr');
+    var F = { vn: $('#rvn'), tel: $('#rtel'), mail: $('#rmail') };
+    var lblOff = 'Vul eerst je gegevens in', lblOn = 'Reserveer voor €4,99';
+    var MAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    var busy = false;
+    function vals() { return { vn: F.vn.value.trim(), tel: digits(F.tel.value).slice(0, 10), mail: F.mail.value.trim() }; }
+    function check(v) { return { vn: v.vn.length >= 2 && v.vn.length <= 30, tel: /^0[1-9]\d{8}$/.test(v.tel), mail: v.mail.length <= 120 && MAIL.test(v.mail) }; }
+    function setLabel(t) { var l = $('#rsvLbl'); if (l) l.textContent = t; }
+    function sync() {
+      var c = check(vals()), okAll = c.vn && c.tel && c.mail;
+      btn.classList.toggle('off', !okAll); btn.setAttribute('aria-disabled', okAll ? 'false' : 'true');
+      if (!busy) setLabel(okAll ? lblOn : lblOff);
+      return okAll;
+    }
+    function fieldErr(k, msg) { var f = $('#rf-' + k), e = $('#re-' + k); if (f) f.classList.toggle('err', !!msg); if (e) e.textContent = msg || ''; }
+    var MSG = { vn: 'Vul je voornaam in.', tel: 'Vul een geldig mobiel nummer in van 10 cijfers, bijvoorbeeld 06 12 34 56 78.', mail: 'Vul een geldig e-mailadres in, bijvoorbeeld naam@bedrijf.nl.' };
+    // voorinvullen als de bezoeker zijn gegevens al ergens anders invulde
+    try { if (!F.vn.value && S.vn) F.vn.value = S.vn; if (!F.tel.value && S.tel) F.tel.value = pretty(S.tel); } catch (e) {}
+    F.vn.addEventListener('input', function () { fieldErr('vn', ''); gErr.textContent = ''; sync(); });
+    F.tel.addEventListener('input', function () { var d = digits(F.tel.value).slice(0, 10); if (F.tel.value.charAt(0) !== '+') F.tel.value = pretty(d); fieldErr('tel', ''); gErr.textContent = ''; sync(); });
+    F.mail.addEventListener('input', function () { fieldErr('mail', ''); gErr.textContent = ''; sync(); });
+    // een fout pas tonen als je het veld verlaat
+    F.vn.addEventListener('blur', function () { if (F.vn.value && !check(vals()).vn) fieldErr('vn', MSG.vn); });
+    F.tel.addEventListener('blur', function () { if (F.tel.value && !check(vals()).tel) fieldErr('tel', MSG.tel); });
+    F.mail.addEventListener('blur', function () { if (F.mail.value && !check(vals()).mail) fieldErr('mail', MSG.mail); });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault(); if (busy) return;
+      var v = vals(), c = check(v), first = null;
+      ['vn', 'tel', 'mail'].forEach(function (k) { fieldErr(k, c[k] ? '' : MSG[k]); if (!c[k] && !first) first = F[k]; });
+      if (first) { shake(btn); first.focus(); return; }
+      busy = true; btn.disabled = true; gErr.textContent = ''; setLabel('Even geduld…');
+      try { S.vn = v.vn; S.tel = v.tel; var cv = $('#vn'), ct = $('#tel'); if (cv) cv.value = v.vn; if (ct) ct.value = pretty(v.tel); } catch (e) {}
+      saveState(); demoEv('reserveer_klik'); track('InitiateCheckout', { value: 4.99, currency: 'EUR', step: 'reserveren' });
+      var ans = leadAnswers(); ans.client_id = CLIENT || null;
+      var ctl = ('AbortController' in window) ? new AbortController() : null, tm = ctl ? setTimeout(function () { ctl.abort(); }, 20000) : 0;
+      fetch('https://skdjbifmtleiogbkqwid.supabase.co/functions/v1/dwd-reserve', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ctl ? ctl.signal : undefined,
+        body: JSON.stringify({ voornaam: v.vn, telefoon: v.tel, email: v.mail, client: CLIENT || '', host: (REAL && REAL.site) || '', answers: ans })
+      }).then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (x) {
+          if (tm) clearTimeout(tm);
+          if (x.ok && x.j && x.j.ok && /^https:\/\/[a-z0-9.-]*mollie\.com\//i.test(x.j.url || '')) { track('AddPaymentInfo', { value: 4.99, currency: 'EUR' }); location.href = x.j.url; return; }
+          throw new Error((x.j && x.j.message) || '');
+        })
+        .catch(function (err) {
+          if (tm) clearTimeout(tm);
+          busy = false; btn.disabled = false; sync();
+          gErr.textContent = (err && err.message && err.name !== 'AbortError') ? err.message : 'Het lukte niet om de betaling te starten. Probeer het zo nog eens, of bel ons op 06 1609 1507.';
+        });
+    });
+    sync();
+  })();
 
   /* ===== hartslag → 50% korting: één keer per bezoeker, echte timer (5 min actie + 15 min om af te rekenen) ===== */
-  var DKEY = 'dwd_deal_v1', DEAL_SHOW = 5 * 60, DEAL_TOTAL = 20 * 60, LINK_DEAL = 'https://payment-links.mollie.com/payment/qFMgfyuh86HMkS85d8uFM', LINK_FULL = 'https://payment-links.mollie.com/payment/ZdEAQyYB8kchpvvQ6KRUH';
+  var DKEY = 'dwd_deal_v1', DEAL_SHOW = 5 * 60, DEAL_TOTAL = 20 * 60;
   function dealGet() { try { return JSON.parse(localStorage.getItem(DKEY) || 'null') || {}; } catch (e) { return {}; } }
   function dealSet(o) { try { localStorage.setItem(DKEY, JSON.stringify(o)); } catch (e) {} }
   function dealAge() { var d = dealGet(); return d.t ? (Date.now() - d.t) / 1000 : -1; }
@@ -2759,8 +2838,10 @@ html, body { overflow-x: clip; }
     hio.observe($('#q4end')); }
   applyDeal();
   try { var qsR = new URLSearchParams(location.search); if (qsR.get('gereserveerd') === '1' || qsR.get('betaald') === '1') setTimeout(function () { demoEv(qsR.get('betaald') === '1' ? 'betaald' : 'gereserveerd'); }, 1800); } catch (e) {}
-  try { if (new URLSearchParams(location.search).get('gereserveerd') === '1') { $('#h-contact').textContent = 'je ontwerp is gereserveerd! waar kunnen we je bellen?'; var sc2 = document.querySelector('[data-s="contact"] .sub'); if (sc2) sc2.textContent = 'Laat je nummer achter, dan bellen we je om de details te bespreken en je website helemaal naar wens te maken.'; show('contact'); } } catch (e) {}
-  try { if (new URLSearchParams(location.search).get('betaald') === '1') { $('#h-contact').textContent = 'bedankt! waar kunnen we je bellen?'; var sc = document.querySelector('[data-s="contact"] .sub'); if (sc) sc.textContent = 'Laat je nummer achter, dan nemen we contact met je op om je website helemaal naar wens te maken.'; show('contact'); } } catch (e) {}
+  try { var qsB = new URLSearchParams(location.search); if (qsB.get('gereserveerd') === '1' || qsB.get('betaald') === '1') {
+    $('#h-contact').textContent = 'bedankt, je ontwerp is gereserveerd!';
+    var scB = document.querySelector('[data-s="contact"] .sub'); if (scB) scB.textContent = 'We hebben je gegevens al. Je krijgt een bevestiging per e-mail en we nemen binnen 24 uur contact met je op. Wil je dat we je op een bepaald moment bellen? Kies dat hier.';
+    show('contact'); } } catch (e) {}
 
   /* ===== voortgang onthouden: na Mollie/iDEAL of een herlaad kom je terug waar je was, met je eigen demo ===== */
   var SKEY = 'dwd_funnel_v1';
