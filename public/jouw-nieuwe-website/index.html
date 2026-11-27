@@ -1546,7 +1546,17 @@ html, body { overflow-x: clip; }
   var hist = [], cur = 'route';
 
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  /* ===== eigenaarsmodus (alleen Rudolf): onbeperkt demo's, vrij heen en terug, "genereer opnieuw".
+     Aanzetten op een apparaat: open de funnel één keer met #eigenaar=<sleutel>; uitzetten met #eigenaar=uit.
+     De sleutel blijft alleen in deze browser; de database kent alleen de hash ervan. ===== */
+  var OWNER = '';
+  try {
+    var ohm = /[#&]eigenaar=([a-f0-9]{64}|uit)\b/.exec(location.hash || '');
+    if (ohm) { if (ohm[1] === 'uit') localStorage.removeItem('dwd_owner'); else localStorage.setItem('dwd_owner', ohm[1]); history.replaceState(null, '', location.pathname + location.search); }
+    OWNER = localStorage.getItem('dwd_owner') || ''; if (!/^[a-f0-9]{64}$/.test(OWNER)) OWNER = '';
+  } catch (e) { OWNER = ''; }
   function track(ev, d) {
+    if (OWNER) return;   // eigen tests niet meetellen in Meta/analytics
     try { if (ev === 'Lead') { if (window.dwdTrack) window.dwdTrack('Lead', { content_name: 'funnel' }); } else if (window.fbq) window.fbq('trackCustom', ev, d || {}); } catch (e) {}
     try { (window.dataLayer = window.dataLayer || []).push({ event: ev, detail: d || {} }); } catch (e) {}
   }
@@ -2092,7 +2102,7 @@ html, body { overflow-x: clip; }
     document.body.style.setProperty('--prog', frac.toFixed(3));
     $('#progi').style.width = (Math.max(.08, frac) * 100) + '%'; $('#progbar').setAttribute('aria-valuenow', Math.round(frac * 100));
     $('#cnt').textContent = id === 'laden' ? 'Even geduld' : counter(id);
-    $('#back').style.visibility = (id === 'route' || id === 'klaar' || id === 'laden') ? 'hidden' : 'visible';
+    $('#back').style.visibility = (id === 'route' || (!OWNER && (id === 'klaar' || id === 'laden'))) ? 'hidden' : 'visible';
     $('#col').classList.toggle('wide', id === 'onthulling');
     if (id === 'onthulling') realShow();
     window.scrollTo(0, 0);
@@ -2125,6 +2135,7 @@ html, body { overflow-x: clip; }
   var REAL = { site: '', url: '', status: '', timer: 0 };
   var CLIENT = ''; try { CLIENT = localStorage.getItem('dwd_cid') || ''; if (!CLIENT) { CLIENT = (Date.now().toString(36) + Math.random().toString(36).slice(2, 12)); localStorage.setItem('dwd_cid', CLIENT); } } catch (e) { CLIENT = ''; }
   var BYPASS = ''; try { BYPASS = new URLSearchParams(location.search).get('test') || sessionStorage.getItem('dwd_test') || ''; if (BYPASS) sessionStorage.setItem('dwd_test', BYPASS); } catch (e) {}
+  if (OWNER) BYPASS = OWNER;
   /* Botcheck (Cloudflare Turnstile, onzichtbaar): bewijs ophalen voordat een demo wordt aangevraagd. Mislukt het
      (adblocker, geen verbinding), dan gaat de aanvraag gewoon door; de database geeft dan alleen een kleine noodruimte. */
   var HUMAN = { ok: false, busy: false, waiters: [] };
@@ -2349,6 +2360,7 @@ html, body { overflow-x: clip; }
   }
   // leren: wat deed de bezoeker met zijn demo? (getoond, reserveren, betaald, contact) -> de demo-machine leert ervan
   function demoEv(ev) {
+    if (OWNER) return;
     if (!REAL.site) return;
     try { fetch(SB_URL + '/rest/v1/rpc/dwd_demo_event', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', apikey: SB_KEY }, body: JSON.stringify({ p_host: REAL.site, p_client: CLIENT || null, p_event: ev }) }).catch(function () {}); } catch (e) {}
   }
@@ -2605,8 +2617,8 @@ html, body { overflow-x: clip; }
     if (!/^0[1-9]\d{8}$/.test(S.tel)) { $('#f-tel').classList.add('err'); $('#e-tel').textContent = 'Vul een geldig nummer in van 10 cijfers, bijvoorbeeld 06 12 34 56 78.'; if (ok) tel.focus(); ok = false; }
     if (!ok) { shake($('#go-contact')); return; }
     var lead = Object.assign({ id: Date.now().toString(36), tijd: new Date().toISOString(), voornaam: S.vn.trim(), telefoon: S.tel, belmoment: S.moment }, leadAnswers());
-    track('Lead', { route: S.route, branche: S.branche }); demoEv('contact');
-    try { fetch('https://skdjbifmtleiogbkqwid.supabase.co/rest/v1/dwd_funnel_leads', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'apikey': 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS', 'Prefer': 'return=minimal' }, body: JSON.stringify({ voornaam: lead.voornaam, telefoon: lead.telefoon, belmoment: String(lead.belmoment || '').slice(0, 40), website: lead.website_url ? lead.website_url.slice(0, 253) : null, bedrijfsnaam: lead.bedrijfsnaam ? lead.bedrijfsnaam.slice(0, 120) : null, branche: lead.branche ? String(lead.branche).slice(0, 80) : null, antwoorden: Object.assign({ client_id: CLIENT || null }, lead), source: 'funnel' }) }); } catch (e) {}
+    track('Lead', { route: S.route, branche: S.branche }); if (!OWNER) demoEv('contact');
+    if (!OWNER) try { fetch('https://skdjbifmtleiogbkqwid.supabase.co/rest/v1/dwd_funnel_leads', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'apikey': 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS', 'Prefer': 'return=minimal' }, body: JSON.stringify({ voornaam: lead.voornaam, telefoon: lead.telefoon, belmoment: String(lead.belmoment || '').slice(0, 40), website: lead.website_url ? lead.website_url.slice(0, 253) : null, bedrijfsnaam: lead.bedrijfsnaam ? lead.bedrijfsnaam.slice(0, 120) : null, branche: lead.branche ? String(lead.branche).slice(0, 80) : null, antwoorden: Object.assign({ client_id: CLIENT || null }, lead), source: 'funnel' }) }); } catch (e) {}
     if (CRM_WEBHOOK) { try { fetch(CRM_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead) }); } catch (e) {} }
     
     finishKlaar();
@@ -2846,6 +2858,7 @@ html, body { overflow-x: clip; }
   /* ===== voortgang onthouden: na Mollie/iDEAL of een herlaad kom je terug waar je was, met je eigen demo ===== */
   var SKEY = 'dwd_funnel_v1';
   function saveState() {
+    if (window.__dwdNoSave) return;
     try {
       if (!S.route || cur === 'route') return;
       var s = {}; for (var k in S) { if (k === 'logoData' && S[k] && S[k].length > 400000) continue; s[k] = S[k]; }
@@ -2885,6 +2898,19 @@ html, body { overflow-x: clip; }
   window.addEventListener('pagehide', saveState);
   var scrT = 0; window.addEventListener('scroll', function () { clearTimeout(scrT); scrT = setTimeout(saveState, 800); }, { passive: true });
   try { if (!/[?&](url|voorbeeld)=/.test(location.search)) restoreState(); } catch (e) {}
+  function ownerRestart() {
+    window.__dwdNoSave = true;
+    try { if (REAL.site && !REAL.url) realCancel(REAL.site); } catch (e) {}
+    try { clearState(); localStorage.setItem('dwd_cid', Date.now().toString(36) + Math.random().toString(36).slice(2, 12)); } catch (e) {}
+    location.replace(location.pathname);
+  }
+  if (OWNER) { try {
+    var ob = document.createElement('div'); ob.id = 'dwd-owner';
+    ob.style.cssText = 'position:fixed;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));opacity:.92;z-index:99999;display:flex;align-items:center;gap:6px;padding:5px 6px 5px 11px;border-radius:999px;background:rgba(20,20,22,.88);color:#fff;font:600 11.5px/1 Figtree,system-ui,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.25);backdrop-filter:blur(6px)';
+    ob.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:#22c55e;display:inline-block"></span>Eigenaar<button type="button" id="dwd-owner-go" style="margin-left:4px;border:0;border-radius:999px;padding:6px 10px;background:linear-gradient(90deg,#FF6E2E,#F41B36);color:#fff;font:700 11.5px/1 Figtree,system-ui,sans-serif;cursor:pointer">↻ Genereer opnieuw</button>';
+    document.body.appendChild(ob);
+    document.getElementById('dwd-owner-go').addEventListener('click', ownerRestart);
+  } catch (e) {} }
   track('PageView', {});
 })();
 </script>
