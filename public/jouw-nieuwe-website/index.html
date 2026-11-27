@@ -2105,24 +2105,55 @@ html, body { overflow-x: clip; }
   var REAL = { site: '', url: '', status: '', timer: 0 };
   var CLIENT = ''; try { CLIENT = localStorage.getItem('dwd_cid') || ''; if (!CLIENT) { CLIENT = (Date.now().toString(36) + Math.random().toString(36).slice(2, 12)); localStorage.setItem('dwd_cid', CLIENT); } } catch (e) { CLIENT = ''; }
   var BYPASS = ''; try { BYPASS = new URLSearchParams(location.search).get('test') || sessionStorage.getItem('dwd_test') || ''; if (BYPASS) sessionStorage.setItem('dwd_test', BYPASS); } catch (e) {}
+  /* Botcheck (Cloudflare Turnstile, onzichtbaar): bewijs ophalen voordat een demo wordt aangevraagd. Mislukt het
+     (adblocker, geen verbinding), dan gaat de aanvraag gewoon door; de database geeft dan alleen een kleine noodruimte. */
+  var HUMAN = { ok: false, busy: false, waiters: [] };
+  function humanDone() { var w = HUMAN.waiters; HUMAN.waiters = []; w.forEach(function (f) { try { f(); } catch (e) {} }); }
+  function humanStart() {
+    if (HUMAN.ok || HUMAN.busy || BYPASS) return; HUMAN.busy = true;
+    window.dwdTsLoad = function () {
+      try {
+        var box = document.createElement('div'); box.id = 'dwd-ts'; box.style.cssText = 'position:fixed;left:-9999px;bottom:0;width:1px;height:1px;overflow:hidden';
+        document.body.appendChild(box);
+        window.turnstile.render(box, { sitekey: '0x4AAAAAAGVfNxgtVlGNHMsh', action: 'funnel', appearance: 'interaction-only',
+          callback: function (tok) {
+            fetch(SB_URL + '/functions/v1/dwd-human', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: tok, client: CLIENT || '' }) })
+              .then(function (r) { return r.json(); }).then(function (j) { HUMAN.ok = !!(j && j.ok); }).catch(function () {})
+              .then(function () { HUMAN.busy = false; humanDone(); });
+          },
+          'error-callback': function () { HUMAN.busy = false; humanDone(); },
+          'unsupported-callback': function () { HUMAN.busy = false; humanDone(); } });
+      } catch (e) { HUMAN.busy = false; humanDone(); }
+    };
+    var sc = document.createElement('script'); sc.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=dwdTsLoad'; sc.async = true; sc.defer = true;
+    sc.onerror = function () { HUMAN.busy = false; humanDone(); };
+    document.head.appendChild(sc);
+  }
+  function humanWait(fn) {
+    if (HUMAN.ok || BYPASS) return fn();
+    var called = false, once = function () { if (!called) { called = true; fn(); } };
+    HUMAN.waiters.push(once); setTimeout(once, 3500); humanStart();
+  }
+  try { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', humanStart); else humanStart(); } catch (e) {}
   function realRequest(d, cb) {
     cb = cb || function () {};
     if (S.route !== 'ja' || !d) return cb('skip');
     if (REAL.site === d && (REAL.url || REAL.status === 'queued' || REAL.status === 'building')) return cb(REAL.status, REAL);
     var done = false, fin = function (st, r) { if (done) return; done = true; cb(st, r); };
-    setTimeout(function () { fin('timeout'); }, 5000);
-    try {
+    setTimeout(function () { fin('timeout'); }, 9000);
+    humanWait(function () { try {
       fetch(SB_URL + '/rest/v1/rpc/dwd_demo_request', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB_KEY }, body: JSON.stringify({ p_site: d, p_source: 'funnel', p_client: CLIENT || null, p_bypass: BYPASS || null }) })
         .then(function (r) { return r.json(); })
         .then(function (rows) {
           var r = rows && rows[0]; if (!r) return fin('error');
           if (r.status === 'used') return fin('used', r);
+          if (r.status === 'verify') r.status = 'limit';   // botcheck niet gehaald terwijl het druk is: zelfde melding als de daglimiet
           REAL = { site: d, url: r.url || '', status: r.status, timer: 0, t0: r.status === 'ready' ? 0 : Date.now() };
           if (r.url) realPaint(); else realPoll();
           fin(r.status, r);
         })
         .catch(function () { fin('error'); });
-    } catch (e) { fin('error'); }
+    } catch (e) { fin('error'); } });
   }
   // Stijlkeuzes van de bezoeker naar de lopende demo-opdracht (de bouw wacht er even op voordat de AI gaat schrijven)
   var styleT = 0, styleSig = '';
@@ -2178,6 +2209,10 @@ html, body { overflow-x: clip; }
     if (S.route !== 'nee' || S.naam.trim().length < 2) return;
     var sig = [S.naam.trim(), S.branche, nosubText(), ($('#plaats').value || '').trim()].join('|');
     if (REAL.sig === sig && REAL.site) return;
+    REAL.sig = sig;
+    humanWait(function () { realRequestNositeGo(sig); });
+  }
+  function realRequestNositeGo(sig) {
     try {
       fetch(SB_URL + '/rest/v1/rpc/dwd_demo_request_nosite', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SB_KEY },
         body: JSON.stringify({ p_name: S.naam.trim(), p_branche: S.branche, p_sub: nosubText() || null, p_plaats: ($('#plaats').value || '').trim() || null, p_colors: null, p_client: CLIENT || null, p_bypass: BYPASS || null }) })
@@ -2548,7 +2583,7 @@ html, body { overflow-x: clip; }
       doelen: S.goals.map(function (k) { return GOALS[k].l; }), wanneer_live: LIVE[S.live], beslisser: BESLIS[S.beslis],
       palet: p.n, hoofdkleur: p.p, accentkleur: p.a, stijl: S.stijl, lettertype: S.font, sfeer: S.sfeer || 'auto', bron: q, demo_key: (S.route === 'nee' && REAL.site) ? REAL.site : undefined, demo_url: REAL.url || undefined, wat: S.route === 'nee' ? nosubText() : undefined, plaats: S.route === 'nee' ? (($('#plaats') || {}).value || '') : undefined };
     track('Lead', { route: S.route, branche: S.branche }); demoEv('contact');
-    try { fetch('https://skdjbifmtleiogbkqwid.supabase.co/rest/v1/dwd_funnel_leads', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'apikey': 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS', 'Prefer': 'return=minimal' }, body: JSON.stringify({ voornaam: lead.voornaam, telefoon: lead.telefoon, belmoment: String(lead.belmoment || '').slice(0, 40), website: lead.website_url ? lead.website_url.slice(0, 253) : null, bedrijfsnaam: lead.bedrijfsnaam ? lead.bedrijfsnaam.slice(0, 120) : null, branche: lead.branche ? String(lead.branche).slice(0, 80) : null, antwoorden: lead, source: 'funnel' }) }); } catch (e) {}
+    try { fetch('https://skdjbifmtleiogbkqwid.supabase.co/rest/v1/dwd_funnel_leads', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'apikey': 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS', 'Prefer': 'return=minimal' }, body: JSON.stringify({ voornaam: lead.voornaam, telefoon: lead.telefoon, belmoment: String(lead.belmoment || '').slice(0, 40), website: lead.website_url ? lead.website_url.slice(0, 253) : null, bedrijfsnaam: lead.bedrijfsnaam ? lead.bedrijfsnaam.slice(0, 120) : null, branche: lead.branche ? String(lead.branche).slice(0, 80) : null, antwoorden: Object.assign({ client_id: CLIENT || null }, lead), source: 'funnel' }) }); } catch (e) {}
     if (CRM_WEBHOOK) { try { fetch(CRM_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead) }); } catch (e) {} }
     
     var bt = belTekst(S.moment);
