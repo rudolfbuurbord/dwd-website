@@ -548,6 +548,21 @@ html, body { overflow-x: clip; }
 
 .bld { margin-top: 18px; display: grid; justify-items: center; }
 .ldtimer { margin: 6px auto 0; display: grid; justify-items: center; gap: 2px; }
+.ldnot { margin: 26px auto 0; width: 100%; max-width: 520px; text-align: left; display: grid; gap: 6px; padding: 18px; border-radius: 20px; border: 1px solid var(--line-2); background: rgba(255,255,255,.04); animation: ldin .5s ease both; }
+.ldnot > b { font-size: 1.05rem; }
+.ldnot > span { font-size: .93rem; opacity: .8; }
+.ldnot .ldrow { display: grid; grid-template-columns: 1fr 1.25fr; gap: 8px; margin-top: 8px; }
+.ldnot input { height: 52px; padding: 0 16px; border-radius: 14px; border: 1.5px solid var(--line-2); background: rgba(10,10,11,.88); color: var(--fg); font: 700 1rem/1.2 var(--f-b); min-width: 0; }
+.ldnot input:focus { outline: 0; border-color: var(--fg); }
+.ldnot input.err { border-color: var(--bad); }
+.ldnot .btn { grid-column: 1 / -1; height: 52px; font-size: 1rem; }
+.ldnot small { font-size: .8rem; opacity: .65; }
+.ldnot #ln-err { color: var(--bad); opacity: 1; }
+.ldnot #ln-err:empty { display: none; }
+.ldnot-ok { margin: 22px auto 0; max-width: 520px; padding: 14px 18px; border-radius: 16px; background: rgba(34,197,94,.12); border: 1px solid rgba(34,197,94,.35); font-weight: 600; }
+@keyframes ldin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .ldnot { animation: none; } }
+@media (max-width: 420px) { .ldnot .ldrow { grid-template-columns: 1fr; } }
 .ldtimer b { font-size: clamp(48px, 13vw, 76px); font-weight: 800; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; background: var(--grad, linear-gradient(90deg,#FF6E2E,#F41B36)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .ldtimer span { font-size: .9rem; opacity: .7; }
 .skel { background: var(--sb) !important; }
@@ -1298,6 +1313,18 @@ html, body { overflow-x: clip; }
           <div class="bld" aria-hidden="true"><div id="bHost"></div></div>
           <ul class="stg" id="stg" aria-live="polite"></ul>
           <div class="lbar" aria-hidden="true"><i id="lbi"></i></div>
+          <form class="ldnot" id="ldnot" hidden novalidate>
+            <b>Liever niet wachten?</b>
+            <span>Laat je nummer achter. Zodra je website klaar is, sturen we je de link via WhatsApp.</span>
+            <div class="ldrow">
+              <input id="ln-vn" type="text" autocomplete="given-name" placeholder="Voornaam" maxlength="40" aria-label="Voornaam">
+              <input id="ln-tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 12 34 56 78" maxlength="16" aria-label="Mobiel nummer">
+              <button class="btn" type="submit" id="ln-go">Stuur me de link</button>
+            </div>
+            <small id="ln-err" role="alert"></small>
+            <small class="ln-fine">Alleen voor de link en één belletje over je ontwerp. <a href="/privacyverklaring" target="_blank" rel="noopener">Privacy</a>.</small>
+          </form>
+          <p class="ldnot-ok" id="ldnot-ok" hidden role="status"></p>
         </div>
       </section>
 
@@ -2607,6 +2634,8 @@ html, body { overflow-x: clip; }
     $('#lbi').style.transition = 'none'; $('#lbi').style.width = '0%';
     show('laden');
     loadTimers.forEach(clearTimeout); loadTimers = [];
+    $('#ldnot').hidden = true;
+    if (!quick && !leadSent() && !OWNER && REAL.status !== 'ready') loadTimers.push(setTimeout(function () { if (cur === 'laden' && !leadSent()) { var n = $('#ldnot'); n.hidden = false; try { n.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' }); } catch (e) {} } }, 12000));
     var items = $$('#stg li'), t = 0;
     if (ja && !factsDone) { Promise.race([factsP, new Promise(function (r) { setTimeout(r, 3500); })]).then(function () { startBuild(total); }); } else startBuild(total);
     loadTimers.push(setTimeout(function () { $('#lbi').style.transition = 'width ' + (total / 1000) + 's linear'; $('#lbi').style.width = '100%'; }, 60));
@@ -2638,6 +2667,20 @@ html, body { overflow-x: clip; }
   $('#vn').addEventListener('input', function (e) { S.vn = e.target.value; $('#f-vn').classList.remove('err'); $('#e-vn').textContent = ''; });
   $('#moments').addEventListener('click', function (e) { var b = e.target.closest('[data-m]'); if (!b) return; S.moment = b.getAttribute('data-m'); $$('#moments .chip').forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); }); });
   /* alles wat we over de bezoeker en zijn ontwerp weten (zonder naam en nummer); gebruikt door de contactstap en de reserveerknop */
+  /* tijdens het wachten: nummer achterlaten, dan sturen we de link (komt als lead met belmoment 'link sturen' in de cockpit + melding) */
+  $('#ldnot').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var vn = $('#ln-vn').value.trim(), d = digits($('#ln-tel').value).slice(0, 10), err = '';
+    $('#ln-vn').classList.toggle('err', vn.length < 2); $('#ln-tel').classList.toggle('err', !/^0[1-9]\d{8}$/.test(d));
+    if (vn.length < 2) err = 'Vul je voornaam in.'; else if (!/^06\d{8}$/.test(d)) err = 'Vul je mobiele nummer in, bijvoorbeeld 06 12 34 56 78.';
+    $('#ln-err').textContent = err; if (err) { shake($('#ln-go')); return; }
+    S.vn = vn; S.tel = d; S.moment = 'link';
+    var lead = Object.assign({ id: Date.now().toString(36), tijd: new Date().toISOString(), voornaam: vn, telefoon: d, belmoment: 'link sturen', via: 'wachtscherm' }, leadAnswers());
+    if (!leadSent()) { leadMark(); track('Lead', { content_name: 'wachtscherm', route: S.route, branche: S.branche }); }
+    try { fetch('https://skdjbifmtleiogbkqwid.supabase.co/rest/v1/dwd_funnel_leads', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json', 'apikey': 'sb_publishable_wRV-K66gO8VckzyoJeJwSw_ARrSpiKS', 'Prefer': 'return=minimal' }, body: JSON.stringify({ voornaam: vn, telefoon: d, belmoment: 'link sturen', website: lead.website_url ? lead.website_url.slice(0, 253) : null, bedrijfsnaam: lead.bedrijfsnaam ? lead.bedrijfsnaam.slice(0, 120) : null, branche: lead.branche ? String(lead.branche).slice(0, 80) : null, antwoorden: Object.assign({ client_id: CLIENT || null }, lead), source: 'funnel' }) }); } catch (e2) {}
+    $('#ldnot').hidden = true; var ok = $('#ldnot-ok'); ok.hidden = false;
+    ok.textContent = 'Top ' + vn + '! Je krijgt de link via WhatsApp op ' + pretty(d) + ' zodra je website klaar is. Je mag deze pagina gewoon openlaten.';
+  });
   function leadAnswers() {
     var q = {}; try { new URLSearchParams(location.search).forEach(function (v, k) { if (/^utm_|^fbclid$/.test(k)) q[k] = v; }); } catch (e) {}
     var p = pal();
